@@ -1,0 +1,399 @@
+/* ==========================================================================
+   Sales Employee Universal Responsive Stylesheet
+   (Compatible with Mobile S/M/L, Tablets/iPads, and Desktop Web)
+   ========================================================================== */
+
+/* Outer Shell: Full width, clean warm cream background */
+.sales-app-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--bg-app);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  box-sizing: border-box;
+}
+
+/* App Container: Scales smoothly from 320px to 1200px desktop */
+.sales-app-container {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100vh;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   App Top Bar
+   -------------------------------------------------------------------------- */
+.sales-app-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 56px;
+  background: rgba(251, 249, 244, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.sales-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.sales-app-logo-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ff4522 0%, #e62e0b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(255, 59, 25, 0.35);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.sales-app-logo-badge:active {
+  transform: scale(0.92);
+}
+
+.sales-topbar-titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sales-topbar-heading {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sales-topbar-sub {
+  font-size: 0.675rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Desktop Header Navigation (Hidden on Mobile & Small Tablets) */
+.sales-desktop-header-nav {
+  display: none;
+}
+
+.sales-desktop-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: #475569;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.sales-desktop-nav-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.sales-desktop-nav-btn.active {
+  background: #fff1ee;
+  color: #ff3b19;
+  border-color: #ffd2c7;
+  font-weight: 700;
+}
+
+.sales-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.sales-topbar-icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.sales-topbar-icon-btn:hover {
+  background: #fff1ee;
+  color: #ff3b19;
+  border-color: #ffd2c7;
+}
+
+.sales-topbar-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #ff3b19;
+  color: #ffffff;
+  font-size: 0.6rem;
+  font-weight: 800;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  border: 2px solid #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   App Scrollable Content Body
+   -------------------------------------------------------------------------- */
+.sales-app-content {
+  flex: 1;
+  padding: 16px 16px 84px 16px;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sales-app-content::-webkit-scrollbar {
+  width: 5px;
+}
+.sales-app-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sales-app-content::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Subscrr Floating Pill Bottom Navigation Dock
+   -------------------------------------------------------------------------- */
+.sales-bottom-nav {
+  position: fixed;
+  bottom: 18px;
+  bottom: max(18px, env(safe-area-inset-bottom, 18px));
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 70;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  height: auto !important;
+  padding: 0 !important;
+}
+
+.sales-stylish-pill-dock {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(24, 24, 28, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 5px 6px;
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  max-width: calc(100vw - 24px);
+}
+
+.sales-pill-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 7px 18px;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+  transition: color 0.18s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.sales-pill-item:hover {
+  color: #ffffff;
+}
+
+.sales-pill-item.active {
+  color: #141416;
+  font-weight: 700;
+}
+
+.sales-pill-active-bg {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  z-index: 1;
+}
+
+.sales-pill-label {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 480px) {
+  .sales-bottom-nav {
+    bottom: 14px;
+    bottom: max(14px, env(safe-area-inset-bottom, 14px));
+  }
+  .sales-stylish-pill-dock {
+    padding: 3px 4px;
+    gap: 1px;
+  }
+  .sales-pill-item {
+    padding: 7px 12px;
+    font-size: 0.775rem;
+  }
+}
+
+/* ==========================================================================
+   Device Breakpoint Specific Adjustments
+   ========================================================================== */
+
+/* 1. Desktop & Large Laptops (>= 1024px) */
+@media (min-width: 1024px) {
+  .sales-app-topbar {
+    height: 60px;
+    padding: 0 28px;
+  }
+
+  .sales-topbar-heading {
+    font-size: 1.05rem;
+  }
+
+  /* Keep topbar clean since stylish dock is floating at the bottom */
+  .sales-desktop-header-nav {
+    display: none;
+  }
+
+  .sales-app-content {
+    padding: 24px 28px 96px 28px !important;
+  }
+}
+
+/* 2. Tablets / iPads (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sales-app-topbar {
+    height: 54px;
+    padding: 0 20px;
+  }
+
+  .sales-app-content {
+    padding: 18px 20px 96px 20px;
+  }
+}
+
+
+/* 3. Standard Mobile Phones (361px - 767px) */
+@media (max-width: 767px) {
+  .sales-app-wrapper {
+    background-color: var(--bg-app);
+  }
+
+  .sales-app-topbar {
+    height: 52px;
+    padding: 0 14px;
+  }
+
+  .sales-app-content {
+    padding: 14px 12px 96px 12px;
+  }
+}
+
+/* 4. Small Mobile / 320px (<= 360px) */
+@media (max-width: 360px) {
+  .sales-app-topbar {
+    height: 48px;
+    padding: 0 8px;
+  }
+
+  .sales-app-logo-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+  }
+
+  .sales-topbar-heading {
+    font-size: 0.825rem;
+  }
+
+  .sales-topbar-sub {
+    font-size: 0.6rem;
+  }
+
+  .sales-topbar-icon-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .sales-app-content {
+    padding: 10px 8px 68px 8px;
+  }
+
+  .sales-bottom-nav {
+    height: 50px;
+  }
+
+  .bottom-nav-tab .nav-icon-box {
+    width: 24px;
+    height: 20px;
+  }
+
+  .bottom-nav-tab .nav-label-text {
+    font-size: 0.575rem;
+  }
+
+  .nav-active-pill {
+    width: 16px;
+    height: 2px;
+  }
+}

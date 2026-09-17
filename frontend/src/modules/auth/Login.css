@@ -1,0 +1,236 @@
+/* ProSale Theme Auth Page Styling */
+.login-page-wrapper {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-app, #f4f6f8);
+  padding: 24px;
+}
+
+/* Card Container with Pure White Background & Subtle Border */
+.login-card-container {
+  width: 100%;
+  max-width: 440px;
+  background-color: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: var(--radius-lg, 20px);
+  padding: 40px 36px;
+  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+/* CommerceHQ Brand Logo Header */
+.login-brand-header-center,
+.login-brand-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.login-logo-box-centered,
+.login-logo-box {
+  width: 54px;
+  height: 54px;
+  background: #ff3b19;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(255, 59, 25, 0.3);
+}
+
+.login-brand-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 10px;
+}
+
+.login-brand-title .name {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #1b2559;
+}
+
+.login-brand-title .badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #ff3b19;
+  background-color: #fff1ee;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.login-heading-group {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.login-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1b2559;
+}
+
+.login-subtitle {
+  font-size: 0.85rem;
+  color: #a3aed0;
+  margin-top: 4px;
+}
+
+.login-error-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #fef2f2;
+  border: 1px solid #fecdd3;
+  color: #ee5d50;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label-with-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.forgot-pass-link {
+  font-size: 0.775rem;
+  font-weight: 700;
+  color: #ff3b19;
+  text-decoration: none;
+}
+
+.forgot-pass-link:hover {
+  color: #e63010;
+  text-decoration: underline;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.field-icon {
+  position: absolute;
+  left: 14px;
+  color: #a3aed0;
+  pointer-events: none;
+}
+
+.crm-input.icon-padded {
+  padding-left: 40px;
+  border-color: #e2e8f0;
+  background-color: #ffffff;
+}
+
+.crm-input.icon-padded:focus {
+  border-color: #ff3b19;
+  box-shadow: 0 0 0 3px rgba(255, 59, 25, 0.15);
+}
+
+.crm-input.pass-padded {
+  padding-right: 40px;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #a3aed0;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-password-btn:hover {
+  color: #1b2559;
+}
+
+.login-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+
+.remember-me-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #7090b0;
+  cursor: pointer;
+}
+
+/* CommerceHQ Electric Blue Primary Button */
+.btn-signin-aqua,
+.btn-signin-submit {
+  width: 100%;
+  padding: 12px;
+  font-weight: 700;
+  font-size: 0.925rem;
+  margin-top: 8px;
+  background: #ff3b19;
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md, 14px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(255, 59, 25, 0.3);
+}
+
+.btn-signin-aqua:hover,
+.btn-signin-submit:hover {
+  background: #2b54e6;
+  box-shadow: 0 6px 18px rgba(52, 97, 253, 0.4);
+}
+
+.btn-signin-aqua:disabled,
+.btn-signin-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.login-footer {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}

@@ -1,0 +1,226 @@
+/* Animated Soft White-Grey Dashboard Chart - Blends with Page Theme */
+.animated-dashboard-chart {
+  background: #ffffff !important;
+  border: 1px solid #ece7dc !important;
+  border-radius: var(--radius-xl, 20px) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+  color: #141416;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-light-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 14px 24px;
+  border-bottom: 1px solid #f1ede4;
+  background: #ffffff;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.chart-light-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #141416;
+  letter-spacing: -0.015em;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chart-light-subtitle {
+  font-size: 0.775rem;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+.chart-light-tabs {
+  display: flex;
+  background: #f4f2ee;
+  padding: 3px;
+  border-radius: 9999px;
+  border: 1px solid #ece7dc;
+}
+
+.chart-light-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chart-light-tab-btn:hover {
+  color: #141416;
+}
+
+.chart-light-tab-btn.active {
+  background: #ff3b19;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(255, 59, 25, 0.28);
+}
+
+/* Area Chart Visual Stage Container */
+.chart-area-stage {
+  position: relative;
+  width: 100%;
+  padding: 10px 18px 12px 18px;
+  background: linear-gradient(180deg, rgba(255, 59, 25, 0.02) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* Bottom Stats & Stage Legend */
+.chart-light-body {
+  padding: 18px 24px 20px 24px;
+  background: #faf8f5;
+  border-top: 1px solid #ece7dc;
+}
+
+/* Responsive 3-column grid for stage pills */
+.chart-light-legend-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 14px;
+}
+
+@media (max-width: 900px) {
+  .chart-light-legend-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .chart-light-legend-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-stage-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #ece7dc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.chart-stage-pill:hover,
+.chart-stage-pill.active {
+  background: #fff1ee;
+  border-color: #ff3b19;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 59, 25, 0.12);
+}
+
+.stage-pill-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.stage-pill-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stage-pill-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1e293b;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.stage-pill-right {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.stage-pill-count {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #ff3b19;
+  letter-spacing: -0.01em;
+}
+
+.stage-pill-pct {
+  font-size: 0.7rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* Sources Breakdown */
+.chart-light-sources-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 16px;
+}
+
+@media (max-width: 640px) {
+  .chart-light-sources-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.light-source-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #ece7dc;
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.light-source-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.light-source-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.light-source-stats {
+  font-weight: 700;
+  color: #ff3b19;
+}
+
+.light-source-track {
+  height: 5px;
+  background: #f1f5f9;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.light-source-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,0 +1,678 @@
+/* Lead Details Page Stylesheet */
+
+.lead-details-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Header Actions Bar */
+.details-header-actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.more-actions-wrapper {
+  position: relative;
+}
+
+.more-actions-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  width: 170px;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  animation: dropdownFadeIn 0.15s ease-out;
+}
+
+.dropdown-action-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  background: none;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-main);
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown-action-item:hover {
+  background-color: var(--bg-app);
+}
+
+/* 1. Lead Summary Card */
+.lead-summary-card {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  border: 1.5px solid #fed7aa;
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.12);
+  border-radius: var(--radius-lg);
+  color: #0f172a;
+}
+
+.summary-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.lead-avatar-xl {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff4522, #e62e0b);
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(255, 59, 25, 0.25);
+  flex-shrink: 0;
+}
+
+.lead-header-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.lead-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lead-main-name {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.lead-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: #334155;
+  font-weight: 600;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+
+.meta-sep {
+  color: #64748b;
+}
+
+.type-badge {
+  background-color: #ffffff;
+  color: #0f172a;
+  font-size: 0.725rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #fed7aa;
+}
+
+.source-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.summary-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.contact-action-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 0.775rem;
+  font-weight: 700;
+  border: 1.5px solid #fed7aa;
+  border-radius: var(--radius-full);
+  background-color: #ffffff;
+  color: #0f172a;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.contact-pill-btn:hover {
+  background-color: #ff3b19;
+  border-color: #ff3b19;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(255, 59, 25, 0.25);
+}
+
+.summary-details-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.775rem;
+  color: #334155;
+  font-weight: 600;
+}
+
+.detail-compact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 2. Pipeline Horizontal Progress Card */
+.pipeline-card {
+  padding: 18px 24px;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1.5px solid #93c5fd;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.1);
+  border-radius: var(--radius-lg);
+  color: #0f172a;
+}
+
+.pipeline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.pipeline-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.current-status-text {
+  font-size: 0.825rem;
+  color: var(--text-main);
+}
+
+.pipeline-steps-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.pipeline-line {
+  flex: 1;
+  height: 3px;
+  background-color: var(--border-color);
+  margin: 0 4px;
+  transition: background-color var(--transition-normal);
+}
+
+.pipeline-line.line-passed {
+  background-color: var(--primary-600);
+}
+
+.pipeline-step-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.pipeline-step-btn:hover {
+  transform: translateY(-2px);
+}
+
+.step-indicator {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--bg-app);
+  border: 2px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.step-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.pipeline-step-btn.step-current .step-indicator {
+  background-color: var(--primary-600);
+  border-color: var(--primary-600);
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+}
+
+.pipeline-step-btn.step-current .step-label {
+  color: var(--primary-600);
+  font-weight: 700;
+}
+
+.pipeline-step-btn.step-passed .step-indicator {
+  background-color: #f0fdf4;
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.pipeline-step-btn.step-lost .step-indicator {
+  background-color: #fff1f2;
+  border-color: #e11d48;
+  color: #e11d48;
+  box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.2);
+}
+
+.pipeline-step-btn.step-lost .step-label {
+  color: #e11d48;
+  font-weight: 700;
+}
+
+/* 3. Workspace Layout Grid */
+.details-workspace-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 20px;
+  align-items: start;
+}
+
+.workspace-column-left, .workspace-column-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detail-card {
+  overflow: hidden;
+}
+
+.crm-btn-sm {
+  padding: 5px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Lead Information Read-only Grid */
+.detail-grid {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.info-value {
+  font-size: 0.85rem;
+  color: var(--text-main);
+}
+
+.info-value-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-main);
+}
+
+.type-pill-sm {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.725rem;
+  font-weight: 600;
+  border-radius: 4px;
+  background-color: var(--bg-subtle);
+  color: var(--text-main);
+  width: fit-content;
+}
+
+/* Salesperson Assignment Card */
+.assignment-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rep-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rep-avatar-lg {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff4522 0%, #e62e0b 100%);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(255, 69, 34, 0.25);
+  flex-shrink: 0;
+}
+
+.rep-name-heading {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.rep-role-badge {
+  font-size: 0.725rem;
+  color: var(--text-muted);
+}
+
+.assignment-meta-box {
+  padding-top: 10px;
+  border-top: 1px dashed var(--border-color);
+  font-size: 0.775rem;
+  color: var(--text-muted);
+}
+
+.meta-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Follow-up Card */
+.followup-card-body {
+  padding: 20px;
+}
+
+.active-followup-box {
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.followup-top-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.followup-time-pill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #d97706;
+}
+
+.followup-notes-text {
+  font-size: 0.775rem;
+  color: #92400e;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.no-followup-box {
+  text-align: center;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.no-followup-text {
+  font-size: 0.825rem;
+  color: var(--text-muted);
+}
+
+/* Lead Notes Card */
+.notes-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.add-note-inline-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: var(--bg-app);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.form-actions-inline {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.note-item-box {
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+}
+
+.note-text {
+  font-size: 0.825rem;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.note-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 0.7rem;
+  color: var(--text-subtle);
+}
+
+/* Activity History Timeline */
+.activity-filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.activity-filter-btn {
+  padding: 3px 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.activity-filter-btn.active {
+  background: var(--primary-50);
+  color: var(--primary-600);
+  border-color: var(--primary-200);
+}
+
+.timeline-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.timeline-row {
+  display: flex;
+  gap: 12px;
+  position: relative;
+}
+
+.timeline-row:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 28px;
+  left: 15px;
+  bottom: -16px;
+  width: 2px;
+  background-color: var(--border-color);
+}
+
+.timeline-node {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.timeline-body-box {
+  flex: 1;
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+
+.timeline-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.timeline-action-title {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.timeline-timestamp {
+  font-size: 0.7rem;
+  color: var(--text-subtle);
+}
+
+.timeline-desc {
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.timeline-user {
+  font-size: 0.7rem;
+  color: var(--text-subtle);
+  display: block;
+  margin-top: 4px;
+}
+
+.empty-timeline-text {
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  text-align: center;
+  padding: 20px;
+}
+
+.text-blue { color: #ff3b19; }
+.text-purple { color: #9333ea; }
+.text-teal { color: #0891b2; }
+
+/* Responsive Adjustments */
+@media (max-width: 1100px) {
+  .details-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .lead-summary-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .summary-right {
+    align-items: flex-start;
+    width: 100%;
+  }
+  .pipeline-steps-container {
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}

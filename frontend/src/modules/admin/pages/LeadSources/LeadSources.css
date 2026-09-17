@@ -1,0 +1,462 @@
+/* Lead Sources Page Stylesheet */
+
+.lead-sources-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Header Banner */
+.sources-header-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.sources-header-banner .page-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.btn-add-source-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+/* 1. Summary Cards Grid */
+.source-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* 2. Source Performance Card & Rows */
+.source-performance-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.source-filter-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.source-performance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.source-row-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.source-row-item:hover {
+  background-color: var(--bg-surface);
+  border-color: var(--primary-300);
+}
+
+.source-identity-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 220px;
+}
+
+.source-icon-wrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-google { color: #ea4335; }
+.icon-meta { color: #1877f2; }
+.icon-website { color: #0284c7; }
+.icon-referral { color: #16a34a; }
+.icon-whatsapp { color: #25d366; }
+.icon-manual { color: #d97706; }
+.icon-linkedin { color: #0a66c2; }
+.icon-other { color: #6b7280; }
+
+.source-name-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.source-fullname {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.source-type-tag {
+  font-size: 0.725rem;
+  color: var(--text-muted);
+}
+
+.source-metrics-flex {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.s-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 70px;
+}
+
+.s-metric .m-val {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.s-metric .m-lbl {
+  font-size: 0.65rem;
+  color: var(--text-subtle);
+  font-weight: 600;
+}
+
+.s-progress-container {
+  width: 140px;
+}
+
+.s-progress-container .progress-bar-track {
+  height: 6px;
+  width: 100%;
+  background-color: var(--border-color);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.s-progress-container .progress-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progress-bar-fill.fill-primary {
+  background-color: var(--primary-600);
+}
+
+.progress-bar-fill.fill-subtle {
+  background-color: #ea580c;
+}
+
+/* 3. Source Analytics Bar Chart Card */
+.source-analytics-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-legend-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.legend-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background-color: var(--bg-app);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.chart-grid-bars {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 16px;
+  align-items: flex-end;
+  height: 220px;
+  padding-top: 30px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.bar-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+
+.bar-column:hover .bar-tooltip {
+  opacity: 1;
+  transform: translateY(-4px);
+}
+
+.bar-tooltip {
+  position: absolute;
+  top: -24px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  background-color: var(--text-main);
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--transition-fast);
+}
+
+.bar-track {
+  width: 100%;
+  max-width: 42px;
+  flex: 1;
+  background-color: var(--bg-app);
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+}
+
+.bar-fill {
+  width: 100%;
+  background: linear-gradient(180deg, #6366f1 0%, #4f46e5 100%);
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 4px;
+  transition: height 0.4s ease;
+}
+
+.bar-inner-val {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.bar-x-label {
+  font-size: 0.725rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* 4. Directory Table & Toolbar */
+.source-directory-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.source-table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.source-table-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.source-icon-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.source-name-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.source-name-link {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+.source-name-link:hover {
+  color: var(--primary-600);
+}
+
+.source-type-subtext {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.count-bold-text {
+  font-weight: 800;
+  color: var(--text-main);
+  font-size: 0.85rem;
+}
+
+.count-subtle-text {
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 0.825rem;
+}
+
+.count-emerald-text {
+  font-weight: 800;
+  color: #16a34a;
+  font-size: 0.85rem;
+}
+
+.count-indigo-text {
+  font-weight: 800;
+  color: var(--primary-600);
+  font-size: 0.85rem;
+}
+
+/* Modal Specifics */
+.source-details-modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.source-modal-header-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.source-modal-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.source-modal-type-chip {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.source-modal-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  background-color: var(--bg-app);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.source-metric-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.source-metric-box .s-val {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.source-metric-box .s-lbl {
+  font-size: 0.65rem;
+  color: var(--text-subtle);
+  font-weight: 600;
+}
+
+.stage-breakdown-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.stage-mini-box {
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color);
+  border-left-width: 4px;
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stage-mini-box .st-lbl {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.stage-mini-box .st-val {
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+/* Responsive Breakdown */
+@media (max-width: 1200px) {
+  .source-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stage-breakdown-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .source-summary-grid {
+    grid-template-columns: 1fr;
+  }
+  .chart-grid-bars {
+    grid-template-columns: repeat(8, minmax(40px, 1fr));
+    overflow-x: auto;
+  }
+  .source-metrics-flex {
+    flex-wrap: wrap;
+  }
+  .source-row-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .source-table-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
