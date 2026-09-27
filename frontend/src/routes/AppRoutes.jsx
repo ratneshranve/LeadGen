@@ -4,6 +4,7 @@ import { AdminLayout } from "../layouts/AdminLayout/AdminLayout";
 import { SalesLayout } from "../layouts/SalesLayout/SalesLayout";
 import { AdminDashboard } from "../modules/admin/pages/Dashboard/AdminDashboard";
 import { Leads } from "../modules/admin/pages/Leads/Leads";
+import { LeadDetails } from "../modules/admin/pages/LeadDetails/LeadDetails";
 import { AddLead } from "../modules/admin/pages/AddLead/AddLead";
 import { Assignments } from "../modules/admin/pages/Assignments/Assignments";
 import { Pipeline } from "../modules/admin/pages/Pipeline/Pipeline";
@@ -32,7 +33,6 @@ import { SalesLogin } from "../modules/auth/SalesLogin";
 import { ForgotPassword } from "../modules/auth/ForgotPassword";
 import { ResetPassword } from "../modules/auth/ResetPassword";
 import { AdminRoute, SalesRoute } from "./guards/ProtectedRoute";
-import { PlaceholderPage } from "../modules/admin/pages/PlaceholderPage";
 import { ErrorPage } from "../components/common/ErrorPage";
 
 export const AppRoutes = () => {
@@ -60,7 +60,7 @@ export const AppRoutes = () => {
           <Route path="leads/details" element={<Leads forceOpenDetailsModal={true} />} />
           <Route path="leads/update" element={<Leads forceOpenUpdateModal={true} />} />
           <Route path="leads/:leadId" element={<Leads forceOpenDetailsModal={true} />} />
-          <Route path="leads/:leadId/edit" element={<PlaceholderPage title="Edit Lead" description="The Edit Lead page interface." />} />
+          <Route path="leads/:leadId/edit" element={<LeadDetails />} />
           <Route path="assignments" element={<Assignments />} />
           <Route path="assignments/assignLeads" element={<Assignments forceOpenAssignModal={true} />} />
           <Route path="pipeline" element={<Pipeline />} />

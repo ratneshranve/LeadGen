@@ -66,6 +66,7 @@ export const LeadsTable = ({
             <th style={{ minWidth: "130px" }}>LEAD SOURCE</th>
             <th style={{ minWidth: "110px" }}>LEAD STATUS</th>
             <th style={{ minWidth: "120px" }}>LEAD CATEGORY</th>
+            <th style={{ minWidth: "110px" }}>AI SCORE</th>
             <th style={{ minWidth: "180px" }}>ASSIGNED SALES EMPLOYEE</th>
             <th style={{ minWidth: "100px", textAlign: "center" }}>ACTIONS</th>
           </tr>
@@ -148,6 +149,31 @@ export const LeadsTable = ({
                     >
                       {categoryName}
                     </span>
+                  </td>
+
+                  {/* AI Lead Score / Priority (ML scoring service - null until scored) */}
+                  <td>
+                    {lead.score !== null && lead.score !== undefined ? (
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "5px",
+                          padding: "4px 9px",
+                          fontSize: "0.75rem",
+                          fontWeight: 800,
+                          borderRadius: "6px",
+                          backgroundColor: lead.priority === "High" ? "#f0fdf4" : lead.priority === "Medium" ? "#fffbeb" : "#f1f5f9",
+                          color: lead.priority === "High" ? "#15803d" : lead.priority === "Medium" ? "#b45309" : "#475569",
+                          border: `1px solid ${lead.priority === "High" ? "#bbf7d0" : lead.priority === "Medium" ? "#fde68a" : "#e2e8f0"}`,
+                        }}
+                        title={`${lead.priority || ""} priority`}
+                      >
+                        {lead.score}/100
+                      </span>
+                    ) : (
+                      <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Scoring…</span>
+                    )}
                   </td>
 
                   {/* Assigned Sales Employee */}

@@ -52,7 +52,7 @@ export const SalesLogin = () => {
       <div className="w-full flex justify-center items-center">
         <SignInCard
           portalType="sales"
-          brandName="Lead Management"
+          brandName="LeadGen"
           brandSubtitle="Access assigned leads, log quick client calls, and track deal progress on any device."
           portalTitle="Welcome Back"
           portalSubtitle="Sign in to your account"

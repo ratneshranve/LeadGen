@@ -161,7 +161,7 @@ const SidebarContent = ({
             className="flex flex-col min-w-0 overflow-hidden"
           >
             <span className="font-extrabold text-white text-base tracking-tight whitespace-nowrap">
-              Lead Management
+              LeadGen
             </span>
           </motion.div>
         </div>

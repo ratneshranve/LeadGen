@@ -49,6 +49,17 @@ const userSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    // Automatic-assignment engine (backend/src/services/leadAssignment.service.js)
+    maxActiveLeads: {
+      type: Number,
+      default: 20,
+    },
+    specializations: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "LeadCategory",
+      },
+    ],
     refreshTokens: {
       type: [String],
       default: [],

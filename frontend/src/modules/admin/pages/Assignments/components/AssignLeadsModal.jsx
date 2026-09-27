@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { UserCheck } from "lucide-react";
 import { Modal } from "../../../../../components/ui/Modal";
-import { salespersonOptions } from "../../Leads/data/leadsMockData";
 
-export const AssignLeadsModal = ({ isOpen, onClose, selectedCount, onConfirm }) => {
+// salespeople: real backend list [{ _id, name }]. Emits the selected user's _id.
+export const AssignLeadsModal = ({ isOpen, onClose, selectedCount, onConfirm, salespeople = [] }) => {
   const [selectedRep, setSelectedRep] = useState("");
   const [error, setError] = useState("");
 
-  const reps = salespersonOptions.filter((r) => r !== "All");
+  const reps = salespeople;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,7 +55,7 @@ export const AssignLeadsModal = ({ isOpen, onClose, selectedCount, onConfirm }) 
             >
               <option value="">-- Select Sales Employee --</option>
               {reps.map((rep) => (
-                <option key={rep} value={rep}>{rep}</option>
+                <option key={rep._id} value={rep._id}>{rep.name}</option>
               ))}
             </select>
             {error ? (

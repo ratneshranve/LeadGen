@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { UserCheck } from "lucide-react";
 import { Modal } from "../../../../../components/ui/Modal";
-import { salespersonOptions } from "../../Leads/data/leadsMockData";
 
-export const ReassignModal = ({ isOpen, onClose, currentRep, onConfirm }) => {
-  const [selectedRep, setSelectedRep] = useState(currentRep || "Amit Sharma");
-  const reps = salespersonOptions.filter((r) => r !== "All");
+// salespeople: real backend list [{ _id, name }]. Emits the selected user's _id.
+export const ReassignModal = ({ isOpen, onClose, currentAssignedTo, onConfirm, salespeople = [] }) => {
+  const [selectedRep, setSelectedRep] = useState(currentAssignedTo || "");
+
+  useEffect(() => {
+    if (isOpen) setSelectedRep(currentAssignedTo || salespeople[0]?._id || "");
+  }, [isOpen, currentAssignedTo, salespeople]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,8 +30,8 @@ export const ReassignModal = ({ isOpen, onClose, currentRep, onConfirm }) => {
               value={selectedRep}
               onChange={(e) => setSelectedRep(e.target.value)}
             >
-              {reps.map((rep) => (
-                <option key={rep} value={rep}>{rep}</option>
+              {salespeople.map((rep) => (
+                <option key={rep._id} value={rep._id}>{rep.name}</option>
               ))}
             </select>
           </div>

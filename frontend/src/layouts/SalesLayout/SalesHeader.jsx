@@ -55,7 +55,7 @@ export const SalesHeader = () => {
   return (
     <header className="sales-app-topbar">
       <div className="sales-topbar-left">
-        <div className="sales-app-logo-badge" onClick={() => navigate("/sales/dashboard")} title="LeadFlow Sales">
+        <div className="sales-app-logo-badge" onClick={() => navigate("/sales/dashboard")} title="LeadGen Sales">
           <Zap size={18} color="#ffffff" />
         </div>
         <div className="sales-topbar-titles">

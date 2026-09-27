@@ -1,131 +1,82 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useAuth } from "../../../context/AuthContext";
+import React, { useState, useEffect, useCallback } from "react";
 import { ScheduleFollowUpModal } from "../../admin/pages/FollowUps/components/ScheduleFollowUpModal";
 import { ToastNotification } from "../../admin/pages/AddLead/components/ToastNotification";
-import { getStoredLeads } from "../../admin/pages/Leads/data/leadsMockData";
 import {
-  Clock,
   Phone,
   MessageSquare,
   Plus,
   Calendar,
-  AlertCircle
+  Loader2,
 } from "lucide-react";
 import { SalesPagination } from "../../../components/common/SalesPagination";
+import { followupsApi } from "../../../api/followupsApi";
+import { leadsApi } from "../../../api/leadsApi";
+import { adaptFollowUp } from "../../../utils/followupAdapter";
+import { adaptLead } from "../../../utils/leadAdapter";
 import "./SalesPages.css";
 
 export const SalesFollowUps = () => {
-  const { user } = useAuth();
-  const currentSalesperson = user?.name || "Amit Sharma";
-
   const [activeTab, setActiveTab] = useState("All");
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
 
   const [toastMessage, setToastMessage] = useState("");
   const [isToastOpen, setIsToastOpen] = useState(false);
 
-  // Load followups from localStorage or defaults, strictly scoped to this sales employee
-  const [followups, setFollowups] = useState(() => {
-    try {
-      const saved = localStorage.getItem("leadflow_mock_followups");
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          const userFollowups = parsed.filter(
-            (f) => !f.assignedTo || f.assignedTo.trim().toLowerCase() === currentSalesperson.trim().toLowerCase()
-          );
-          if (userFollowups.length > 0) return userFollowups;
-        }
-      }
-    } catch (e) {}
+  const [followups, setFollowups] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [myAssignedLeads, setMyAssignedLeads] = useState([]);
 
-    return [
-      { id: "fu-1", leadName: "Rahul Sharma", company: "Rahul Traders", type: "Call", phone: "+91 98765 43210", date: "Sep 02, 2026", time: "16:00", dateLabel: "Today", status: "Pending", notes: "Product requirement call & pricing options discussion.", assignedTo: currentSalesperson },
-      { id: "fu-2", leadName: "Suresh Patel", company: "Patel Chemicals", type: "Call", phone: "+91 98765 11111", date: "Sep 02, 2026", time: "14:30", dateLabel: "Today", status: "Pending", notes: "Pricing negotiation and final timeline discussion.", assignedTo: currentSalesperson },
-      { id: "fu-3", leadName: "Vikram Aditya", company: "Aditya Enterprises", type: "Meeting", phone: "+91 98765 22222", date: "Sep 03, 2026", time: "11:30", dateLabel: "Upcoming", status: "Pending", notes: "In-person product demonstration and team pitch.", assignedTo: currentSalesperson },
-      { id: "fu-4", leadName: "Amit Mehta", company: "Mehta Auto Corp", type: "WhatsApp", phone: "+91 98765 33333", date: "Sep 03, 2026", time: "10:00", dateLabel: "Upcoming", status: "Pending", notes: "Send updated machinery catalog and quotation PDF.", assignedTo: currentSalesperson },
-    ];
-  });
-
-  // Sync followups state changes to localStorage so other modules also receive them
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("leadflow_mock_followups");
-      const allFollowups = saved ? JSON.parse(saved) : [];
-      const otherFollowups = allFollowups.filter(
-        (f) => f.assignedTo && f.assignedTo.trim().toLowerCase() !== currentSalesperson.trim().toLowerCase()
-      );
-      localStorage.setItem("leadflow_mock_followups", JSON.stringify([...followups, ...otherFollowups]));
-    } catch (e) {}
-  }, [followups, currentSalesperson]);
-
-  // Strictly filter leads belonging ONLY to this logged-in sales employee (e.g. Amit Sharma)
-  const myAssignedLeads = useMemo(() => {
-    const all = getStoredLeads();
-    return all.filter((l) => {
-      const rep = l.salesperson || l.assignedTo || "";
-      return rep.trim().toLowerCase() === currentSalesperson.trim().toLowerCase();
-    });
-  }, [currentSalesperson]);
-
-  // Schedule follow-up action
-  const handleConfirmSchedule = (newFollowup) => {
-    let formattedDate = "Sep 03, 2026";
-    let dateLabel = "Today";
-
-    if (newFollowup.date) {
-      try {
-        const [y, m, d] = newFollowup.date.split("-").map(Number);
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        formattedDate = `${months[m - 1]} ${String(d).padStart(2, "0")}, ${y}`;
-
-        const today = new Date();
-        const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-        if (newFollowup.date === todayStr || newFollowup.date === "2026-09-03") {
-          dateLabel = "Today";
-        } else if (newFollowup.date > todayStr) {
-          dateLabel = "Upcoming";
-        } else {
-          dateLabel = "Today";
-        }
-      } catch (e) {
-        formattedDate = newFollowup.date;
-      }
-    }
-
-    const newItem = {
-      id: `fu-${Date.now()}`,
-      leadId: newFollowup.leadId,
-      leadName: newFollowup.leadName,
-      company: newFollowup.company,
-      type: newFollowup.type || "Call",
-      notes: newFollowup.notes || "Follow-up scheduled.",
-      assignedTo: currentSalesperson,
-      date: formattedDate,
-      dateLabel: dateLabel,
-      time: newFollowup.time || "15:00",
-      status: "Pending",
-      phone: newFollowup.phone || "",
-    };
-
-    // Append new item at top and save immediately
-    setFollowups((prev) => [newItem, ...prev]);
-
-    // Ensure the new follow-up is immediately visible on screen
-    setActiveTab("All");
-    setToastMessage(`Follow-up scheduled for ${newFollowup.leadName}`);
+  const showToast = (msg) => {
+    setToastMessage(msg);
     setIsToastOpen(true);
-    setIsScheduleOpen(false);
   };
 
-  // Filter items
+  const fetchFollowups = useCallback(() => {
+    setIsLoading(true);
+    // Backend scopes this to the logged-in salesperson's own follow-ups automatically.
+    return followupsApi
+      .getAll({ limit: 200 })
+      .then((data) => setFollowups((data.followUps || []).map(adaptFollowUp)))
+      .catch(() => {})
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  useEffect(() => {
+    fetchFollowups();
+    leadsApi.getAll({ limit: 200 }).then((data) => setMyAssignedLeads((data.leads || []).map(adaptLead))).catch(() => {});
+  }, [fetchFollowups]);
+
+  const handleConfirmSchedule = (newFollowup) => {
+    const lead = myAssignedLeads.find((l) => l.id === newFollowup.leadId);
+    if (!lead) {
+      showToast("Please select a valid assigned lead.");
+      return;
+    }
+    const scheduledAt = new Date(`${newFollowup.date}T${newFollowup.time}`);
+
+    followupsApi
+      .create({
+        leadId: lead.id,
+        assignedTo: lead.assignedTo,
+        type: newFollowup.type,
+        scheduledAt: scheduledAt.toISOString(),
+        notes: newFollowup.notes,
+      })
+      .then((created) => {
+        setFollowups((prev) => [adaptFollowUp(created), ...prev]);
+        setActiveTab("All");
+        showToast(`Follow-up scheduled for ${lead.name}`);
+        setIsScheduleOpen(false);
+      })
+      .catch((err) => showToast(err.message || "Failed to schedule follow-up."));
+  };
+
   const filtered = followups.filter((item) => {
     if (activeTab === "Today") return item.dateLabel === "Today";
-    if (activeTab === "Upcoming") return item.dateLabel === "Upcoming";
+    if (activeTab === "Upcoming") return item.dateLabel === "Upcoming" || item.dateLabel === "Tomorrow";
     return true;
   });
 
-  // Pagination (Fixed 10 items per page)
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
@@ -139,13 +90,12 @@ export const SalesFollowUps = () => {
   );
 
   const todayCount = followups.filter((f) => f.dateLabel === "Today").length;
-  const upcomingCount = followups.filter((f) => f.dateLabel === "Upcoming").length;
+  const upcomingCount = followups.filter((f) => f.dateLabel === "Upcoming" || f.dateLabel === "Tomorrow").length;
 
   return (
     <div className="sales-page-container">
       <ToastNotification message={toastMessage} isOpen={isToastOpen} onClose={() => setIsToastOpen(false)} />
 
-      {/* Schedule Modal */}
       <ScheduleFollowUpModal
         isOpen={isScheduleOpen}
         onClose={() => setIsScheduleOpen(false)}
@@ -153,7 +103,6 @@ export const SalesFollowUps = () => {
         onConfirm={handleConfirmSchedule}
       />
 
-      {/* Header with New Follow-up CTA */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div>
           <h2 style={{ fontSize: "1.05rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>
@@ -180,14 +129,13 @@ export const SalesFollowUps = () => {
             color: "#ffffff",
             border: "none",
             boxShadow: "0 4px 14px rgba(255, 59, 25, 0.28)",
-            cursor: "pointer"
+            cursor: "pointer",
           }}
         >
           <Plus size={15} /> Schedule
         </button>
       </div>
 
-      {/* Filter Tabs */}
       <div className="sales-pill-carousel" style={{ marginTop: "4px" }}>
         {[
           { key: "All", label: "All Tasks", count: followups.length },
@@ -206,33 +154,22 @@ export const SalesFollowUps = () => {
         ))}
       </div>
 
-      {/* Follow-up Cards List */}
       <div className="sales-lead-cards-list">
-        {filtered.length > 0 ? (
+        {isLoading ? (
+          <div style={{ display: "flex", justifyContent: "center", padding: "60px 0" }}>
+            <Loader2 size={24} className="spin-icon" />
+          </div>
+        ) : filtered.length > 0 ? (
           paginatedFollowups.map((item) => {
             return (
-              <div
-                key={item.id}
-                className="sales-mobile-lead-card"
-                style={{
-                  borderLeft: "4px solid #ff3b19"
-                }}
-              >
+              <div key={item.id} className="sales-mobile-lead-card" style={{ borderLeft: "4px solid #ff3b19" }}>
                 <div className="lead-card-header">
                   <div className="lead-card-info">
-                    <h4 className="lead-card-name">
-                      {item.leadName}
-                    </h4>
+                    <h4 className="lead-card-name">{item.leadName}</h4>
                     <span className="lead-card-company">{item.company}</span>
                   </div>
 
-                  <span
-                    className={
-                      item.dateLabel === "Today"
-                        ? "mobile-badge mobile-badge-contacted"
-                        : "mobile-badge mobile-badge-new"
-                    }
-                  >
+                  <span className={item.dateLabel === "Today" ? "mobile-badge mobile-badge-contacted" : "mobile-badge mobile-badge-new"}>
                     {item.dateLabel || "Scheduled"}
                   </span>
                 </div>
@@ -252,7 +189,6 @@ export const SalesFollowUps = () => {
                   </span>
                 </div>
 
-                {/* Actions Row - Only Call and WhatsApp (Mark as Done removed) */}
                 <div className="lead-card-actions" style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginTop: "6px" }}>
                   <div className="lead-card-action-btns" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                     {item.phone && (
@@ -261,15 +197,7 @@ export const SalesFollowUps = () => {
                           href={`tel:${item.phone}`}
                           className="btn-mobile-call"
                           title="Call"
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "5px",
-                            padding: "6px 12px",
-                            fontSize: "0.75rem",
-                            borderRadius: "8px",
-                            fontWeight: 600
-                          }}
+                          style={{ display: "inline-flex", alignItems: "center", gap: "5px", padding: "6px 12px", fontSize: "0.75rem", borderRadius: "8px", fontWeight: 600 }}
                         >
                           <Phone size={13} /> Call
                         </a>
@@ -279,15 +207,7 @@ export const SalesFollowUps = () => {
                           rel="noopener noreferrer"
                           className="btn-mobile-wa"
                           title="WhatsApp"
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "5px",
-                            padding: "6px 12px",
-                            fontSize: "0.75rem",
-                            borderRadius: "8px",
-                            fontWeight: 600
-                          }}
+                          style={{ display: "inline-flex", alignItems: "center", gap: "5px", padding: "6px 12px", fontSize: "0.75rem", borderRadius: "8px", fontWeight: 600 }}
                         >
                           <MessageSquare size={13} /> WhatsApp
                         </a>
@@ -305,7 +225,7 @@ export const SalesFollowUps = () => {
               borderRadius: "16px",
               padding: "40px 20px",
               textAlign: "center",
-              border: "1.5px dashed #fdba74"
+              border: "1.5px dashed #fdba74",
             }}
           >
             <p style={{ fontWeight: 800, color: "#0f172a", margin: "0 0 4px 0" }}>No follow-ups found</p>
@@ -316,13 +236,7 @@ export const SalesFollowUps = () => {
         )}
       </div>
 
-      {/* Responsive Pagination - Only < 1 2 > buttons */}
-      <SalesPagination
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        pageSize={pageSize}
-        totalItems={filtered.length}
-      />
+      <SalesPagination currentPage={currentPage} setCurrentPage={setCurrentPage} pageSize={pageSize} totalItems={filtered.length} />
     </div>
   );
 };

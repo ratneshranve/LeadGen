@@ -153,7 +153,7 @@ class ReportService {
           as: "source",
         },
       },
-      { $unwind: { path: "$source", preserveNullAndEmpty: true } },
+      { $unwind: { path: "$source", preserveNullAndEmptyArrays: true } },
       {
         $project: {
           sourceName: { $ifNull: ["$source.name", "Unknown"] },
@@ -270,7 +270,7 @@ class ReportService {
 
     return await Lead.aggregate([
       { $match: match },
-      { $unwind: { path: "$products", preserveNullAndEmpty: false } },
+      { $unwind: { path: "$products", preserveNullAndEmptyArrays: false } },
       {
         $group: {
           _id: "$products",
@@ -288,7 +288,7 @@ class ReportService {
           as: "product",
         },
       },
-      { $unwind: { path: "$product", preserveNullAndEmpty: true } },
+      { $unwind: { path: "$product", preserveNullAndEmptyArrays: true } },
       {
         $project: {
           productName: { $ifNull: ["$product.name", "Unknown"] },
@@ -388,7 +388,7 @@ class ReportService {
           as: "stage",
         },
       },
-      { $unwind: { path: "$stage", preserveNullAndEmpty: true } },
+      { $unwind: { path: "$stage", preserveNullAndEmptyArrays: true } },
       {
         $project: {
           stageName: { $ifNull: ["$stage.name", "Unassigned"] },

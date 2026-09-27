@@ -38,6 +38,16 @@ const followUpSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    // Automation engine bookkeeping (backend/src/jobs/followupReminders.job.js) - prevents
+    // the same due-soon reminder / overdue escalation from firing more than once.
+    reminderSentAt: {
+      type: Date,
+      default: null,
+    },
+    escalatedAt: {
+      type: Date,
+      default: null,
+    },
     isDeleted: {
       type: Boolean,
       default: false,

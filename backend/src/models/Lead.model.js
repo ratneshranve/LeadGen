@@ -93,6 +93,39 @@ const leadSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.Mixed,
       default: {},
     },
+    // ML lead scoring (backend/ml-service) - conversion probability, 0-100 score, priority band.
+    score: {
+      type: Number,
+      min: 0,
+      max: 100,
+      default: null,
+      index: true,
+    },
+    priority: {
+      type: String,
+      enum: ["Low", "Medium", "High"],
+      default: null,
+      index: true,
+    },
+    scoreHistory: [
+      {
+        score: { type: Number },
+        probability: { type: Number },
+        modelVersion: { type: String },
+        scoredAt: { type: Date, default: Date.now },
+      },
+    ],
+    // Lightweight interaction log (calls/emails/notes/AI-drafted messages) distinct from the
+    // free-text `notes` field - used for re-scoring and for the duplicate-contact timeline.
+    interactions: [
+      {
+        channel: { type: String },
+        note: { type: String },
+        source: { type: String, default: "manual" },
+        recordedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
+        occurredAt: { type: Date, default: Date.now },
+      },
+    ],
     attachments: [
       {
         url: { type: String, required: true },

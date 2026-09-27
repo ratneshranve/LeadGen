@@ -1,11 +1,11 @@
 import React from "react";
 import { Users, UserPlus, Activity, CheckCircle2 } from "lucide-react";
 
-export const LeadSummaryCards = ({ metrics }) => {
+export const LeadSummaryCards = ({ metrics = {} }) => {
   const cards = [
     {
       title: "Total Leads",
-      count: metrics.total || 184,
+      count: metrics.total ?? 0,
       icon: Users,
       color: "#ff3b19",
       bgLight: "#ffffff",
@@ -15,7 +15,7 @@ export const LeadSummaryCards = ({ metrics }) => {
     },
     {
       title: "New",
-      count: metrics.new || 38,
+      count: metrics.new ?? 0,
       icon: UserPlus,
       color: "#c2410c",
       bgLight: "#ffffff",
@@ -25,7 +25,7 @@ export const LeadSummaryCards = ({ metrics }) => {
     },
     {
       title: "Active",
-      count: metrics.active || 96,
+      count: metrics.active ?? 0,
       icon: Activity,
       color: "#0369a1",
       bgLight: "#ffffff",
@@ -35,7 +35,7 @@ export const LeadSummaryCards = ({ metrics }) => {
     },
     {
       title: "Converted",
-      count: metrics.converted || 42,
+      count: metrics.converted ?? 0,
       icon: CheckCircle2,
       color: "#15803d",
       bgLight: "#ffffff",

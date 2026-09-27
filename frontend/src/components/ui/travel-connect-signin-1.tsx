@@ -284,7 +284,7 @@ export const SignInCard: React.FC<SignInCardProps> = ({
   portalType = "admin",
   portalTitle = "Welcome Back",
   portalSubtitle = "Sign in to your account",
-  brandName = "Lead Management",
+  brandName = "LeadGen",
   brandSubtitle = "Streamline lead distribution, pipeline tracking, team user management, and sales performance.",
   emailLabel = "Email *",
   emailPlaceholder = "Enter Email",
@@ -447,6 +447,7 @@ export const SignInCard: React.FC<SignInCardProps> = ({
                 <Input
                   id="portal-email"
                   type="email"
+                  autoComplete="username"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={emailPlaceholder}
@@ -473,6 +474,7 @@ export const SignInCard: React.FC<SignInCardProps> = ({
                   <Input
                     id="portal-password"
                     type={isPasswordVisible ? "text" : "password"}
+                    autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter password"

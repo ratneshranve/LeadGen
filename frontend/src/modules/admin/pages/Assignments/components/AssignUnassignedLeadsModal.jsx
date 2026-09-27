@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { UserCheck, Search, UserX, CheckSquare, Square, Users } from "lucide-react";
 import { Modal } from "../../../../../components/ui/Modal";
-import { salespersonOptions } from "../../Leads/data/leadsMockData";
 import { Badge } from "../../../../../components/ui/Badge";
 
+// salespeople: real backend list [{ _id, name }]. Emits the selected user's _id.
 export const AssignUnassignedLeadsModal = ({
   isOpen,
   onClose,
   allLeads = [],
   unassignedLeads = [],
   onConfirmAssign,
+  salespeople = [],
 }) => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectedRep, setSelectedRep] = useState("");
@@ -17,7 +18,7 @@ export const AssignUnassignedLeadsModal = ({
   const [activeFilter, setActiveFilter] = useState("All"); // All | Unassigned | Assigned
   const [error, setError] = useState("");
 
-  const salesReps = salespersonOptions.filter((r) => r !== "All");
+  const salesReps = salespeople;
 
   // All leads dataset (fallback to unassignedLeads if allLeads empty)
   const leadsPool = allLeads && allLeads.length > 0 ? allLeads : unassignedLeads;
@@ -315,7 +316,7 @@ export const AssignUnassignedLeadsModal = ({
             >
               <option value="">-- Select Sales Employee --</option>
               {salesReps.map((rep) => (
-                <option key={rep} value={rep}>{rep}</option>
+                <option key={rep._id} value={rep._id}>{rep.name}</option>
               ))}
             </select>
             {error && <span className="error-text" style={{ color: "#dc2626", fontSize: "0.775rem", fontWeight: 600 }}>{error}</span>}
@@ -331,7 +332,7 @@ export const AssignUnassignedLeadsModal = ({
               className="crm-btn crm-btn-primary"
               style={{ padding: "8px 18px", fontSize: "0.85rem", fontWeight: 700 }}
             >
-              <UserCheck size={16} /> Assign {selectedIds.length} Leads to {selectedRep || "Sales Employee"}
+              <UserCheck size={16} /> Assign {selectedIds.length} Lead{selectedIds.length !== 1 ? "s" : ""}
             </button>
           </div>
         </div>

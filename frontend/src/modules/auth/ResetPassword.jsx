@@ -48,7 +48,7 @@ export const ResetPassword = () => {
             <Layers size={24} color="#ffffff" />
           </div>
           <div className="login-brand-title">
-            <span className="name">LeadFlow</span>
+            <span className="name">LeadGen</span>
             <span className="badge">CRM</span>
           </div>
         </div>

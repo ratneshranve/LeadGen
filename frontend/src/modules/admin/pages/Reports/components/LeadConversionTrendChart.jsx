@@ -112,10 +112,11 @@ const CustomTrendTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-export const LeadConversionTrendChart = ({ dateRange }) => {
+export const LeadConversionTrendChart = ({ dateRange, data }) => {
   const chartData = useMemo(() => {
+    if (data && data.length > 0) return data;
     return trendDataByPeriod[dateRange] || trendDataByPeriod["This Month"];
-  }, [dateRange]);
+  }, [dateRange, data]);
 
   return (
     <div style={{ width: "100%", height: 260, marginTop: "12px" }}>

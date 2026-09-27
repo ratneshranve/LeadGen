@@ -1,42 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { User, Phone, Mail, Tag, Share2, UserCheck, PlusCircle, X } from "lucide-react";
-import { salespersonOptions, getActiveStoredSources } from "../data/leadsMockData";
 import { Badge } from "../../../../../components/ui/Badge";
 import { CustomSelect } from "../../../../../components/ui/CustomSelect";
 
-export const AddLeadModal = ({ isOpen, onClose, onAddLead }) => {
-  const [sourcesList, setSourcesList] = useState([]);
-
-  const repsList = salespersonOptions.filter((r) => r !== "All");
-
+// sources/salespeople/categories are real backend lists: [{ _id, name }].
+// Selected values are stored as real ids ("" = unset/unassigned).
+export const AddLeadModal = ({ isOpen, onClose, onAddLead, sources = [], salespeople = [], categories = [] }) => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
-    source: "Meta Ads",
-    category: "SMB",
-    status: "New",
-    salesperson: "Unassigned"
+    sourceId: "",
+    categoryId: "",
+    salesperson: "",
   });
 
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (isOpen) {
-      const activeSources = getActiveStoredSources();
-      setSourcesList(activeSources);
       setFormData({
         name: "",
         phone: "",
         email: "",
-        source: activeSources[0] || "Meta Ads",
-        category: "SMB",
-        status: "New",
-        salesperson: "Unassigned"
+        sourceId: sources[0]?._id || "",
+        categoryId: "",
+        salesperson: "",
       });
       setErrors({});
     }
-  }, [isOpen]);
+  }, [isOpen, sources]);
 
   if (!isOpen) return null;
 
@@ -68,12 +61,8 @@ export const AddLeadModal = ({ isOpen, onClose, onAddLead }) => {
       newErrors.email = "Please enter a valid email address.";
     }
 
-    if (!formData.source) {
-      newErrors.source = "Please select a lead source.";
-    }
-
-    if (!formData.salesperson) {
-      newErrors.salesperson = "Please select a sales employee.";
+    if (!formData.sourceId) {
+      newErrors.sourceId = "Please select a lead source.";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -81,19 +70,16 @@ export const AddLeadModal = ({ isOpen, onClose, onAddLead }) => {
       return;
     }
 
-    const newLead = {
-      id: `LD-${Math.floor(1000 + Math.random() * 9000)}`,
+    const payload = {
       name: formData.name.trim(),
       phone: formData.phone.trim(),
-      email: formData.email.trim() || `${formData.name.toLowerCase().replace(/\s+/g, "")}@example.com`,
-      source: formData.source,
-      status: "New",
-      category: formData.category || "SMB",
-      salesperson: formData.salesperson,
+      ...(formData.email.trim() && { email: formData.email.trim() }),
+      sourceId: formData.sourceId,
+      ...(formData.categoryId && { categoryId: formData.categoryId }),
+      ...(formData.salesperson && { assignedTo: formData.salesperson }),
     };
 
-    onAddLead(newLead);
-    onClose();
+    onAddLead(payload);
   };
 
   return (
@@ -253,12 +239,13 @@ export const AddLeadModal = ({ isOpen, onClose, onAddLead }) => {
                   Lead Source <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <CustomSelect
-                  name="source"
+                  name="sourceId"
                   icon={Share2}
-                  value={formData.source}
+                  value={formData.sourceId}
                   onChange={handleChange}
-                  options={sourcesList}
+                  options={sources.map((s) => ({ value: s._id, label: s.name }))}
                 />
+                {errors.sourceId && <span className="error-text" style={{ color: "#ef4444", fontSize: "0.75rem", marginTop: "4px", display: "block" }}>{errors.sourceId}</span>}
               </div>
 
               <div className="form-group">
@@ -266,11 +253,11 @@ export const AddLeadModal = ({ isOpen, onClose, onAddLead }) => {
                   Lead Category
                 </label>
                 <CustomSelect
-                  name="category"
+                  name="categoryId"
                   icon={Tag}
-                  value={formData.category}
+                  value={formData.categoryId}
                   onChange={handleChange}
-                  options={["Enterprise", "SMB", "Startup", "Retail"]}
+                  options={[{ value: "", label: "None" }, ...categories.map((c) => ({ value: c._id, label: c.name }))]}
                 />
               </div>
             </div>
@@ -296,7 +283,7 @@ export const AddLeadModal = ({ isOpen, onClose, onAddLead }) => {
                   icon={UserCheck}
                   value={formData.salesperson}
                   onChange={handleChange}
-                  options={["Unassigned", ...repsList]}
+                  options={[{ value: "", label: "Unassigned" }, ...salespeople.map((s) => ({ value: s._id, label: s.name }))]}
                 />
               </div>
             </div>

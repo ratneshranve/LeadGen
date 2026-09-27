@@ -99,7 +99,7 @@ export const AdminHeader = ({ toggleMobileSidebar }) => {
         <div className="header-title-container">
           <h1 className="header-title">{title}</h1>
           <span className="crumb-active" style={{ fontSize: "0.75rem", color: "var(--primary-600)", fontWeight: 500 }}>
-            Lead Management
+            LeadGen
           </span>
         </div>
       </div>

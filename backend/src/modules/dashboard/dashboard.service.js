@@ -103,7 +103,7 @@ class DashboardService {
           as: "stage",
         },
       },
-      { $unwind: { path: "$stage", preserveNullAndEmpty: true } },
+      { $unwind: { path: "$stage", preserveNullAndEmptyArrays: true } },
       {
         $project: {
           stageName: { $ifNull: ["$stage.name", "Unassigned"] },

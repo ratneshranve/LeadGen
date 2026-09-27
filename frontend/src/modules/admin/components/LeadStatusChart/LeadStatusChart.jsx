@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   AreaChart,
   Area,
@@ -8,12 +8,20 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { Layers, Share2 } from "lucide-react";
-import {
-  leadStatusDistributionByDateRange,
-  leadSourcesData,
-} from "../../data/dashboardMockData";
+import { Layers, Share2, Loader2 } from "lucide-react";
+import { reportsApi } from "../../../../api/reportsApi";
 import "./LeadStatusChart.css";
+
+const STATUS_COLORS = {
+  New: "#ff3b19",
+  Contacted: "#7c3aed",
+  "Follow-up": "#d97706",
+  Interested: "#2563eb",
+  Converted: "#059669",
+  Lost: "#dc2626",
+};
+
+const SOURCE_COLORS = ["#ff3b19", "#7c3aed", "#0ea5e9", "#059669", "#d97706", "#64748b"];
 
 // Clean Light Frosted Tooltip showing ONLY pipeline stage data
 const CustomPipelineTooltip = ({ active, payload, label }) => {
@@ -98,18 +106,47 @@ const CustomPipelineTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-export const LeadStatusChart = ({ dateRange = "this_month" }) => {
+export const LeadStatusChart = ({ statusDistribution = [] }) => {
   const [activeTab, setActiveTab] = useState("pipeline"); // "pipeline" | "sources"
   const [hoveredStage, setHoveredStage] = useState(null);
+  const [sourcesData, setSourcesData] = useState([]);
+  const [sourcesLoading, setSourcesLoading] = useState(false);
 
-  const currentDistribution = useMemo(() => {
-    return (
-      leadStatusDistributionByDateRange[dateRange] ||
-      leadStatusDistributionByDateRange.this_month
-    );
-  }, [dateRange]);
+  useEffect(() => {
+    if (activeTab !== "sources" || sourcesData.length > 0) return;
+    setSourcesLoading(true);
+    reportsApi
+      .getSources()
+      .then((rows) => {
+        const total = rows.reduce((sum, r) => sum + r.total, 0) || 1;
+        setSourcesData(
+          rows.map((r, i) => ({
+            source: r.sourceName,
+            count: r.total,
+            percentage: Math.round((r.total / total) * 100),
+            color: SOURCE_COLORS[i % SOURCE_COLORS.length],
+          }))
+        );
+      })
+      .catch(() => setSourcesData([]))
+      .finally(() => setSourcesLoading(false));
+  }, [activeTab, sourcesData.length]);
+
+  const totalCount = useMemo(
+    () => statusDistribution.reduce((sum, item) => sum + item.count, 0) || 1,
+    [statusDistribution]
+  );
 
   // Direct Pipeline Stages Data for the Area Chart
+  const currentDistribution = useMemo(() => {
+    return statusDistribution.map((item) => ({
+      status: item.status,
+      count: item.count,
+      percentage: Math.round((item.count / totalCount) * 100),
+      color: STATUS_COLORS[item.status] || "#94a3b8",
+    }));
+  }, [statusDistribution, totalCount]);
+
   const pipelineChartData = useMemo(() => {
     return currentDistribution.map((item) => ({
       stage: item.status,
@@ -255,9 +292,17 @@ export const LeadStatusChart = ({ dateRange = "this_month" }) => {
               })}
             </div>
           </div>
+        ) : sourcesLoading ? (
+          <div style={{ display: "flex", justifyContent: "center", padding: "24px 0" }}>
+            <Loader2 size={18} className="spin-icon" />
+          </div>
+        ) : sourcesData.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "24px 0", color: "#94a3b8", fontSize: "0.85rem" }}>
+            No lead source data yet.
+          </div>
         ) : (
           <div className="chart-light-sources-grid">
-            {leadSourcesData.map((src) => (
+            {sourcesData.map((src) => (
               <div key={src.source} className="light-source-item">
                 <div className="light-source-header">
                   <span className="light-source-name">{src.source}</span>
@@ -270,8 +315,7 @@ export const LeadStatusChart = ({ dateRange = "this_month" }) => {
                     className="light-source-fill"
                     style={{
                       width: `${src.percentage}%`,
-                      backgroundColor:
-                        src.color === "#64748b" ? "#ff3b19" : src.color,
+                      backgroundColor: src.color,
                     }}
                   />
                 </div>

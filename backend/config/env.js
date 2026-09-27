@@ -22,6 +22,10 @@ const envVarsSchema = Joi.object({
   FIREBASE_PRIVATE_KEY: Joi.string().allow("", null),
   SMS_API_KEY: Joi.string().allow("", null),
   SMS_SENDER_ID: Joi.string().allow("", null),
+  GEMINI_API_KEY: Joi.string().allow("", null),
+  ML_SERVICE_URL: Joi.string().allow("", null).default("http://localhost:8001"),
+  ML_SERVICE_API_KEY: Joi.string().allow("", null),
+  LEAD_INGEST_WEBHOOK_SECRET: Joi.string().allow("", null),
 })
   .unknown();
 
@@ -60,5 +64,15 @@ module.exports = {
   sms: {
     apiKey: envVars.SMS_API_KEY,
     senderId: envVars.SMS_SENDER_ID,
+  },
+  gemini: {
+    apiKey: envVars.GEMINI_API_KEY,
+  },
+  mlService: {
+    url: envVars.ML_SERVICE_URL,
+    apiKey: envVars.ML_SERVICE_API_KEY,
+  },
+  ingestion: {
+    webhookSecret: envVars.LEAD_INGEST_WEBHOOK_SECRET,
   },
 };

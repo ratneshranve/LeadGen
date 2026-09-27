@@ -2,33 +2,37 @@ import React from "react";
 import {
   UserPlus,
   UserCheck,
-  CheckCircle2,
-  Calendar,
   RefreshCw,
-  XCircle,
   Clock
 } from "lucide-react";
-import { recentActivitiesData } from "../../data/dashboardMockData";
-import { Badge } from "../../../../components/ui/Badge";
 
-export const RecentActivities = () => {
-  const getActivityIcon = (type) => {
-    switch (type) {
-      case "converted":
-        return <CheckCircle2 size={16} color="#16a34a" />;
-      case "followup":
-        return <Calendar size={16} color="#d97706" />;
-      case "new_lead":
-        return <UserPlus size={16} color="#ff3b19" />;
-      case "assigned":
-        return <UserCheck size={16} color="#9333ea" />;
-      case "status_changed":
-        return <RefreshCw size={16} color="#0891b2" />;
-      case "lost":
-        return <XCircle size={16} color="#e11d48" />;
-      default:
-        return <Clock size={16} color="#64748b" />;
+// Maps backend/src/models/Activity.model.js actionType values to an icon.
+const ICON_BY_ACTION = {
+  LEAD_CREATED: { Icon: UserPlus, color: "#ff3b19" },
+  LEAD_ASSIGNED: { Icon: UserCheck, color: "#9333ea" },
+  LEAD_REASSIGNED: { Icon: UserCheck, color: "#9333ea" },
+  STATUS_CHANGED: { Icon: RefreshCw, color: "#0891b2" },
+  STAGE_CHANGED: { Icon: RefreshCw, color: "#0891b2" },
+};
+
+const timeAgo = (dateStr) => {
+  const diffMs = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diffMs / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
+};
+
+export const RecentActivities = ({ activities = [] }) => {
+  const getActivityIcon = (actionType) => {
+    const match = ICON_BY_ACTION[actionType];
+    if (match) {
+      const { Icon, color } = match;
+      return <Icon size={16} color={color} />;
     }
+    return <Clock size={16} color="#64748b" />;
   };
 
   return (
@@ -44,27 +48,33 @@ export const RecentActivities = () => {
       </div>
 
       <div className="activity-timeline">
-        {recentActivitiesData.map((act) => (
-          <div key={act.id} className="timeline-item">
+        {activities.length === 0 && (
+          <div style={{ textAlign: "center", padding: "24px 0", color: "#94a3b8", fontSize: "0.85rem" }}>
+            No recent activity yet.
+          </div>
+        )}
+        {activities.map((act) => (
+          <div key={act._id} className="timeline-item">
             <div className="timeline-icon-box">
-              {getActivityIcon(act.type)}
+              {getActivityIcon(act.actionType)}
             </div>
 
             <div className="timeline-content">
               <div className="timeline-header">
                 <span className="activity-title">{act.title}</span>
-                <span className="activity-time">{act.time}</span>
+                <span className="activity-time">{timeAgo(act.createdAt)}</span>
               </div>
 
               <p className="activity-desc">{act.description}</p>
 
               <div className="activity-meta">
-                <span className="meta-lead">Lead: <strong>{act.leadName}</strong></span>
-                <span className="meta-divider">•</span>
-                <span className="meta-user">By {act.userName}</span>
-                {act.badgeType && (
-                  <Badge status={act.badgeType} className="meta-badge" />
+                {act.leadId && (
+                  <>
+                    <span className="meta-lead">Lead: <strong>{act.leadId.name}</strong></span>
+                    <span className="meta-divider">•</span>
+                  </>
                 )}
+                <span className="meta-user">By {act.userId?.name || "System"}</span>
               </div>
             </div>
           </div>

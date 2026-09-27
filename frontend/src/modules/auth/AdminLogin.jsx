@@ -51,7 +51,7 @@ export const AdminLogin = () => {
     <div className="min-h-screen w-full flex items-center justify-center bg-[#fbf9f4] p-3 sm:p-6">
       <SignInCard
         portalType="admin"
-        brandName="Lead Management"
+        brandName="LeadGen"
         brandSubtitle="Streamline lead distribution, pipeline tracking, team user management, and sales performance."
         portalTitle="Welcome Back"
         portalSubtitle="Sign in to your account"

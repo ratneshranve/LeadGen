@@ -136,7 +136,7 @@ export const MobileSidebar = ({
       {...props}
     >
       <div className="flex justify-between items-center z-20 w-full">
-        <span className="font-bold text-sm tracking-tight text-white">Lead Management</span>
+        <span className="font-bold text-sm tracking-tight text-white">LeadGen</span>
         <Menu
           className="text-white cursor-pointer"
           onClick={() => setIsMobileOpen(!isMobileOpen)}

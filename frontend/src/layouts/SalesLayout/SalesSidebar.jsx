@@ -49,7 +49,7 @@ export const SalesSidebar = ({ isMobileOpen, closeMobileSidebar }) => {
             <Zap size={20} color="#ff3b19" />
           </div>
           <div className="brand-text">
-            <span className="brand-name">Lead Management</span>
+            <span className="brand-name">LeadGen</span>
           </div>
           <button className="mobile-close-btn" onClick={closeMobileSidebar}>
             <X size={18} color="#ffffff" />

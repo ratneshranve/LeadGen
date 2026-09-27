@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useAuth } from "../../../context/AuthContext";
-import { ProfileEditCardModal } from "../../../components/common/ProfileEditCardModal";
+import React, { useState, useEffect, useCallback } from "react";
+import { SalesLeadDrawer } from "./SalesLeadDrawer";
 import { Modal } from "../../../components/ui/Modal";
 import {
   Phone,
@@ -8,9 +7,12 @@ import {
   ArrowRightLeft,
   Clock,
   Edit3,
-  Check
+  Check,
+  Loader2,
 } from "lucide-react";
 import { SalesPagination } from "../../../components/common/SalesPagination";
+import { leadsApi } from "../../../api/leadsApi";
+import { adaptLead } from "../../../utils/leadAdapter";
 import "./SalesPages.css";
 
 // Stage Definitions with Labels, Keys, and Theme Colors
@@ -24,9 +26,6 @@ export const PIPELINE_STAGES = [
 ];
 
 export const SalesPipeline = () => {
-  const { user } = useAuth();
-  const currentSalesperson = user?.name || "Amit Sharma";
-
   const [activeStage, setActiveStage] = useState("New");
   const [selectedLead, setSelectedLead] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -35,21 +34,24 @@ export const SalesPipeline = () => {
   const [updatingLead, setUpdatingLead] = useState(null);
   const [targetStage, setTargetStage] = useState("");
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-  // Sales Representative Pipeline Dataset (Scoped to current salesperson)
-  const [pipelineLeads, setPipelineLeads] = useState([
-    { id: "pipe-1", name: "Rahul Sharma", company: "Rahul Traders", type: "Enterprise", source: "Meta Ads", stage: "New", status: "New", nextFollowUp: "Today, 4:00 PM", phone: "+91 98765 43210", assignedTo: currentSalesperson, lastActivity: "2 hours ago" },
-    { id: "pipe-2", name: "Anand Verma", company: "Verma Tech", type: "SMB", source: "Website", stage: "New", status: "New", nextFollowUp: "Today, 5:30 PM", phone: "+91 98765 12121", assignedTo: currentSalesperson, lastActivity: "3 hours ago" },
-    { id: "pipe-3", name: "Sunil Kapoor", company: "Kapoor Textiles", type: "SMB", source: "Google Ads", stage: "New", status: "New", nextFollowUp: "Sep 02, 10:00 AM", phone: "+91 98765 34343", assignedTo: currentSalesperson, lastActivity: "5 hours ago" },
-    { id: "pipe-4", name: "Suresh Patel", company: "Patel Chemicals & Solvents", type: "SMB", source: "Google Ads", stage: "Contacted", status: "Contacted", nextFollowUp: "Today, 2:30 PM", phone: "+91 98765 11111", assignedTo: currentSalesperson, lastActivity: "Yesterday" },
-    { id: "pipe-5", name: "Priya Verma", company: "Apex Logistics LLP", type: "Enterprise", source: "Google Ads", stage: "Contacted", status: "Contacted", nextFollowUp: "Sep 02, 11:30 AM", phone: "+91 98765 22222", assignedTo: currentSalesperson, lastActivity: "1 day ago" },
-    { id: "pipe-6", name: "Amit Mehta", company: "Mehta Auto Corp", type: "Enterprise", source: "Website", stage: "Follow-up", status: "Follow-up", nextFollowUp: "Sep 03, 10:00 AM", phone: "+91 98765 33333", assignedTo: currentSalesperson, lastActivity: "2 days ago" },
-    { id: "pipe-7", name: "Deepak Rao", company: "Rao Infotech", type: "SMB", source: "WhatsApp", stage: "Follow-up", status: "Follow-up", nextFollowUp: "Sep 03, 11:45 AM", phone: "+91 98765 56565", assignedTo: currentSalesperson, lastActivity: "2 days ago" },
-    { id: "pipe-8", name: "Neha Singh", company: "Zenith Software Systems", type: "Enterprise", source: "WhatsApp", stage: "Interested", status: "Interested", nextFollowUp: "Sep 03, 3:00 PM", phone: "+91 98765 44444", assignedTo: currentSalesperson, lastActivity: "3 days ago" },
-    { id: "pipe-9", name: "Karan Johar", company: "Johar Media", type: "Enterprise", source: "Referral", stage: "Interested", status: "Interested", nextFollowUp: "Sep 04, 02:00 PM", phone: "+91 98765 78787", assignedTo: currentSalesperson, lastActivity: "3 days ago" },
-    { id: "pipe-10", name: "Rohit Kumar", company: "Kumar & Sons Retail", type: "SMB", source: "Referral", stage: "Converted", status: "Converted", nextFollowUp: "Completed", phone: "+91 98765 55555", assignedTo: currentSalesperson, lastActivity: "Aug 29, 2026" },
-    { id: "pipe-11", name: "Vikas Jain", company: "Jain Steel Pvt Ltd", type: "SMB", source: "Manual Entry", stage: "Lost", status: "Lost", nextFollowUp: "-", phone: "+91 98765 66666", assignedTo: currentSalesperson, lastActivity: "Aug 25, 2026" },
-  ]);
+  const [pipelineLeads, setPipelineLeads] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchLeads = useCallback(() => {
+    setIsLoading(true);
+    // Auto-scoped to the logged-in salesperson's own leads.
+    return leadsApi
+      .getAll({ limit: 200 })
+      .then((data) => setPipelineLeads((data.leads || []).map(adaptLead)))
+      .catch(() => {})
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  useEffect(() => {
+    fetchLeads();
+  }, [fetchLeads]);
 
   const handleOpenLead = (lead) => {
     setSelectedLead(lead);
@@ -57,11 +59,14 @@ export const SalesPipeline = () => {
   };
 
   const handleMoveStage = (leadId, newStage) => {
-    setPipelineLeads((prev) =>
-      prev.map((item) =>
-        item.id === leadId ? { ...item, stage: newStage, status: newStage } : item
-      )
-    );
+    setIsSaving(true);
+    leadsApi
+      .update(leadId, { status: newStage })
+      .then(() => {
+        setPipelineLeads((prev) => prev.map((item) => (item.id === leadId ? { ...item, stage: newStage, status: newStage } : item)));
+      })
+      .catch(() => {})
+      .finally(() => setIsSaving(false));
   };
 
   const handleOpenUpdateModal = (lead) => {
@@ -77,9 +82,7 @@ export const SalesPipeline = () => {
     setUpdatingLead(null);
   };
 
-  const scopedLeads = pipelineLeads.filter(
-    (l) => !l.assignedTo || l.assignedTo === currentSalesperson
-  );
+  const scopedLeads = pipelineLeads;
 
   const currentStageLeads = scopedLeads.filter(
     (l) => (l.stage || l.status || "New") === activeStage
@@ -100,20 +103,15 @@ export const SalesPipeline = () => {
 
   return (
     <div className="sales-page-container">
-      {/* Profile / Details Modal - Unified across Sales panel */}
-      <ProfileEditCardModal
+      {/* Lead Details / AI Assistant Drawer - shared across Sales panel */}
+      <SalesLeadDrawer
         isOpen={isDrawerOpen && selectedLead !== null}
         onClose={() => {
           setIsDrawerOpen(false);
           setSelectedLead(null);
+          fetchLeads();
         }}
-        data={selectedLead}
-        type="lead"
-        onSave={(updatedLead) => {
-          setPipelineLeads((prev) =>
-            prev.map((l) => (l.id === updatedLead.id ? { ...l, ...updatedLead } : l))
-          );
-        }}
+        lead={selectedLead}
       />
 
       {/* Update Pipeline Stage Modal */}
@@ -293,7 +291,11 @@ export const SalesPipeline = () => {
 
       {/* Stage Prospects List */}
       <div className="sales-lead-cards-list">
-        {currentStageLeads.length > 0 ? (
+        {isLoading ? (
+          <div style={{ display: "flex", justifyContent: "center", padding: "60px 0" }}>
+            <Loader2 size={24} className="spin-icon" />
+          </div>
+        ) : currentStageLeads.length > 0 ? (
           paginatedStageLeads.map((lead) => {
             const initials = lead.name
               ? lead.name.split(" ").map((n) => n[0]).join("")

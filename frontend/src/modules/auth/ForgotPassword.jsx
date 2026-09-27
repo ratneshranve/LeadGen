@@ -9,6 +9,7 @@ export const ForgotPassword = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,8 +23,7 @@ export const ForgotPassword = () => {
       setMessage(res.message || "Password reset instructions sent.");
     } catch (err) {
       setIsLoading(false);
-      setIsSubmitted(true);
-      setMessage("Password reset instructions sent to your registered email.");
+      setError(err.message || "Failed to send reset instructions.");
     }
   };
 
@@ -35,7 +35,7 @@ export const ForgotPassword = () => {
             <Layers size={24} color="#ffffff" />
           </div>
           <div className="login-brand-title">
-            <span className="name">LeadFlow</span>
+            <span className="name">LeadGen</span>
             <span className="badge">CRM</span>
           </div>
         </div>
@@ -50,6 +50,11 @@ export const ForgotPassword = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="login-form">
+              {error && (
+                <div style={{ background: "#fef2f2", color: "#b91c1c", padding: "10px 12px", borderRadius: 8, fontSize: "0.82rem", marginBottom: 12 }}>
+                  {error}
+                </div>
+              )}
               <div className="form-group">
                 <label className="form-label" htmlFor="resetEmail">Email Address *</label>
                 <div className="input-with-icon">

@@ -67,6 +67,20 @@ const addAttachment = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, lead, "Attachment added to lead successfully"));
 });
 
+const generateAiDraft = asyncHandler(async (req, res) => {
+  const result = await leadService.generateAiDraft(req.params.id);
+  return res
+    .status(200)
+    .json(new ApiResponse(200, result, "AI response draft generated"));
+});
+
+const addInteraction = asyncHandler(async (req, res) => {
+  const result = await leadService.addInteraction(req.params.id, req.body, req.user);
+  return res
+    .status(201)
+    .json(new ApiResponse(201, result, "Interaction recorded successfully"));
+});
+
 const deleteAttachment = asyncHandler(async (req, res) => {
   const { publicId } = req.body;
   const lead = await leadService.deleteLeadAttachment(req.params.id, publicId, req.user);
@@ -86,4 +100,6 @@ module.exports = {
   getLeadActivities,
   addAttachment,
   deleteAttachment,
+  generateAiDraft,
+  addInteraction,
 };

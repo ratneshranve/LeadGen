@@ -15,6 +15,16 @@ npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 
+# Python (backend/ml-service)
+venv/
+**/venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+backend/ml-service/data/synthetic_data.csv
+backend/ml-service/data/feedback_log.csv
+backend/ml-service/model/
+
 # Environment files
 .env
 .env.local

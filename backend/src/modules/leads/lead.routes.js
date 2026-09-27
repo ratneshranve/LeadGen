@@ -40,6 +40,9 @@ router.patch(
 
 router.get("/:id/activities", checkOwnership(Lead), leadController.getLeadActivities);
 
+router.post("/:id/ai-draft", checkOwnership(Lead), leadController.generateAiDraft);
+router.post("/:id/interactions", checkOwnership(Lead), leadController.addInteraction);
+
 router.post(
   "/:id/attachments",
   checkOwnership(Lead),

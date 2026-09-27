@@ -1,20 +1,23 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { useNavigate, useSearchParams, useLocation, useParams } from "react-router-dom";
-import { Plus, Share2, X } from "lucide-react";
-import { initialLeadsData, getStoredLeads, saveStoredLeads, getCustomSources } from "./data/leadsMockData";
+import { Plus, Share2, X, Loader2 } from "lucide-react";
 import { LeadSummaryCards } from "./components/LeadSummaryCards";
 import { LeadFilters } from "./components/LeadFilters";
 import { LeadsTable } from "./components/LeadsTable";
 import { LeadsEmptyState } from "./components/LeadsEmptyState";
 import { LeadsPagination } from "./components/LeadsPagination";
-import { BulkActionBar } from "./components/BulkActionBar";
-import { ProfileEditCardModal } from "../../../../components/common/ProfileEditCardModal";
 import { LeadDetailsModal } from "./components/LeadDetailsModal";
 import { AddLeadModal } from "./components/AddLeadModal";
 import { UpdateLeadModal } from "./components/UpdateLeadModal";
 import { AddBulkLeadsModal } from "./components/AddBulkLeadsModal";
 import { ToastNotification } from "../AddLead/components/ToastNotification";
 import { Modal } from "../../../../components/ui/Modal";
+import { leadsApi } from "../../../../api/leadsApi";
+import { sourcesApi } from "../../../../api/sourcesApi";
+import { categoriesApi } from "../../../../api/categoriesApi";
+import { usersApi } from "../../../../api/usersApi";
+import { pipelineApi } from "../../../../api/pipelineApi";
+import { adaptLead } from "../../../../utils/leadAdapter";
 import "./Leads.css";
 
 export const Leads = ({ forceOpenAddModal = false, forceOpenUpdateModal = false, forceOpenAddBulkModal = false, forceOpenDetailsModal = false }) => {
@@ -24,11 +27,36 @@ export const Leads = ({ forceOpenAddModal = false, forceOpenUpdateModal = false,
   const [searchParams] = useSearchParams();
   const initialStatusParam = searchParams.get("status") || "All";
 
-  const [leadsList, setLeadsList] = useState(getStoredLeads);
+  const [leadsList, setLeadsList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+
+  // Lookup data for filters/forms - fetched once (real sources/categories/salespeople).
+  const [sources, setSources] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [salespeople, setSalespeople] = useState([]);
+  const [pipelineStages, setPipelineStages] = useState([]);
+
+  const fetchLeads = useCallback(() => {
+    setIsLoading(true);
+    return leadsApi
+      .getAll({ limit: 200 })
+      .then((data) => {
+        setLeadsList((data.leads || []).map(adaptLead));
+        setLoadError("");
+      })
+      .catch((err) => setLoadError(err.message || "Failed to load leads."))
+      .finally(() => setIsLoading(false));
+  }, []);
 
   useEffect(() => {
-    saveStoredLeads(leadsList);
-  }, [leadsList]);
+    fetchLeads();
+    sourcesApi.getAll().then((data) => setSources(data || [])).catch(() => {});
+    categoriesApi.getAll().then((data) => setCategories(data || [])).catch(() => {});
+    usersApi.getSalespeople().then((data) => setSalespeople(data.users || [])).catch(() => {});
+    pipelineApi.getStages().then((data) => setPipelineStages(data || [])).catch(() => {});
+  }, [fetchLeads]);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedLeadIds, setSelectedLeadIds] = useState([]);
   const [sortOption, setSortOption] = useState("newest");
@@ -49,37 +77,27 @@ export const Leads = ({ forceOpenAddModal = false, forceOpenUpdateModal = false,
                          forceOpenDetailsModal ||
                          Boolean(params.leadId);
 
-  const getLeadFromUrlOrStorage = (id) => {
-    const allLeads = getStoredLeads();
+  const getLeadFromList = (id) => {
     if (id) {
-      const found = allLeads.find((l) => String(l.id).toLowerCase() === String(id).toLowerCase());
+      const found = leadsList.find((l) => String(l.id).toLowerCase() === String(id).toLowerCase());
       if (found) return found;
     }
-    return allLeads.length > 0 ? allLeads[0] : null;
+    return leadsList.length > 0 ? leadsList[0] : null;
   };
 
-  const [activeModal, setActiveModal] = useState(() => {
-    return isDetailsRoute ? "edit_lead_card" : null;
-  });
-
-  const [targetLead, setTargetLead] = useState(() => {
-    if (isDetailsRoute) {
-      const urlId = searchParams.get("id") || params.leadId;
-      return getLeadFromUrlOrStorage(urlId);
-    }
-    return null;
-  });
+  const [activeModal, setActiveModal] = useState(() => (isDetailsRoute ? "edit_lead_card" : null));
+  const [targetLead, setTargetLead] = useState(null);
 
   useEffect(() => {
-    if (isDetailsRoute) {
+    if (isDetailsRoute && leadsList.length > 0) {
       const urlId = searchParams.get("id") || params.leadId;
-      const found = getLeadFromUrlOrStorage(urlId);
+      const found = getLeadFromList(urlId);
       if (found) {
         setTargetLead(found);
         setActiveModal("edit_lead_card");
       }
     }
-  }, [location.pathname, searchParams, forceOpenDetailsModal, params.leadId]);
+  }, [location.pathname, searchParams, forceOpenDetailsModal, params.leadId, leadsList]);
 
   useEffect(() => {
     if (location.pathname === "/admin/leads/addBulk" || forceOpenAddBulkModal) {
@@ -128,20 +146,62 @@ export const Leads = ({ forceOpenAddModal = false, forceOpenUpdateModal = false,
     }
   };
 
-  const handleCreateNewLead = (newLead) => {
-    const updated = [newLead, ...leadsList];
-    setLeadsList(updated);
-    saveStoredLeads(updated);
-    setToastMessage(`New lead '${newLead.name}' created successfully with status 'New'!`);
-    setIsToastOpen(true);
-    handleCloseAddLeadModal();
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleCreateNewLead = (payload) => {
+    const defaultStageId = pipelineStages[0]?._id;
+    if (!defaultStageId) {
+      setToastMessage("No pipeline stage is configured yet - ask an admin to set one up first.");
+      setIsToastOpen(true);
+      return;
+    }
+    setIsSaving(true);
+    leadsApi
+      .create({ ...payload, stageId: defaultStageId })
+      .then(({ lead: created }) => {
+        setLeadsList((prev) => [adaptLead(created), ...prev]);
+        setToastMessage(`New lead '${created.name}' created successfully with status 'New'!`);
+        setIsToastOpen(true);
+        handleCloseAddLeadModal();
+      })
+      .catch((err) => {
+        setToastMessage(err.message || "Failed to create lead.");
+        setIsToastOpen(true);
+      })
+      .finally(() => setIsSaving(false));
   };
 
-  const handleCreateBulkLeads = (newLeads) => {
-    const updated = [...newLeads, ...leadsList];
-    setLeadsList(updated);
-    saveStoredLeads(updated);
-    setToastMessage(`Successfully generated and added ${newLeads.length} unassigned bulk leads!`);
+  // AddBulkLeadsModal generates realistic fake leads client-side (name/company/phone/email)
+  // with a source NAME string; this resolves each to a real sourceId and actually persists
+  // them one by one via the real API (rather than only ever living in browser storage).
+  const handleCreateBulkLeads = async (newLeads) => {
+    const defaultStageId = pipelineStages[0]?._id;
+    if (!defaultStageId || sources.length === 0) {
+      setToastMessage("No pipeline stage / lead source is configured yet - ask an admin to set one up first.");
+      setIsToastOpen(true);
+      return;
+    }
+    setIsSaving(true);
+    let successCount = 0;
+    for (const lead of newLeads) {
+      const matchedSource = sources.find((s) => s.name.toLowerCase() === (lead.source || "").toLowerCase());
+      try {
+        await leadsApi.create({
+          name: lead.name,
+          phone: lead.phone,
+          email: lead.email,
+          company: lead.company,
+          sourceId: matchedSource?._id || sources[0]._id,
+          stageId: defaultStageId,
+        });
+        successCount += 1;
+      } catch {
+        // continue with the rest of the batch
+      }
+    }
+    setIsSaving(false);
+    await fetchLeads();
+    setToastMessage(`Successfully added ${successCount} of ${newLeads.length} bulk leads!`);
     setIsToastOpen(true);
     handleCloseAddBulkModal();
   };
@@ -160,13 +220,22 @@ export const Leads = ({ forceOpenAddModal = false, forceOpenUpdateModal = false,
     }
   };
 
-  const handleUpdateLeadSubmit = (updatedLead) => {
-    const updatedList = leadsList.map((l) => (l.id === updatedLead.id ? updatedLead : l));
-    setLeadsList(updatedList);
-    saveStoredLeads(updatedList);
-    setToastMessage(`Lead '${updatedLead.name}' updated successfully!`);
-    setIsToastOpen(true);
-    handleCloseUpdateLeadModal();
+  const handleUpdateLeadSubmit = ({ id, ...payload }) => {
+    setIsSaving(true);
+    leadsApi
+      .update(id, payload)
+      .then((updated) => {
+        const adapted = adaptLead(updated);
+        setLeadsList((prev) => prev.map((l) => (l.id === id ? adapted : l)));
+        setToastMessage(`Lead '${adapted.name}' updated successfully!`);
+        setIsToastOpen(true);
+        handleCloseUpdateLeadModal();
+      })
+      .catch((err) => {
+        setToastMessage(err.message || "Failed to update lead.");
+        setIsToastOpen(true);
+      })
+      .finally(() => setIsSaving(false));
   };
 
   // Filter State initialized with deep link query parameter
@@ -315,25 +384,40 @@ export const Leads = ({ forceOpenAddModal = false, forceOpenUpdateModal = false,
   // Bulk Operations
   const handleConfirmBulkDelete = () => {
     const deletedCount = selectedLeadIds.length;
-    const updated = leadsList.filter((l) => !selectedLeadIds.includes(l.id));
-    setLeadsList(updated);
-    saveStoredLeads(updated);
-    setSelectedLeadIds([]);
-    setActiveModal(null);
-    setToastMessage(`${deletedCount} lead(s) deleted successfully!`);
-    setIsToastOpen(true);
+    setIsSaving(true);
+    leadsApi
+      .bulkActions({ leadIds: selectedLeadIds, action: "delete" })
+      .then(() => {
+        setLeadsList((prev) => prev.filter((l) => !selectedLeadIds.includes(l.id)));
+        setSelectedLeadIds([]);
+        setActiveModal(null);
+        setToastMessage(`${deletedCount} lead(s) deleted successfully!`);
+        setIsToastOpen(true);
+      })
+      .catch((err) => {
+        setToastMessage(err.message || "Failed to delete leads.");
+        setIsToastOpen(true);
+      })
+      .finally(() => setIsSaving(false));
   };
 
   const handleConfirmSingleDelete = () => {
-    if (targetLead) {
-      const updated = leadsList.filter((l) => l.id !== targetLead.id);
-      setLeadsList(updated);
-      saveStoredLeads(updated);
-      setToastMessage(`Lead '${targetLead.name}' deleted successfully!`);
-      setIsToastOpen(true);
-      setTargetLead(null);
-      setActiveModal(null);
-    }
+    if (!targetLead) return;
+    setIsSaving(true);
+    leadsApi
+      .remove(targetLead.id)
+      .then(() => {
+        setLeadsList((prev) => prev.filter((l) => l.id !== targetLead.id));
+        setToastMessage(`Lead '${targetLead.name}' deleted successfully!`);
+        setIsToastOpen(true);
+        setTargetLead(null);
+        setActiveModal(null);
+      })
+      .catch((err) => {
+        setToastMessage(err.message || "Failed to delete lead.");
+        setIsToastOpen(true);
+      })
+      .finally(() => setIsSaving(false));
   };
 
   const handleCreateSource = (e) => {
@@ -343,7 +427,7 @@ export const Leads = ({ forceOpenAddModal = false, forceOpenUpdateModal = false,
       setSourceError("Source name is required.");
       return;
     }
-    const currentSources = getCustomSources();
+    const currentSources = sources.map((s) => s.name);
     if (currentSources.includes(nameStr)) {
       setSourceError("Source already exists.");
       return;
@@ -471,11 +555,19 @@ export const Leads = ({ forceOpenAddModal = false, forceOpenUpdateModal = false,
         hasActiveFilters={hasActiveFilters}
         selectedCount={selectedLeadIds.length}
         onBulkDelete={() => setActiveModal("bulk_delete")}
+        sourceOptions={sources.map((s) => s.name)}
+        salespersonOptions={salespeople.map((s) => s.name)}
       />
 
       {/* Main Table or Empty State */}
       <div className="crm-card leads-table-card">
-        {filteredLeads.length > 0 ? (
+        {isLoading ? (
+          <div style={{ display: "flex", justifyContent: "center", padding: "60px 0" }}>
+            <Loader2 size={24} className="spin-icon" />
+          </div>
+        ) : loadError ? (
+          <div style={{ padding: "24px", color: "#b91c1c" }}>{loadError}</div>
+        ) : filteredLeads.length > 0 ? (
           <>
             <LeadsTable
               leads={paginatedLeads}
@@ -521,6 +613,9 @@ export const Leads = ({ forceOpenAddModal = false, forceOpenUpdateModal = false,
         isOpen={isAddLeadModalOpen || forceOpenAddModal || location.pathname === "/admin/leads/add"}
         onClose={handleCloseAddLeadModal}
         onAddLead={handleCreateNewLead}
+        sources={sources}
+        salespeople={salespeople}
+        categories={categories}
       />
 
       {/* Update Lead Card Overlay Modal */}
@@ -529,6 +624,9 @@ export const Leads = ({ forceOpenAddModal = false, forceOpenUpdateModal = false,
         onClose={handleCloseUpdateLeadModal}
         targetLead={leadToUpdate || targetLead || leadsList[0]}
         onUpdateLead={handleUpdateLeadSubmit}
+        sources={sources}
+        salespeople={salespeople}
+        categories={categories}
       />
 
 

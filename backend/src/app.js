@@ -26,6 +26,7 @@ const importExportRoutes = require("./modules/importExport/importExport.routes")
 const uploadRoutes = require("./modules/uploads/upload.routes");
 const activityRoutes = require("./modules/activity/activity.routes");
 const auditLogRoutes = require("./modules/activity/auditLog.routes");
+const ingestionRoutes = require("./modules/ingestion/ingestion.routes");
 
 const mongoSanitize = require("express-mongo-sanitize");
 
@@ -95,6 +96,7 @@ app.use(`${apiPrefix}/import-export`, importExportRoutes);
 app.use(`${apiPrefix}/uploads`, uploadRoutes);
 app.use(`${apiPrefix}/activity`, activityRoutes);
 app.use(`${apiPrefix}/audit-logs`, auditLogRoutes);
+app.use(`${apiPrefix}/ingest`, ingestionRoutes);
 
 // Handle 404 Route Not Found
 app.use("*", (req, res, next) => {

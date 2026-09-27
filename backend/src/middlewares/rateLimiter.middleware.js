@@ -1,8 +1,10 @@
 const rateLimit = require("express-rate-limit");
 
+const isDev = process.env.NODE_ENV !== "production";
+
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 300, // Limit each IP to 300 requests per windowMs
+  max: isDev ? 3000 : 300, // Limit each IP to N requests per windowMs
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -14,7 +16,7 @@ const apiLimiter = rateLimit({
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 20, // Limit login/auth attempts
+  max: isDev ? 200 : 20, // Limit login/auth attempts
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -24,7 +26,20 @@ const authLimiter = rateLimit({
   },
 });
 
+const ingestLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: isDev ? 500 : 60, // Public lead-ingestion form/webhook - stricter than the general API
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    statusCode: 429,
+    message: "Too many submissions from this IP, please try again later.",
+  },
+});
+
 module.exports = {
   apiLimiter,
   authLimiter,
+  ingestLimiter,
 };

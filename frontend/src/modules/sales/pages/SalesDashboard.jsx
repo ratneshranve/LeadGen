@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, Activity, Clock, CheckCircle2, Phone, MessageSquare, ArrowRight, Sparkles, Kanban, Calendar } from "lucide-react";
+import { Users, Activity, Clock, CheckCircle2, Phone, MessageSquare, ArrowRight, Sparkles, Kanban, Calendar, Loader2 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
+import { dashboardApi } from "../../../api/dashboardApi";
+import { followupsApi } from "../../../api/followupsApi";
 import "./SalesPages.css";
 
 export const SalesDashboard = () => {
@@ -9,11 +11,40 @@ export const SalesDashboard = () => {
   const { user } = useAuth();
   const salesName = user?.name ? user.name.split(" ")[0] : "Representative";
 
-  const todayTasks = [
-    { lead: "Rahul Sharma", company: "Rahul Traders", type: "Call", time: "11:30 AM", phone: "+91 98765 43210" },
-    { lead: "Suresh Patel", company: "Patel Chemicals", type: "Demo", time: "02:15 PM", phone: "+91 98765 11111" },
-    { lead: "Vikram Aditya", company: "Aditya Enterprises", type: "Meeting", time: "04:00 PM", phone: "+91 98765 22222" },
-  ];
+  const [kpi, setKpi] = useState(null);
+  const [todayTasks, setTodayTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+    // Both endpoints auto-scope to the logged-in salesperson's own leads/follow-ups.
+    Promise.all([
+      dashboardApi.getStats().then((data) => setKpi(data.kpi)),
+      followupsApi.getAll({ status: "Pending", limit: 5, sort: "scheduledAt" }).then((data) => {
+        setTodayTasks(
+          (data.followUps || []).map((f) => ({
+            lead: f.leadId?.name || "Lead",
+            company: f.leadId?.company || "Direct Prospect",
+            type: f.type,
+            time: new Date(f.scheduledAt).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
+            phone: f.leadId?.phone || "",
+          }))
+        );
+      }),
+    ])
+      .catch(() => {})
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  const safeKpi = kpi || { totalLeads: 0, activeLeads: 0, pendingFollowUps: 0, convertedLeads: 0 };
+
+  if (isLoading) {
+    return (
+      <div className="sales-page-container" style={{ display: "flex", justifyContent: "center", padding: "80px 0" }}>
+        <Loader2 size={24} className="spin-icon" />
+      </div>
+    );
+  }
 
   return (
     <div className="sales-page-container">
@@ -43,8 +74,8 @@ export const SalesDashboard = () => {
               <Users size={16} />
             </div>
           </div>
-          <div className="sales-kpi-num" style={{ color: "#0f172a", fontWeight: 900 }}>42</div>
-          <span style={{ fontSize: "0.685rem", color: "#c2410c", fontWeight: 800 }}>+3 this week</span>
+          <div className="sales-kpi-num" style={{ color: "#0f172a", fontWeight: 900 }}>{safeKpi.totalLeads}</div>
+          <span style={{ fontSize: "0.685rem", color: "#c2410c", fontWeight: 800 }}>Assigned to you</span>
         </div>
 
         {/* Card 2: Active Prospects */}
@@ -59,7 +90,7 @@ export const SalesDashboard = () => {
               <Activity size={16} />
             </div>
           </div>
-          <div className="sales-kpi-num" style={{ color: "#0f172a", fontWeight: 900 }}>28</div>
+          <div className="sales-kpi-num" style={{ color: "#0f172a", fontWeight: 900 }}>{safeKpi.activeLeads}</div>
           <span style={{ fontSize: "0.685rem", color: "#c2410c", fontWeight: 800 }}>In pipeline</span>
         </div>
 
@@ -75,8 +106,8 @@ export const SalesDashboard = () => {
               <Clock size={16} />
             </div>
           </div>
-          <div className="sales-kpi-num" style={{ color: "#0f172a", fontWeight: 900 }}>5</div>
-          <span style={{ fontSize: "0.685rem", color: "#b45309", fontWeight: 800 }}>Due today</span>
+          <div className="sales-kpi-num" style={{ color: "#0f172a", fontWeight: 900 }}>{safeKpi.pendingFollowUps}</div>
+          <span style={{ fontSize: "0.685rem", color: "#b45309", fontWeight: 800 }}>{safeKpi.overdueFollowUps || 0} overdue</span>
         </div>
 
         {/* Card 4: Converted */}
@@ -91,7 +122,7 @@ export const SalesDashboard = () => {
               <CheckCircle2 size={16} />
             </div>
           </div>
-          <div className="sales-kpi-num" style={{ color: "#0f172a", fontWeight: 900 }}>6</div>
+          <div className="sales-kpi-num" style={{ color: "#0f172a", fontWeight: 900 }}>{safeKpi.convertedLeads}</div>
           <span style={{ fontSize: "0.685rem", color: "#15803d", fontWeight: 800 }}>Won deals</span>
         </div>
       </div>
@@ -124,6 +155,9 @@ export const SalesDashboard = () => {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {todayTasks.length === 0 && (
+              <div style={{ fontSize: "0.8rem", color: "#94a3b8", padding: "12px 0" }}>No pending follow-ups. You're all caught up.</div>
+            )}
             {todayTasks.map((task, idx) => (
               <div key={idx} className="sales-mobile-task-card">
                 <div className="sales-task-left-content">

@@ -1,9 +1,11 @@
 import React from "react";
-import { Phone, Mail, Globe, Calendar, Building, UserX, UserCheck } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Phone, Mail, Globe, Calendar, Building, UserX, UserCheck, ExternalLink } from "lucide-react";
 import { Modal } from "../../../../../components/ui/Modal";
 import { Badge } from "../../../../../components/ui/Badge";
 
 export const LeadDetailsModal = ({ isOpen, onClose, lead }) => {
+  const navigate = useNavigate();
   if (!isOpen || !lead) return null;
 
   const assignedName = lead.salesperson || "Unassigned";
@@ -112,8 +114,16 @@ export const LeadDetailsModal = ({ isOpen, onClose, lead }) => {
           </div>
         </div>
 
-        {/* Footer with ONLY Close button */}
-        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "4px", paddingTop: "14px", borderTop: "1px solid #f1f5f9" }}>
+        {/* Footer: Close + link to the full details page (notes, activity timeline, follow-ups) */}
+        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px", paddingTop: "14px", borderTop: "1px solid #f1f5f9" }}>
+          <button
+            type="button"
+            className="crm-btn crm-btn-subtle"
+            onClick={() => { onClose(); navigate(`/admin/leads/${lead.id}/edit`); }}
+            style={{ padding: "8px 16px", fontWeight: 700, borderRadius: "8px", fontSize: "0.85rem", display: "inline-flex", alignItems: "center", gap: "6px" }}
+          >
+            <ExternalLink size={14} /> View Full Details
+          </button>
           <button
             type="button"
             className="crm-btn crm-btn-secondary"

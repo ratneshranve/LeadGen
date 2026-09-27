@@ -2,6 +2,9 @@ const app = require("./app");
 const connectDB = require("../config/db");
 const config = require("../config/env");
 const logger = require("./utils/logger");
+const { startFollowUpReminderJob } = require("./jobs/followupReminders.job");
+// Registers the lead automation pipeline (score -> auto-assign) on the shared event bus.
+require("./events/listeners/leadCreated.listener");
 
 const PORT = config.port || 5000;
 
@@ -14,6 +17,8 @@ const startServer = async () => {
     logger.info(`🔗 Base API Endpoint: http://localhost:${PORT}${config.apiPrefix}`);
     logger.info(`🩺 Health Check: http://localhost:${PORT}${config.apiPrefix}/health`);
   });
+
+  startFollowUpReminderJob();
 
   // Handle Unhandled Promise Rejections
   process.on("unhandledRejection", (err) => {

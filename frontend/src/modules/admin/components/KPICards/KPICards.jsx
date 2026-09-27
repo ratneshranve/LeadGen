@@ -7,23 +7,27 @@ import {
   CheckCircle2,
   XCircle,
   Clock,
-  TrendingUp,
-  AlertCircle
 } from "lucide-react";
-import { kpiMetricsByDateRange } from "../../data/dashboardMockData";
 
-export const KPICards = ({ dateRange = "this_month" }) => {
+const formatCurrency = (value) =>
+  `₹${Number(value || 0).toLocaleString("en-IN", { maximumFractionDigits: 0 })}`;
+
+export const KPICards = ({ kpi }) => {
   const navigate = useNavigate();
-  const currentMetrics = kpiMetricsByDateRange[dateRange] || kpiMetricsByDateRange.this_month;
+
+  const safe = kpi || {
+    totalLeads: 0, newLeads: 0, activeLeads: 0, convertedLeads: 0, lostLeads: 0,
+    pendingFollowUps: 0, overdueFollowUps: 0, totalEstimatedValue: 0, conversionRate: 0,
+  };
 
   const cards = [
     {
       id: "total",
-      key: "totalLeads",
-      data: currentMetrics.totalLeads,
+      label: "Total Leads",
+      value: safe.totalLeads,
+      subtext: `Est. value ${formatCurrency(safe.totalEstimatedValue)}`,
       icon: Users,
       color: "#ff3b19",
-      bgLight: "#ffffff",
       cardBg: "linear-gradient(135deg, #ffe5e0 0%, #ffd4cc 100%)",
       borderColor: "#ffb3a6",
       shadow: "0 6px 16px rgba(255, 59, 25, 0.15)",
@@ -31,11 +35,11 @@ export const KPICards = ({ dateRange = "this_month" }) => {
     },
     {
       id: "new",
-      key: "newLeads",
-      data: currentMetrics.newLeads,
+      label: "New Leads",
+      value: safe.newLeads,
+      subtext: "Awaiting first contact",
       icon: UserPlus,
       color: "#c2410c",
-      bgLight: "#ffffff",
       cardBg: "linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%)",
       borderColor: "#fdba74",
       shadow: "0 6px 16px rgba(234, 88, 12, 0.15)",
@@ -43,11 +47,11 @@ export const KPICards = ({ dateRange = "this_month" }) => {
     },
     {
       id: "active",
-      key: "activeLeads",
-      data: currentMetrics.activeLeads,
+      label: "Active Leads",
+      value: safe.activeLeads,
+      subtext: "Currently in pipeline",
       icon: Activity,
       color: "#0369a1",
-      bgLight: "#ffffff",
       cardBg: "linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)",
       borderColor: "#7dd3fc",
       shadow: "0 6px 16px rgba(2, 132, 199, 0.15)",
@@ -55,11 +59,11 @@ export const KPICards = ({ dateRange = "this_month" }) => {
     },
     {
       id: "converted",
-      key: "convertedLeads",
-      data: currentMetrics.convertedLeads,
+      label: "Converted",
+      value: safe.convertedLeads,
+      subtext: `${safe.conversionRate}% conversion rate`,
       icon: CheckCircle2,
       color: "#15803d",
-      bgLight: "#ffffff",
       cardBg: "linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)",
       borderColor: "#86efac",
       shadow: "0 6px 16px rgba(22, 163, 74, 0.15)",
@@ -67,11 +71,11 @@ export const KPICards = ({ dateRange = "this_month" }) => {
     },
     {
       id: "lost",
-      key: "lostLeads",
-      data: currentMetrics.lostLeads,
+      label: "Lost Leads",
+      value: safe.lostLeads,
+      subtext: "Needs review",
       icon: XCircle,
       color: "#b91c1c",
-      bgLight: "#ffffff",
       cardBg: "linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)",
       borderColor: "#fca5a5",
       shadow: "0 6px 16px rgba(220, 38, 38, 0.15)",
@@ -79,11 +83,11 @@ export const KPICards = ({ dateRange = "this_month" }) => {
     },
     {
       id: "followup",
-      key: "pendingFollowups",
-      data: currentMetrics.pendingFollowups,
+      label: "Pending Follow-ups",
+      value: safe.pendingFollowUps,
+      subtext: `${safe.overdueFollowUps} overdue`,
       icon: Clock,
       color: "#b45309",
-      bgLight: "#ffffff",
       cardBg: "linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)",
       borderColor: "#fcd34d",
       shadow: "0 6px 16px rgba(217, 119, 6, 0.15)",
@@ -95,7 +99,6 @@ export const KPICards = ({ dateRange = "this_month" }) => {
     <div className="kpi-grid">
       {cards.map((card) => {
         const Icon = card.icon;
-        const { value, label, change, isPositive, subtext } = card.data;
 
         return (
           <div
@@ -108,25 +111,21 @@ export const KPICards = ({ dateRange = "this_month" }) => {
               boxShadow: card.shadow,
             }}
             onClick={() => navigate(`/admin/leads?status=${card.statusFilter}`)}
-            title={`Click to view ${label}`}
+            title={`Click to view ${card.label}`}
           >
             <div className="kpi-top">
-              <div className="kpi-icon-box" style={{ backgroundColor: card.bgLight, color: card.color, boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
+              <div className="kpi-icon-box" style={{ backgroundColor: "#ffffff", color: card.color, boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
                 <Icon size={18} />
-              </div>
-              <div className={`kpi-badge ${isPositive ? "kpi-badge-pos" : "kpi-badge-neg"}`}>
-                {isPositive ? <TrendingUp size={11} /> : <AlertCircle size={11} />}
-                <span>{change}</span>
               </div>
             </div>
 
             <div className="kpi-middle">
-              <span className="kpi-label" style={{ color: "#1e293b", fontWeight: 800 }}>{label}</span>
-              <h3 className="kpi-value" style={{ color: "#0f172a", fontWeight: 900 }}>{value.toLocaleString()}</h3>
+              <span className="kpi-label" style={{ color: "#1e293b", fontWeight: 800 }}>{card.label}</span>
+              <h3 className="kpi-value" style={{ color: "#0f172a", fontWeight: 900 }}>{Number(card.value || 0).toLocaleString()}</h3>
             </div>
 
             <div className="kpi-bottom">
-              <span className="kpi-subtext" style={{ color: "#334155", fontWeight: 700 }}>{subtext}</span>
+              <span className="kpi-subtext" style={{ color: "#334155", fontWeight: 700 }}>{card.subtext}</span>
             </div>
           </div>
         );

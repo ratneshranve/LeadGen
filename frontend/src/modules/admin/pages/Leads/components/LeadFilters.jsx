@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { Search, SlidersHorizontal, ArrowUpDown, RotateCcw, Trash2 } from "lucide-react";
-import {
-  leadStatusOptions,
-  leadSourceOptions,
-  salespersonOptions,
-  leadTypeOptions,
-  getCustomSources
-} from "../data/leadsMockData";
+import { leadStatusOptions, leadTypeOptions } from "../data/leadsMockData";
 import { AdvancedFiltersPopover } from "./AdvancedFiltersPopover";
 import { CustomSelect } from "../../../../../components/ui/CustomSelect";
 
@@ -20,29 +14,12 @@ export const LeadFilters = ({
   onResetFilters,
   hasActiveFilters,
   selectedCount = 0,
-  onBulkDelete
+  onBulkDelete,
+  sourceOptions = [],
+  salespersonOptions: salespersons = [],
 }) => {
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
-
-  // Dynamic Sources List
-  const sources = React.useMemo(() => {
-    const custom = getCustomSources();
-    return Array.from(new Set([...leadSourceOptions.filter(s => s !== "All"), ...custom]));
-  }, []);
-
-  // Dynamic Salespersons List
-  const salespersons = React.useMemo(() => {
-    const defaultReps = salespersonOptions.filter(s => s !== "All");
-    try {
-      const saved = localStorage.getItem("leadflow_mock_team_users");
-      if (saved) {
-        const team = JSON.parse(saved);
-        const names = team.map(u => u.name);
-        return Array.from(new Set([...defaultReps, ...names]));
-      }
-    } catch (e) {}
-    return defaultReps;
-  }, []);
+  const sources = sourceOptions;
 
   return (
     <div className="toolbar-container">

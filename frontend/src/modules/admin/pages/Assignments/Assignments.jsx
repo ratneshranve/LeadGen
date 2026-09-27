@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { UserCheck, Sparkles, UserPlus } from "lucide-react";
-import { initialLeadsData, getStoredLeads, saveStoredLeads } from "../Leads/data/leadsMockData";
+import { UserCheck, UserPlus, Loader2 } from "lucide-react";
 import { AssignmentOverview } from "./components/AssignmentOverview";
 import { SalespersonWorkload } from "./components/SalespersonWorkload";
 import { AssignmentFilters } from "./components/AssignmentFilters";
@@ -9,50 +8,53 @@ import { AssignmentTable } from "./components/AssignmentTable";
 import { AssignLeadsModal } from "./components/AssignLeadsModal";
 import { AssignUnassignedLeadsModal } from "./components/AssignUnassignedLeadsModal";
 import { ToastNotification } from "../AddLead/components/ToastNotification";
+import { leadsApi } from "../../../../api/leadsApi";
+import { usersApi } from "../../../../api/usersApi";
+import { adaptLead } from "../../../../utils/leadAdapter";
 import "./Assignments.css";
 
 export const Assignments = ({ forceOpenAssignModal = false }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [leads, setLeads] = useState(getStoredLeads);
+  const [leads, setLeads] = useState([]);
+  const [salespeople, setSalespeople] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchAll = useCallback(() => {
+    setIsLoading(true);
+    return Promise.all([
+      leadsApi.getAll({ limit: 200 }).then((data) => setLeads((data.leads || []).map(adaptLead))),
+      usersApi.getSalespeople().then((data) => setSalespeople(data.users || [])),
+    ])
+      .catch(() => {})
+      .finally(() => setIsLoading(false));
+  }, []);
 
   useEffect(() => {
-    saveStoredLeads(leads);
-  }, [leads]);
+    fetchAll();
+  }, [fetchAll]);
 
-  // Salesperson Workload State initialized from LocalStorage (or initial mock team)
-  const [repsWorkload, setRepsWorkload] = useState(() => {
-    try {
-      const savedUsers = localStorage.getItem("leadflow_mock_team_users");
-      if (savedUsers) {
-        const parsed = JSON.parse(savedUsers);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          const salesReps = parsed.filter((u) => u.role !== "Admin" && u.role !== "Master Admin");
-          if (salesReps.length > 0) {
-            return salesReps.map((u) => ({
-              id: u.id,
-              name: u.name,
-              email: u.email || `${u.name.toLowerCase().replace(/\s+/g, ".")}@leadflow.com`,
-              phone: u.phone || "+91 98765 00000",
-              role: u.role || "Sales Employee",
-              assigned: u.assignedLeads !== undefined ? u.assignedLeads : 35,
-              active: u.activeLeads !== undefined ? u.activeLeads : 22,
-              followups: u.followups !== undefined ? u.followups : 4,
-              converted: u.converted !== undefined ? u.converted : 6,
-              status: u.status || "Active",
-            }));
-          }
-        }
-      }
-    } catch (e) {}
-    return [
-      { id: "sp-1", name: "Rahul Mehta", email: "rahul@leadflow.com", phone: "+91 98765 33333", role: "Sales Employee", assigned: 46, active: 31, followups: 7, converted: 9, status: "Active" },
-      { id: "sp-2", name: "Amit Sharma", email: "amit@leadflow.com", phone: "+91 98765 11111", role: "Sales Employee", assigned: 42, active: 28, followups: 5, converted: 6, status: "Active" },
-      { id: "sp-3", name: "Neha Verma", email: "neha@leadflow.com", phone: "+91 98765 22222", role: "Sales Employee", assigned: 38, active: 24, followups: 4, converted: 8, status: "Active" },
-      { id: "sp-4", name: "Priya Singh", email: "priya@leadflow.com", phone: "+91 98765 44444", role: "Sales Employee", assigned: 35, active: 22, followups: 3, converted: 6, status: "Active" },
-    ];
-  });
+  // Derive per-salesperson workload directly from the real leads list.
+  const repsWorkload = useMemo(() => {
+    return salespeople.map((rep) => {
+      const repLeads = leads.filter((l) => l.assignedTo === rep._id);
+      const active = repLeads.filter((l) => ["New", "Contacted", "Follow-up", "Interested"].includes(l.status)).length;
+      const converted = repLeads.filter((l) => l.status === "Converted").length;
+      return {
+        id: rep._id,
+        name: rep.name,
+        email: rep.email,
+        phone: rep.phone || "",
+        role: "Sales Employee",
+        assigned: repLeads.length,
+        active,
+        followups: 0,
+        converted,
+        status: rep.status === "active" ? "Active" : "Inactive",
+      };
+    });
+  }, [leads, salespeople]);
 
   // Filter States
   const [searchQuery, setSearchQuery] = useState("");
@@ -90,7 +92,6 @@ export const Assignments = ({ forceOpenAssignModal = false }) => {
 
   // Filtered Leads Calculation
   const filteredLeads = leads.filter((lead) => {
-    // Search filter
     const query = searchQuery.toLowerCase().trim();
     if (query) {
       const matchName = lead.name.toLowerCase().includes(query);
@@ -100,17 +101,9 @@ export const Assignments = ({ forceOpenAssignModal = false }) => {
       if (!matchName && !matchCompany && !matchPhone && !matchEmail) return false;
     }
 
-    // Status filter
-    if (selectedStatus !== "All" && lead.status !== selectedStatus) {
-      return false;
-    }
+    if (selectedStatus !== "All" && lead.status !== selectedStatus) return false;
+    if (selectedSource !== "All" && lead.source !== selectedSource) return false;
 
-    // Source filter
-    if (selectedSource !== "All" && lead.source !== selectedSource) {
-      return false;
-    }
-
-    // Current Assignee filter
     if (selectedAssignee !== "All") {
       if (selectedAssignee === "Unassigned") {
         if (lead.salesperson && lead.salesperson !== "Unassigned") return false;
@@ -124,20 +117,17 @@ export const Assignments = ({ forceOpenAssignModal = false }) => {
 
   // Calculate Overview Stats
   const totalCount = leads.length;
-  const unassignedLeads = leads.filter(l => !l.salesperson || l.salesperson === "Unassigned");
+  const unassignedLeads = leads.filter((l) => !l.assignedTo);
   const unassignedCount = unassignedLeads.length;
   const assignedCount = totalCount - unassignedCount;
 
-  // Handlers for Checkbox Selection
   const handleSelectAll = (updatedIds) => {
     if (Array.isArray(updatedIds)) {
       setSelectedLeadIds(updatedIds);
+    } else if (selectedLeadIds.length === filteredLeads.length) {
+      setSelectedLeadIds([]);
     } else {
-      if (selectedLeadIds.length === filteredLeads.length) {
-        setSelectedLeadIds([]);
-      } else {
-        setSelectedLeadIds(filteredLeads.map((l) => l.id));
-      }
+      setSelectedLeadIds(filteredLeads.map((l) => l.id));
     }
   };
 
@@ -149,7 +139,6 @@ export const Assignments = ({ forceOpenAssignModal = false }) => {
     }
   };
 
-  // Open Assign Modal for batch or single row
   const handleOpenAssignModal = (idsToAssign = null) => {
     const target = idsToAssign || selectedLeadIds;
     if (!target || target.length === 0) return;
@@ -157,101 +146,72 @@ export const Assignments = ({ forceOpenAssignModal = false }) => {
     setIsAssignModalOpen(true);
   };
 
-  // Confirm Lead Assignment from general modal or table
-  const handleConfirmAssignment = (newRep) => {
-    setLeads((prev) =>
-      prev.map((lead) => {
-        if (targetLeadIds.includes(lead.id)) {
-          return { ...lead, salesperson: newRep };
-        }
-        return lead;
-      })
-    );
-
-    setRepsWorkload((prev) =>
-      prev.map((rep) => {
-        if (rep.name === newRep) {
-          return {
-            ...rep,
-            assigned: rep.assigned + targetLeadIds.length,
-            active: rep.active + targetLeadIds.length,
-          };
-        }
-        return rep;
-      })
-    );
-
-    const count = targetLeadIds.length;
-    setToastMessage(`${count} lead${count > 1 ? "s" : ""} assigned to ${newRep} successfully`);
-    setIsToastOpen(true);
-
-    setSelectedLeadIds([]);
-    setTargetLeadIds([]);
-    setIsAssignModalOpen(false);
+  const assignLeadsTo = (leadIds, repId) => {
+    return leadsApi.bulkActions({ leadIds, action: "assign", assignedTo: repId });
   };
 
-  // Confirm Bulk Unassigned Assignment from dedicated "Assign Lead" button modal
-  const handleConfirmBulkUnassigned = (idsToAssign, targetSalesperson) => {
-    if (!idsToAssign || idsToAssign.length === 0 || !targetSalesperson) return;
-
-    setLeads((prev) =>
-      prev.map((lead) => {
-        if (idsToAssign.includes(lead.id)) {
-          return { ...lead, salesperson: targetSalesperson };
-        }
-        return lead;
+  // Confirm Lead Assignment from general modal or table
+  const handleConfirmAssignment = (repId) => {
+    const repName = salespeople.find((r) => r._id === repId)?.name || "the sales employee";
+    assignLeadsTo(targetLeadIds, repId)
+      .then(() => {
+        setLeads((prev) => prev.map((lead) => (targetLeadIds.includes(lead.id) ? { ...lead, assignedTo: repId, salesperson: repName } : lead)));
+        const count = targetLeadIds.length;
+        setToastMessage(`${count} lead${count > 1 ? "s" : ""} assigned to ${repName} successfully`);
+        setIsToastOpen(true);
+        setSelectedLeadIds([]);
+        setTargetLeadIds([]);
+        setIsAssignModalOpen(false);
       })
-    );
+      .catch((err) => {
+        setToastMessage(err.message || "Failed to assign leads.");
+        setIsToastOpen(true);
+      });
+  };
 
-    setRepsWorkload((prev) =>
-      prev.map((rep) => {
-        if (rep.name === targetSalesperson) {
-          return {
-            ...rep,
-            assigned: rep.assigned + idsToAssign.length,
-            active: rep.active + idsToAssign.length,
-          };
-        }
-        return rep;
+  // Confirm Bulk Unassigned Assignment from dedicated "Assign Leads" button modal
+  const handleConfirmBulkUnassigned = (idsToAssign, repId) => {
+    if (!idsToAssign || idsToAssign.length === 0 || !repId) return;
+    const repName = salespeople.find((r) => r._id === repId)?.name || "the sales employee";
+
+    assignLeadsTo(idsToAssign, repId)
+      .then(() => {
+        setLeads((prev) => prev.map((lead) => (idsToAssign.includes(lead.id) ? { ...lead, assignedTo: repId, salesperson: repName } : lead)));
+        const count = idsToAssign.length;
+        setToastMessage(`${count} lead${count > 1 ? "s" : ""} assigned to ${repName} successfully`);
+        setIsToastOpen(true);
+        setSelectedLeadIds([]);
+        handleCloseBulkUnassignedModal();
       })
-    );
-
-    const count = idsToAssign.length;
-    setToastMessage(`${count} lead${count > 1 ? "s" : ""} assigned to ${targetSalesperson} successfully`);
-    setIsToastOpen(true);
-    setSelectedLeadIds([]);
-    handleCloseBulkUnassignedModal();
+      .catch((err) => {
+        setToastMessage(err.message || "Failed to assign leads.");
+        setIsToastOpen(true);
+      });
   };
 
   const isAllSelected = filteredLeads.length > 0 && selectedLeadIds.length === filteredLeads.length;
 
   return (
     <div className="assignments-page">
-      {/* Toast Notification */}
-      <ToastNotification
-        message={toastMessage}
-        isOpen={isToastOpen}
-        onClose={() => setIsToastOpen(false)}
-      />
+      <ToastNotification message={toastMessage} isOpen={isToastOpen} onClose={() => setIsToastOpen(false)} />
 
-      {/* General Selection Assignment Modal */}
       <AssignLeadsModal
         isOpen={isAssignModalOpen}
         onClose={() => setIsAssignModalOpen(false)}
         selectedCount={targetLeadIds.length}
         onConfirm={handleConfirmAssignment}
+        salespeople={salespeople}
       />
 
-      {/* Dedicated Bulk Leads Assignment Modal ("Assign Leads" button feature) */}
       <AssignUnassignedLeadsModal
         isOpen={isBulkUnassignedModalOpen || forceOpenAssignModal || location.pathname === "/admin/assignments/assignLeads"}
         onClose={handleCloseBulkUnassignedModal}
         allLeads={leads}
         unassignedLeads={unassignedLeads}
         onConfirmAssign={handleConfirmBulkUnassigned}
+        salespeople={salespeople}
       />
 
-      {/* Header Description */}
       <div className="assignments-header-banner">
         <div className="header-text-group">
           <p className="page-desc">
@@ -260,17 +220,10 @@ export const Assignments = ({ forceOpenAssignModal = false }) => {
         </div>
       </div>
 
-      {/* 1. Overview Summary Cards */}
       <AssignmentOverview
-        stats={{
-          total: totalCount,
-          unassigned: unassignedCount,
-          assigned: assignedCount,
-          salespersonsCount: repsWorkload.length,
-        }}
+        stats={{ total: totalCount, unassigned: unassignedCount, assigned: assignedCount, salespersonsCount: repsWorkload.length }}
       />
 
-      {/* 2. Lead Assignment Main Section Card (FIRST) */}
       <div className="crm-card lead-assignment-main-card">
         <div className="card-header-flex" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: "10px" }}>
@@ -283,21 +236,12 @@ export const Assignments = ({ forceOpenAssignModal = false }) => {
             <span className="section-count-pill">{filteredLeads.length} Leads</span>
           </div>
 
-          {/* Dedicated "Assign Leads" Button */}
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <button
               type="button"
               className="crm-btn crm-btn-primary"
               onClick={handleOpenBulkUnassignedModal}
-              style={{
-                padding: "8px 16px",
-                borderRadius: "8px",
-                fontWeight: 700,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                boxShadow: "0 2px 6px rgba(52, 97, 253, 0.2)"
-              }}
+              style={{ padding: "8px 16px", borderRadius: "8px", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "8px", boxShadow: "0 2px 6px rgba(52, 97, 253, 0.2)" }}
               title="Assign leads to a sales employee"
             >
               <UserPlus size={16} /> Assign Leads
@@ -305,7 +249,6 @@ export const Assignments = ({ forceOpenAssignModal = false }) => {
           </div>
         </div>
 
-        {/* Search & Filter Controls */}
         <AssignmentFilters
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -322,18 +265,22 @@ export const Assignments = ({ forceOpenAssignModal = false }) => {
           onBulkAssign={() => handleOpenAssignModal()}
         />
 
-        {/* Assignment Lead Data Table with Pagination & No Eye Button */}
-        <AssignmentTable
-          leads={filteredLeads}
-          selectedLeadIds={selectedLeadIds}
-          onSelectAll={handleSelectAll}
-          onSelectLead={handleSelectLead}
-          isAllSelected={isAllSelected}
-          onOpenAssignModal={(ids) => handleOpenAssignModal(ids)}
-        />
+        {isLoading ? (
+          <div style={{ display: "flex", justifyContent: "center", padding: "60px 0" }}>
+            <Loader2 size={24} className="spin-icon" />
+          </div>
+        ) : (
+          <AssignmentTable
+            leads={filteredLeads}
+            selectedLeadIds={selectedLeadIds}
+            onSelectAll={handleSelectAll}
+            onSelectLead={handleSelectLead}
+            isAllSelected={isAllSelected}
+            onOpenAssignModal={(ids) => handleOpenAssignModal(ids)}
+          />
+        )}
       </div>
 
-      {/* 3. Salesperson Workload Table (SECOND) */}
       <SalespersonWorkload repsWorkload={repsWorkload} />
     </div>
   );

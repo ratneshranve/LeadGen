@@ -4,6 +4,10 @@ const { LeadQueryBuilder } = require("../../utils/queryBuilder");
 const activityService = require("../activity/activity.service");
 const notificationService = require("../notifications/notification.service");
 const uploadService = require("../uploads/upload.service");
+const leadDedupeService = require("../../services/leadDedupe.service");
+const { leadEvents, LEAD_EVENTS } = require("../../events/leadEvents");
+const aiResponseService = require("../../services/aiResponse.service");
+const mlFeedbackService = require("../../services/mlFeedback.service");
 
 class LeadService {
   /**
@@ -27,9 +31,40 @@ class LeadService {
   }
 
   /**
-   * Create a new Lead
+   * Create a new Lead. Detects duplicates by normalized email/phone first (SOP section
+   * 10) - a repeat contact merges into the existing lead as an interaction instead of
+   * creating a new record.
    */
   async createLead(leadData, user) {
+    const duplicate = await leadDedupeService.findDuplicate({ email: leadData.email, phone: leadData.phone });
+
+    if (duplicate) {
+      duplicate.interactions.push({
+        channel: "duplicate_contact",
+        note: `Repeated contact attempt (name: "${leadData.name}") matched this lead by ${leadData.email && duplicate.email === leadData.email.trim().toLowerCase() ? "email" : "phone"}.`,
+        source: "dedupe",
+        recordedBy: user._id,
+      });
+      await duplicate.save();
+
+      await activityService.logActivity({
+        leadId: duplicate._id,
+        userId: user._id,
+        userRole: user.role,
+        actionType: "DUPLICATE_INTERACTION",
+        entityType: "lead",
+        entityId: duplicate._id,
+        title: "Duplicate Contact Merged",
+        description: `A new contact attempt for '${leadData.name}' matched existing lead '${duplicate.customLeadId}' and was merged instead of creating a duplicate record.`,
+        metadata: { attemptedName: leadData.name, attemptedSourceId: leadData.sourceId },
+      });
+
+      leadEvents.emit(LEAD_EVENTS.LEAD_INTERACTION_RECORDED, { leadId: duplicate._id });
+
+      const result = await this.getLeadById(duplicate._id);
+      return { ...result, duplicate: true };
+    }
+
     const customId = leadData.customLeadId || (await this.generateCustomLeadId());
 
     const lead = await Lead.create({
@@ -64,6 +99,10 @@ class LeadService {
         data: { leadId: lead._id },
       });
     }
+
+    // 3. Automation pipeline (score -> auto-assign if unassigned) - fire-and-forget,
+    // must never block or fail lead creation (SOP section 44 fallback requirement).
+    leadEvents.emit(LEAD_EVENTS.LEAD_CREATED, { leadId: lead._id, user });
 
     return await this.getLeadById(lead._id);
   }
@@ -182,6 +221,12 @@ class LeadService {
         newValue: updateData.status,
         metadata: { changedBy: user.name },
       });
+
+      // ML feedback loop (SOP section 40): once the real outcome is known, record it
+      // for future retraining alongside the synthetic seed data.
+      if (updateData.status === "Converted" || updateData.status === "Lost") {
+        mlFeedbackService.recordOutcome(updatedLead, updateData.status === "Converted");
+      }
     }
 
     // 2. Audit Track: Pipeline Stage Movements
@@ -413,6 +458,49 @@ class LeadService {
     });
 
     return lead;
+  }
+
+  /**
+   * Generates an AI response draft for a lead (SOP section 29). Read-only - does not
+   * save/send anything, just returns text for the rep to review.
+   */
+  async generateAiDraft(leadId) {
+    const lead = await Lead.findById(leadId);
+    if (!lead) {
+      throw new ApiError(404, "Lead not found");
+    }
+    const draft = await aiResponseService.generateDraft(lead, lead.interactions || []);
+    return { draft };
+  }
+
+  /**
+   * Records a real interaction (a rep's approved AI draft, a manual note, a call log,
+   * etc.) and triggers re-scoring (SOP section 16: dynamic scoring on new behaviour).
+   */
+  async addInteraction(leadId, { channel, note }, user) {
+    const lead = await Lead.findById(leadId);
+    if (!lead) {
+      throw new ApiError(404, "Lead not found");
+    }
+
+    lead.interactions.push({ channel, note, source: "manual", recordedBy: user._id });
+    await lead.save();
+
+    await activityService.logActivity({
+      leadId: lead._id,
+      userId: user._id,
+      userRole: user.role,
+      actionType: "NOTE_ADDED",
+      entityType: "note",
+      entityId: lead._id,
+      title: "Interaction Recorded",
+      description: `${channel} interaction recorded by ${user.name}: "${note.slice(0, 120)}"`,
+      metadata: { channel },
+    });
+
+    leadEvents.emit(LEAD_EVENTS.LEAD_INTERACTION_RECORDED, { leadId: lead._id });
+
+    return await this.getLeadById(leadId);
   }
 }
 
