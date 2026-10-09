@@ -22,6 +22,8 @@ const envVarsSchema = Joi.object({
   FIREBASE_PRIVATE_KEY: Joi.string().allow("", null),
   SMS_API_KEY: Joi.string().allow("", null),
   SMS_SENDER_ID: Joi.string().allow("", null),
+  USE_DEFAULT_OTP: Joi.boolean().default(false),
+  DEFAULT_OTP: Joi.string().pattern(/^\d{6}$/).default("123456"),
   GEMINI_API_KEY: Joi.string().allow("", null),
   ML_SERVICE_URL: Joi.string().allow("", null).default("http://localhost:8001"),
   ML_SERVICE_API_KEY: Joi.string().allow("", null),
@@ -64,6 +66,11 @@ module.exports = {
   sms: {
     apiKey: envVars.SMS_API_KEY,
     senderId: envVars.SMS_SENDER_ID,
+  },
+  otp: {
+    // When true, no SMS is sent and every login accepts DEFAULT_OTP (testing only)
+    useDefault: envVars.USE_DEFAULT_OTP,
+    defaultOtp: envVars.DEFAULT_OTP,
   },
   gemini: {
     apiKey: envVars.GEMINI_API_KEY,

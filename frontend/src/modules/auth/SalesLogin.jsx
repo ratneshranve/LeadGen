@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { SignInCard } from "@/components/ui/travel-connect-signin-1.tsx";
+import { useOtpLogin } from "./useOtpLogin";
 
 export const SalesLogin = () => {
   const navigate = useNavigate();
-  const { salesLogin, salesUser } = useAuth();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const { salesUser } = useAuth();
+  const otpLogin = useOtpLogin("sales");
 
   // If already logged in as sales rep, redirect to sales dashboard
   useEffect(() => {
@@ -23,28 +18,14 @@ export const SalesLogin = () => {
 
   const handleSubmit = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
-    setErrorMessage("");
 
-    if (!email.trim()) {
-      setErrorMessage("Please enter your email address.");
+    if (!otpLogin.otpSent) {
+      await otpLogin.requestOtp();
       return;
     }
 
-    if (!password) {
-      setErrorMessage("Password is required.");
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      await salesLogin(email, password, rememberMe);
-      setIsLoading(false);
-      navigate("/sales/dashboard", { replace: true });
-    } catch (error) {
-      setIsLoading(false);
-      setErrorMessage(error.message || "Invalid sales credentials.");
-    }
+    const redirectUrl = await otpLogin.verifyOtp();
+    if (redirectUrl) navigate(redirectUrl, { replace: true });
   };
 
   return (
@@ -55,19 +36,11 @@ export const SalesLogin = () => {
           brandName="LeadGen"
           brandSubtitle="Access assigned leads, log quick client calls, and track deal progress on any device."
           portalTitle="Welcome Back"
-          portalSubtitle="Sign in to your account"
-          emailLabel="Email *"
-          emailPlaceholder="Enter Email"
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          rememberMe={rememberMe}
-          setRememberMe={setRememberMe}
-          isLoading={isLoading}
-          errorMessage={errorMessage}
+          portalSubtitle="Sign in with your mobile number"
+          {...otpLogin}
           onSubmit={handleSubmit}
-          forgotPasswordLink="/forgot-password"
+          onResendOtp={otpLogin.requestOtp}
+          onChangeNumber={otpLogin.changeNumber}
           isMobileAppFriendly={true}
         />
       </div>

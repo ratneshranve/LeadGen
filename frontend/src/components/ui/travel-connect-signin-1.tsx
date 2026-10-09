@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Eye, EyeOff, ArrowRight, ShieldCheck, Zap, Loader2, AlertCircle } from "lucide-react";
+import { ArrowRight, ShieldCheck, Zap, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 // Helper function to merge class names
@@ -265,51 +265,55 @@ export interface SignInCardProps {
   portalSubtitle?: string;
   brandName?: string;
   brandSubtitle?: string;
-  emailLabel?: string;
-  emailPlaceholder?: string;
-  email?: string;
-  setEmail?: (val: string) => void;
-  password?: string;
-  setPassword?: (val: string) => void;
+  // Phone + OTP sign-in (see frontend/src/modules/auth/useOtpLogin.js)
+  phone?: string;
+  setPhone?: (val: string) => void;
+  otp?: string;
+  setOtp?: (val: string) => void;
+  otpSent?: boolean;
+  resendSeconds?: number;
+  onResendOtp?: () => void;
+  onChangeNumber?: () => void;
   rememberMe?: boolean;
   setRememberMe?: (val: boolean) => void;
   isLoading?: boolean;
   errorMessage?: string;
+  infoMessage?: string;
   onSubmit?: (e: React.FormEvent) => void;
-  forgotPasswordLink?: string;
   isMobileAppFriendly?: boolean;
 }
 
 export const SignInCard: React.FC<SignInCardProps> = ({
   portalType = "admin",
   portalTitle = "Welcome Back",
-  portalSubtitle = "Sign in to your account",
+  portalSubtitle = "Sign in with your mobile number",
   brandName = "LeadGen",
   brandSubtitle = "Streamline lead distribution, pipeline tracking, team user management, and sales performance.",
-  emailLabel = "Email *",
-  emailPlaceholder = "Enter Email",
-  email: propEmail,
-  setEmail: propSetEmail,
-  password: propPassword,
-  setPassword: propSetPassword,
+  phone: propPhone,
+  setPhone: propSetPhone,
+  otp: propOtp,
+  setOtp: propSetOtp,
+  otpSent = false,
+  resendSeconds = 0,
+  onResendOtp,
+  onChangeNumber,
   rememberMe: propRememberMe,
   setRememberMe: propSetRememberMe,
   isLoading = false,
   errorMessage = "",
+  infoMessage = "",
   onSubmit: propOnSubmit,
-  forgotPasswordLink = "/forgot-password",
   isMobileAppFriendly = true,
 }) => {
-  const [internalEmail, setInternalEmail] = useState("");
-  const [internalPassword, setInternalPassword] = useState("");
+  const [internalPhone, setInternalPhone] = useState("");
+  const [internalOtp, setInternalOtp] = useState("");
   const [internalRememberMe, setInternalRememberMe] = useState(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const email = propEmail !== undefined ? propEmail : internalEmail;
-  const setEmail = propSetEmail || setInternalEmail;
-  const password = propPassword !== undefined ? propPassword : internalPassword;
-  const setPassword = propSetPassword || setInternalPassword;
+  const phone = propPhone !== undefined ? propPhone : internalPhone;
+  const setPhone = propSetPhone || setInternalPhone;
+  const otp = propOtp !== undefined ? propOtp : internalOtp;
+  const setOtp = propSetOtp || setInternalOtp;
   const rememberMe = propRememberMe !== undefined ? propRememberMe : internalRememberMe;
   const setRememberMe = propSetRememberMe || setInternalRememberMe;
 
@@ -318,7 +322,6 @@ export const SignInCard: React.FC<SignInCardProps> = ({
       propOnSubmit(e);
     } else {
       e.preventDefault();
-      console.log("Sign in attempt with:", { email, password, rememberMe });
     }
   };
 
@@ -438,60 +441,83 @@ export const SignInCard: React.FC<SignInCardProps> = ({
               </motion.div>
             )}
             
+            {/* Info Banner (e.g. "OTP sent") */}
+            {infoMessage && !errorMessage && (
+              <div className="mb-5 p-3 rounded-xl bg-green-50 border border-green-200 text-green-700 flex items-start gap-2.5 text-xs sm:text-sm font-medium">
+                <CheckCircle2 className="h-4 w-4 mt-0.5 flex-shrink-0 text-green-600" />
+                <span className="leading-snug">{infoMessage}</span>
+              </div>
+            )}
+
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
               <div>
-                <label htmlFor="portal-email" className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5">
-                  {emailLabel}
-                </label>
-                <Input
-                  id="portal-email"
-                  type="email"
-                  autoComplete="username"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={emailPlaceholder}
-                  required
-                  className="w-full text-sm"
-                />
-              </div>
-              
-              <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label htmlFor="portal-password" className="block text-xs sm:text-sm font-semibold text-gray-700">
-                    Password *
+                  <label htmlFor="portal-phone" className="block text-xs sm:text-sm font-semibold text-gray-700">
+                    Mobile Number *
                   </label>
-                  {forgotPasswordLink && (
-                    <a
-                      href={forgotPasswordLink}
+                  {otpSent && onChangeNumber && (
+                    <button
+                      type="button"
+                      onClick={onChangeNumber}
                       className="text-xs font-semibold text-[#ff3b19] hover:text-[#e63010] transition-colors"
                     >
-                      Forgot password?
-                    </a>
+                      Change number
+                    </button>
                   )}
                 </div>
                 <div className="relative">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 text-sm font-semibold text-gray-500 pointer-events-none">
+                    +91
+                  </span>
                   <Input
-                    id="portal-password"
-                    type={isPasswordVisible ? "text" : "password"}
-                    autoComplete="current-password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter password"
+                    id="portal-phone"
+                    type="tel"
+                    inputMode="numeric"
+                    autoComplete="tel-national"
+                    maxLength={10}
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Enter 10-digit mobile number"
+                    disabled={otpSent}
                     required
-                    className="w-full pr-11 text-sm"
+                    className="w-full pl-12 text-sm"
                   />
-                  <button
-                    type="button"
-                    tabIndex={-1}
-                    aria-label={isPasswordVisible ? "Hide password" : "Show password"}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors"
-                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                  >
-                    {isPasswordVisible ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
                 </div>
               </div>
+
+              {otpSent && (
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label htmlFor="portal-otp" className="block text-xs sm:text-sm font-semibold text-gray-700">
+                      OTP *
+                    </label>
+                    {onResendOtp && (
+                      <button
+                        type="button"
+                        onClick={onResendOtp}
+                        disabled={resendSeconds > 0 || isLoading}
+                        className="text-xs font-semibold text-[#ff3b19] hover:text-[#e63010] transition-colors disabled:text-gray-400 disabled:cursor-not-allowed"
+                      >
+                        {resendSeconds > 0 ? `Resend OTP in ${resendSeconds}s` : "Resend OTP"}
+                      </button>
+                    )}
+                  </div>
+                  <Input
+                    id="portal-otp"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    maxLength={6}
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    placeholder="Enter 6-digit OTP"
+                    autoFocus
+                    required
+                    className="w-full text-sm tracking-[0.4em] font-semibold"
+                  />
+                </div>
+              )}
 
               {/* Remember Me */}
               <div className="flex items-center justify-between pt-0.5">
@@ -525,11 +551,11 @@ export const SignInCard: React.FC<SignInCardProps> = ({
                     {isLoading ? (
                       <span className="flex items-center justify-center gap-2">
                         <Loader2 className="h-4 w-4 animate-spin" />
-                        <span>Signing in...</span>
+                        <span>{otpSent ? "Verifying..." : "Sending OTP..."}</span>
                       </span>
                     ) : (
                       <span className="flex items-center justify-center gap-1.5">
-                        <span>Sign In</span>
+                        <span>{otpSent ? "Verify & Sign In" : "Send OTP"}</span>
                         <ArrowRight className="h-4 w-4" />
                       </span>
                     )}

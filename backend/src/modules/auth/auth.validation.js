@@ -37,10 +37,32 @@ const verifyOtpSchema = {
   }),
 };
 
+// Phone + OTP login for the admin / sales portals
+const loginSendOtpSchema = {
+  body: Joi.object().keys({
+    phone: Joi.string().required().trim().pattern(/^[+\d\s-]{10,16}$/)
+      .messages({ "string.pattern.base": "Please enter a valid 10-digit mobile number." }),
+    portal: Joi.string().valid("admin", "sales").required(),
+  }),
+};
+
+const loginVerifyOtpSchema = {
+  body: Joi.object().keys({
+    phone: Joi.string().required().trim().pattern(/^[+\d\s-]{10,16}$/)
+      .messages({ "string.pattern.base": "Please enter a valid 10-digit mobile number." }),
+    otp: Joi.string().required().trim().pattern(/^\d{6}$/)
+      .messages({ "string.pattern.base": "OTP must be 6 digits." }),
+    portal: Joi.string().valid("admin", "sales").required(),
+    fcmToken: Joi.string().optional().allow("", null),
+  }),
+};
+
 module.exports = {
   registerSchema,
   loginSchema,
   refreshTokenSchema,
   sendOtpSchema,
   verifyOtpSchema,
+  loginSendOtpSchema,
+  loginVerifyOtpSchema,
 };

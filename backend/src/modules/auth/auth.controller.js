@@ -17,6 +17,22 @@ const login = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, result, "User logged in successfully"));
 });
 
+const loginSendOtp = asyncHandler(async (req, res) => {
+  const { phone, portal } = req.body;
+  const result = await authService.sendLoginOtp(phone, portal);
+  return res
+    .status(200)
+    .json(new ApiResponse(200, result, "OTP sent to your mobile number"));
+});
+
+const loginVerifyOtp = asyncHandler(async (req, res) => {
+  const { phone, otp, portal, fcmToken } = req.body;
+  const result = await authService.verifyLoginOtp(phone, otp, portal, fcmToken);
+  return res
+    .status(200)
+    .json(new ApiResponse(200, result, "User logged in successfully"));
+});
+
 const sendOtp = asyncHandler(async (req, res) => {
   const { phone } = req.body;
   const result = await authService.sendOtp(phone);
@@ -58,6 +74,8 @@ const getMe = asyncHandler(async (req, res) => {
 module.exports = {
   register,
   login,
+  loginSendOtp,
+  loginVerifyOtp,
   sendOtp,
   verifyOtp,
   refreshToken,

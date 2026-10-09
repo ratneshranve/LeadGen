@@ -10,10 +10,14 @@ const {
   refreshTokenSchema,
   sendOtpSchema,
   verifyOtpSchema,
+  loginSendOtpSchema,
+  loginVerifyOtpSchema,
 } = require("./auth.validation");
 
 router.post("/register", authLimiter, validate(registerSchema), authController.register);
 router.post("/login", authLimiter, validate(loginSchema), authController.login);
+router.post("/login/send-otp", authLimiter, validate(loginSendOtpSchema), authController.loginSendOtp);
+router.post("/login/verify-otp", authLimiter, validate(loginVerifyOtpSchema), authController.loginVerifyOtp);
 router.post("/send-otp", authLimiter, validate(sendOtpSchema), authController.sendOtp);
 router.post("/verify-otp", authLimiter, validate(verifyOtpSchema), authController.verifyOtp);
 router.post("/refresh-token", validate(refreshTokenSchema), authController.refreshToken);

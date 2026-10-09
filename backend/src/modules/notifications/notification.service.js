@@ -66,11 +66,14 @@ class NotificationService {
     // 2. Fetch Recipient Device Tokens for Push Delivery
     try {
       let tokens = [];
+      // Which frontend portal a notification click should open (sales app vs admin panel)
+      let portal = targetRole === "salesperson" ? "sales" : "admin";
       if (recipientId) {
-        const user = await User.findById(recipientId).select("fcmTokens");
+        const user = await User.findById(recipientId).select("fcmTokens role");
         if (user && user.fcmTokens) {
           tokens = user.fcmTokens;
         }
+        if (user) portal = user.role === "salesperson" ? "sales" : "admin";
       } else if (targetRole) {
         const roleQuery = targetRole === "all" ? {} : { role: targetRole };
         const users = await User.find(roleQuery).select("fcmTokens");
@@ -90,7 +93,7 @@ class NotificationService {
           tokens,
           title,
           body: message,
-          data: { ...data, type, notificationId: notificationRecord._id.toString() },
+          data: { ...data, type, portal, notificationId: notificationRecord._id.toString() },
           userId: recipientId,
         });
       }

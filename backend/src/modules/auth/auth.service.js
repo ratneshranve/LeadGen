@@ -5,8 +5,18 @@ const smsService = require("../../utils/smsProvider/SmsService");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const logger = require("../../utils/logger");
 
 const config = require("../../../config/env");
+
+// Which backend roles may sign in to each frontend portal
+const PORTAL_ROLES = {
+  admin: ["admin", "manager"],
+  sales: ["salesperson"],
+};
+
+/** Any Indian mobile format (+91..., 91..., spaces) -> its last 10 digits */
+const toTenDigitPhone = (phone) => String(phone || "").replace(/\D/g, "").slice(-10);
 
 class AuthService {
   /**
@@ -89,6 +99,74 @@ class AuthService {
    * Request OTP for Phone Authentication / Password Reset
    */
   async sendOtp(phone) {
+    return this._issueOtp(phone);
+  }
+
+  /**
+   * Phone + OTP login, step 1: send an OTP to a registered, active user of this portal
+   */
+  async sendLoginOtp(phone, portal) {
+    const tenDigitPhone = toTenDigitPhone(phone);
+    await this._findPortalUser(tenDigitPhone, portal);
+    return this._issueOtp(tenDigitPhone);
+  }
+
+  /**
+   * Phone + OTP login, step 2: verify the OTP and issue tokens
+   */
+  async verifyLoginOtp(phone, otp, portal, fcmToken = null) {
+    const tenDigitPhone = toTenDigitPhone(phone);
+    const user = await this._findPortalUser(tenDigitPhone, portal);
+    await this._checkOtp(tenDigitPhone, otp);
+    await OtpVerification.deleteOne({ phone: tenDigitPhone });
+
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
+
+    const updateQuery = { $push: { refreshTokens: refreshToken } };
+    if (fcmToken && !user.fcmTokens.includes(fcmToken)) {
+      updateQuery.$addToSet = { fcmTokens: fcmToken };
+    }
+    await User.findByIdAndUpdate(user._id, updateQuery);
+
+    const userObj = user.toObject();
+    delete userObj.passwordHash;
+    delete userObj.refreshTokens;
+
+    return { user: userObj, accessToken, refreshToken };
+  }
+
+  /**
+   * Find the active user with this mobile number who may use the given portal.
+   * Stored phones may be "+91XXXXXXXXXX" or plain 10 digits, so match on the last 10.
+   */
+  async _findPortalUser(tenDigitPhone, portal) {
+    if (!/^[6-9]\d{9}$/.test(tenDigitPhone)) {
+      throw new ApiError(400, "Please enter a valid 10-digit mobile number.");
+    }
+
+    const user = await User.findOne({ phone: { $regex: `${tenDigitPhone}$` } });
+    if (!user) {
+      throw new ApiError(404, "No account is registered with this mobile number.");
+    }
+    if (user.status !== "active") {
+      throw new ApiError(403, "Your account has been deactivated. Please contact your System Administrator.");
+    }
+    if (!PORTAL_ROLES[portal].includes(user.role)) {
+      throw new ApiError(
+        403,
+        portal === "admin"
+          ? "Access denied: Only Admin accounts can sign in here. Please use the Sales App Login."
+          : "Notice: This is an Admin account. Please use the Admin Portal Login."
+      );
+    }
+    return user;
+  }
+
+  /**
+   * Generate, store and SMS a new OTP (with resend cooldown)
+   */
+  async _issueOtp(phone) {
     const existingOtpRecord = await OtpVerification.findOne({ phone });
 
     // 1. Resend Protection: 60 Seconds Cooldown
@@ -100,8 +178,9 @@ class AuthService {
       }
     }
 
-    // 2. Generate 6-digit OTP
-    const rawOtp = crypto.randomInt(100000, 999999).toString();
+    // 2. Generate 6-digit OTP (or the fixed test OTP when USE_DEFAULT_OTP=true)
+    const useDefaultOtp = config.otp.useDefault;
+    const rawOtp = useDefaultOtp ? config.otp.defaultOtp : crypto.randomInt(100000, 999999).toString();
     const otpHash = await bcrypt.hash(rawOtp, 10);
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 Minutes Expiration
 
@@ -118,8 +197,18 @@ class AuthService {
       { upsert: true, new: true }
     );
 
-    // 4. Dispatch SMS via Provider Interface
-    await smsService.sendOtp(phone, rawOtp);
+    // 4. Dispatch SMS via Provider Interface. On failure, drop the record so the
+    //    user can retry immediately instead of waiting out the resend cooldown.
+    if (useDefaultOtp) {
+      logger.warn(`[OTP] USE_DEFAULT_OTP=true - SMS skipped for ${phone}, default OTP accepted.`);
+      return { phone, expiresInSeconds: 300, resendCooldownSeconds: 60 };
+    }
+    try {
+      await smsService.sendOtp(phone, rawOtp);
+    } catch (err) {
+      await OtpVerification.deleteOne({ phone });
+      throw new ApiError(502, `Could not send the OTP SMS. Please try again. (${err.message})`);
+    }
 
     return {
       phone,
@@ -132,32 +221,7 @@ class AuthService {
    * Verify OTP and Login / Authenticate Phone
    */
   async verifyOtp(phone, otp) {
-    const otpRecord = await OtpVerification.findOne({ phone });
-
-    if (!otpRecord) {
-      throw new ApiError(400, "OTP has expired or was not requested for this phone number.");
-    }
-
-    // 1. Check Max Attempt Limits (Max 5 Failed Attempts)
-    if (otpRecord.attempts >= 5) {
-      await OtpVerification.deleteOne({ phone });
-      throw new ApiError(429, "Too many failed OTP attempts. Maximum limit exceeded. Please request a new OTP.");
-    }
-
-    // 2. Check Expiration
-    if (new Date() > new Date(otpRecord.expiresAt)) {
-      await OtpVerification.deleteOne({ phone });
-      throw new ApiError(400, "OTP has expired. Please request a new OTP.");
-    }
-
-    // 3. Compare OTP Hash
-    const isMatch = await bcrypt.compare(otp, otpRecord.otpHash);
-    if (!isMatch) {
-      otpRecord.attempts += 1;
-      await otpRecord.save();
-      const remainingAttempts = 5 - otpRecord.attempts;
-      throw new ApiError(400, `Invalid OTP. ${remainingAttempts} attempt(s) remaining.`);
-    }
+    const otpRecord = await this._checkOtp(phone, otp);
 
     // 4. Mark as Verified
     otpRecord.isVerified = true;
@@ -194,6 +258,40 @@ class AuthService {
       isVerified: true,
       userExists: true,
     };
+  }
+
+  /**
+   * Validate an OTP against the stored hash (attempt limit + expiry). Returns the record.
+   */
+  async _checkOtp(phone, otp) {
+    const otpRecord = await OtpVerification.findOne({ phone });
+
+    if (!otpRecord) {
+      throw new ApiError(400, "OTP has expired or was not requested for this phone number.");
+    }
+
+    // 1. Check Max Attempt Limits (Max 5 Failed Attempts)
+    if (otpRecord.attempts >= 5) {
+      await OtpVerification.deleteOne({ phone });
+      throw new ApiError(429, "Too many failed OTP attempts. Maximum limit exceeded. Please request a new OTP.");
+    }
+
+    // 2. Check Expiration
+    if (new Date() > new Date(otpRecord.expiresAt)) {
+      await OtpVerification.deleteOne({ phone });
+      throw new ApiError(400, "OTP has expired. Please request a new OTP.");
+    }
+
+    // 3. Compare OTP Hash
+    const isMatch = await bcrypt.compare(otp, otpRecord.otpHash);
+    if (!isMatch) {
+      otpRecord.attempts += 1;
+      await otpRecord.save();
+      const remainingAttempts = 5 - otpRecord.attempts;
+      throw new ApiError(400, `Invalid OTP. ${remainingAttempts} attempt(s) remaining.`);
+    }
+
+    return otpRecord;
   }
 
   /**

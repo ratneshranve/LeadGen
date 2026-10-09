@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { authApi } from "../api/authApi";
+import { enablePushNotifications, disablePushNotifications } from "../lib/pushNotifications";
 import {
   mockRegisterSalesperson,
   mockUpdateUserProfile,
@@ -79,6 +80,17 @@ export const AuthProvider = ({ children }) => {
     }
   }, [salesUser]);
 
+  // Register this browser for push notifications whenever a portal session exists
+  // (covers fresh logins and sessions restored on page load; repeat calls are idempotent).
+  const adminUserId = adminUser?.id;
+  const salesUserId = salesUser?.id;
+  useEffect(() => {
+    if (adminUserId) enablePushNotifications("admin");
+  }, [adminUserId]);
+  useEffect(() => {
+    if (salesUserId) enablePushNotifications("sales");
+  }, [salesUserId]);
+
   // If a token refresh ultimately fails (client.js), force that portal's session out.
   useEffect(() => {
     const handleExpired = (e) => {
@@ -130,6 +142,26 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Phone + OTP login, step 1 (portal: "admin" | "sales")
+  const sendLoginOtp = (phone, portal) => authApi.sendLoginOtp(phone, { portal });
+
+  // Phone + OTP login, step 2 - the backend only issues tokens to roles allowed on this portal
+  const verifyLoginOtp = async (phone, otp, portal, rememberMe = false) => {
+    setIsLoading(true);
+    try {
+      const { user } = await authApi.verifyLoginOtp(phone, otp, { portal, persist: rememberMe });
+      const authenticatedUser = normalizeUser(user);
+      if (portal === "sales") {
+        setSalesUser(authenticatedUser);
+        return { success: true, user: authenticatedUser, redirectUrl: "/sales/dashboard" };
+      }
+      setAdminUser(authenticatedUser);
+      return { success: true, user: authenticatedUser, redirectUrl: "/admin/dashboard" };
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // General Login (dispatches based on active path)
   const login = async (email, password, rememberMe = false) => {
     if (location.pathname.startsWith("/sales")) {
@@ -139,14 +171,19 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Admin Logout Handler
+  // (the device token is removed first, while the session is still authenticated)
   const adminLogout = () => {
-    authApi.logout("admin").catch(() => {});
+    disablePushNotifications("admin")
+      .finally(() => authApi.logout("admin"))
+      .catch(() => {});
     setAdminUser(null);
   };
 
   // Sales Logout Handler
   const salesLogout = () => {
-    authApi.logout("sales").catch(() => {});
+    disablePushNotifications("sales")
+      .finally(() => authApi.logout("sales"))
+      .catch(() => {});
     setSalesUser(null);
   };
 
@@ -207,6 +244,8 @@ export const AuthProvider = ({ children }) => {
         logout,
         adminLogin,
         salesLogin,
+        sendLoginOtp,
+        verifyLoginOtp,
         adminLogout,
         salesLogout,
         createSalespersonAccount,

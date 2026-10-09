@@ -39,7 +39,9 @@
   </div>
 
   <script>
-    const API_BASE = "http://localhost:5000/api/v1";
+    // Automatically detects ?api= URL param, stored backend URL, or defaults to localhost
+    const urlParams = new URLSearchParams(window.location.search);
+    const API_BASE = urlParams.get("api") || localStorage.getItem("LEADGEN_API_URL") || "http://localhost:5000/api/v1";
     const form = document.getElementById("leadForm");
     const btn = document.getElementById("submitBtn");
     const msg = document.getElementById("msg");

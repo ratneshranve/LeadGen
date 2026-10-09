@@ -13,6 +13,28 @@ export const authApi = {
     return data;
   },
 
+  // Phone + OTP login, step 1 - SMS an OTP to a registered user of this portal
+  sendLoginOtp: async (phone, { portal } = {}) => {
+    const activePortal = portal || getPortal();
+    return apiClient.post(
+      "/auth/login/send-otp",
+      { phone, portal: activePortal },
+      { auth: false, portal: activePortal }
+    );
+  },
+
+  // Phone + OTP login, step 2 - verify the OTP and store access/refresh tokens
+  verifyLoginOtp: async (phone, otp, { portal, persist = false } = {}) => {
+    const activePortal = portal || getPortal();
+    const data = await apiClient.post(
+      "/auth/login/verify-otp",
+      { phone, otp, portal: activePortal },
+      { auth: false, portal: activePortal }
+    );
+    setTokens(activePortal, data, persist);
+    return data;
+  },
+
   // Get current user profile (validates the stored access token)
   getMe: async (portal) => apiClient.get("/auth/me", { portal }),
 
