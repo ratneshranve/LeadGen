@@ -123,7 +123,7 @@ export const AddSalesEmployeeModal = ({ isOpen, onClose, onAddUser }) => {
         {/* Top Header Card */}
         <div
           style={{
-            background: "linear-gradient(135deg, #ff3b19 0%, #e63010 100%)",
+            background: "linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%)",
             color: "#ffffff",
             padding: "20px 24px",
             display: "flex",
@@ -182,11 +182,11 @@ export const AddSalesEmployeeModal = ({ isOpen, onClose, onAddUser }) => {
 
             {/* Full Name */}
             <div className="form-group">
-              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                 Full Name <span style={{ color: "#ef4444" }}>*</span>
               </label>
               <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                <User size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                <User size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                 <input
                   type="text"
                   name="name"
@@ -204,11 +204,11 @@ export const AddSalesEmployeeModal = ({ isOpen, onClose, onAddUser }) => {
             {/* Phone & Email Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Phone Number <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Phone size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Phone size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <input
                     type="tel"
                     name="phone"
@@ -223,11 +223,11 @@ export const AddSalesEmployeeModal = ({ isOpen, onClose, onAddUser }) => {
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Email Address <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Mail size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Mail size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <input
                     type="email"
                     name="email"
@@ -245,11 +245,11 @@ export const AddSalesEmployeeModal = ({ isOpen, onClose, onAddUser }) => {
             {/* Date of Birth & Password Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Date of Birth (DOB)
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Calendar size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Calendar size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <input
                     type="date"
                     name="dob"
@@ -262,11 +262,11 @@ export const AddSalesEmployeeModal = ({ isOpen, onClose, onAddUser }) => {
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Password <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Key size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Key size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <input
                     type="password"
                     name="password"
@@ -284,11 +284,11 @@ export const AddSalesEmployeeModal = ({ isOpen, onClose, onAddUser }) => {
             {/* Account Status & Locked Role Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Account Status
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Shield size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Shield size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <select
                     name="status"
                     className="crm-input select-input"
@@ -304,13 +304,13 @@ export const AddSalesEmployeeModal = ({ isOpen, onClose, onAddUser }) => {
 
               {/* Locked Role Field */}
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
-                  Role <span style={{ color: "#a3aed0", fontSize: "0.725rem" }}>(Locked)</span>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
+                  Role <span style={{ color: "var(--text-faint)", fontSize: "0.725rem" }}>(Locked)</span>
                 </label>
                 <div
                   style={{
                     height: "42px",
-                    backgroundColor: "#f4f7fe",
+                    backgroundColor: "var(--bg-subtle)",
                     borderRadius: "10px",
                     border: "1px solid #e2e8f0",
                     display: "flex",
@@ -320,8 +320,8 @@ export const AddSalesEmployeeModal = ({ isOpen, onClose, onAddUser }) => {
                     cursor: "not-allowed"
                   }}
                 >
-                  <Lock size={15} color="#ff3b19" />
-                  <span style={{ fontSize: "0.825rem", fontWeight: 700, color: "#ff3b19" }}>
+                  <Lock size={15} color="var(--brand)" />
+                  <span style={{ fontSize: "0.825rem", fontWeight: 700, color: "var(--brand)" }}>
                     Sales Employee
                   </span>
                 </div>

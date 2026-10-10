@@ -3,10 +3,13 @@
 import { cn } from "../../lib/utils";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { X } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const SidebarContext = createContext(undefined);
+
+const RAIL_WIDTH = 76;
+const OPEN_WIDTH = 248;
 
 export const useSidebar = () => {
   const context = useContext(SidebarContext);
@@ -56,110 +59,108 @@ export const SidebarBody = (props) => {
   );
 };
 
+// Navy icon rail. The rail keeps a fixed footprint in the layout and expands
+// over the page on hover, so content never reflows while browsing the menu.
 export const DesktopSidebar = ({ className, children, ...props }) => {
   const { open, setOpen, animate } = useSidebar();
   return (
-    <motion.div
-      className={cn(
-        "h-screen px-3 py-4 hidden md:flex md:flex-col bg-[#141416] text-white border-r border-white/10 w-[280px] flex-shrink-0 sticky top-0 z-40 overflow-y-auto select-none [overscroll-behavior:contain] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0",
-        className
-      )}
-      animate={{
-        width: animate ? (open ? "280px" : "70px") : "280px",
-      }}
-      transition={{
-        duration: 0.3,
-        ease: "easeInOut",
-      }}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      {...props}
-    >
-      {children}
-    </motion.div>
+    <div className="hidden md:block flex-shrink-0 sticky top-0 h-screen z-[90]" style={{ width: RAIL_WIDTH }}>
+      <motion.div
+        className={cn(
+          "admin-rail h-screen px-3 py-4 flex flex-col text-white overflow-y-auto overflow-x-hidden select-none [overscroll-behavior:contain] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+          open && "admin-rail--open",
+          className
+        )}
+        initial={false}
+        animate={{
+          width: animate ? (open ? OPEN_WIDTH : RAIL_WIDTH) : OPEN_WIDTH,
+        }}
+        transition={{ type: "spring", stiffness: 380, damping: 38 }}
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+        {...props}
+      >
+        {children}
+      </motion.div>
+    </div>
   );
 };
 
+// Mobile drawer (opened from the header's menu button).
 export const MobileSidebar = ({ className, children, ...props }) => {
   const { open, setOpen, openMobile, setOpenMobile } = useSidebar();
   const isMobileOpen = openMobile !== undefined ? openMobile : open;
   const setIsMobileOpen = setOpenMobile || setOpen;
 
   return (
-    <div
-      className={cn(
-        "h-14 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-[#141416] text-white border-b border-white/10 w-full sticky top-0 z-50"
-      )}
-      {...props}
-    >
-      <div className="flex justify-between items-center z-20 w-full">
-        <span className="font-bold text-sm tracking-tight text-white">LeadGen</span>
-        <Menu
-          className="text-white cursor-pointer"
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-        />
-      </div>
-      <AnimatePresence>
-        {isMobileOpen && (
+    <AnimatePresence>
+      {isMobileOpen && (
+        <div className="md:hidden fixed inset-0 z-[100]" {...props}>
           <motion.div
-            initial={{ x: "-100%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: "-100%", opacity: 0 }}
-            transition={{
-              duration: 0.3,
-              ease: "easeInOut",
-            }}
+            className="absolute inset-0 bg-[rgba(2,20,53,0.55)] backdrop-blur-[3px]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsMobileOpen(false)}
+          />
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ type: "spring", stiffness: 360, damping: 36 }}
             className={cn(
-              "fixed h-full w-full inset-0 bg-[#141416] text-white p-6 z-[100] flex flex-col justify-between overflow-y-auto",
+              "admin-rail admin-rail--open absolute inset-y-0 left-0 w-[284px] max-w-[86vw] text-white p-5 flex flex-col justify-between overflow-y-auto",
               className
             )}
           >
-            <div
-              className="absolute right-6 top-6 z-50 text-white cursor-pointer p-2 hover:bg-white/10 rounded-full transition"
+            <button
+              type="button"
+              aria-label="Close menu"
+              className="absolute right-4 top-4 z-50 text-white/80 p-2 hover:bg-white/10 rounded-full transition"
               onClick={() => setIsMobileOpen(false)}
             >
-              <X size={20} />
-            </div>
+              <X size={18} />
+            </button>
             {children}
           </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 };
 
 export const SidebarLink = ({ link, className, onClick, ...props }) => {
-  const { open, animate } = useSidebar();
+  const { open, animate, openMobile } = useSidebar();
   const IconComponent = link.icon;
   const linkPath = link.href || link.path || "#";
+  const showLabel = !animate || open || openMobile;
 
   return (
     <NavLink
       to={linkPath}
       onClick={onClick}
+      title={link.label}
       className={({ isActive }) =>
-        cn(
-          "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group/sidebar text-white/70 hover:text-white hover:bg-white/10",
-          (isActive || link.isActive) && "bg-[#ff3b19] !text-white font-bold shadow-lg shadow-[#ff3b19]/30",
-          className
-        )
+        cn("admin-rail-link group/sidebar", (isActive || link.isActive) && "is-active", className)
       }
       {...props}
     >
-      <div className="flex-shrink-0 flex items-center justify-center w-6 h-6">
+      <span className="admin-rail-icon">
         {React.isValidElement(IconComponent) ? (
           IconComponent
         ) : IconComponent ? (
-          <IconComponent size={19} />
+          <IconComponent size={19} strokeWidth={1.75} />
         ) : null}
-      </div>
+      </span>
       <motion.span
+        initial={false}
         animate={{
-          display: animate ? (open ? "inline-block" : "none") : "inline-block",
-          opacity: animate ? (open ? 1 : 0) : 1,
+          opacity: showLabel ? 1 : 0,
+          x: showLabel ? 0 : -6,
         }}
         transition={{ duration: 0.2 }}
-        className="text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-nowrap overflow-hidden text-ellipsis !p-0 !m-0"
+        className="admin-rail-label"
+        style={{ pointerEvents: showLabel ? "auto" : "none" }}
       >
         {link.label}
       </motion.span>

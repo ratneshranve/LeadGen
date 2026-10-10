@@ -17,7 +17,7 @@
   border: 1px solid rgba(226, 232, 240, 0.8);
   border-radius: var(--radius-lg, 20px);
   padding: 40px 36px;
-  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  box-shadow: 0px 18px 40px rgb(var(--ink-rgb) / 0.12);
   display: flex;
   flex-direction: column;
 }
@@ -35,12 +35,12 @@
 .login-logo-box {
   width: 54px;
   height: 54px;
-  background: #ff3b19;
+  background: var(--brand);
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(255, 59, 25, 0.3);
+  box-shadow: var(--shadow-sm);
 }
 
 .login-brand-title {
@@ -53,14 +53,14 @@
 .login-brand-title .name {
   font-size: 1.35rem;
   font-weight: 800;
-  color: #1b2559;
+  color: var(--text-main);
 }
 
 .login-brand-title .badge {
   font-size: 0.65rem;
   font-weight: 700;
-  color: #ff3b19;
-  background-color: #fff1ee;
+  color: var(--brand);
+  background-color: var(--brand-soft);
   padding: 2px 8px;
   border-radius: 9999px;
 }
@@ -73,12 +73,12 @@
 .login-title {
   font-size: 1.5rem;
   font-weight: 800;
-  color: #1b2559;
+  color: var(--text-main);
 }
 
 .login-subtitle {
   font-size: 0.85rem;
-  color: #a3aed0;
+  color: var(--text-faint);
   margin-top: 4px;
 }
 
@@ -117,12 +117,12 @@
 .forgot-pass-link {
   font-size: 0.775rem;
   font-weight: 700;
-  color: #ff3b19;
+  color: var(--brand);
   text-decoration: none;
 }
 
 .forgot-pass-link:hover {
-  color: #e63010;
+  color: var(--brand-hover);
   text-decoration: underline;
 }
 
@@ -135,7 +135,7 @@
 .field-icon {
   position: absolute;
   left: 14px;
-  color: #a3aed0;
+  color: var(--text-faint);
   pointer-events: none;
 }
 
@@ -146,8 +146,8 @@
 }
 
 .crm-input.icon-padded:focus {
-  border-color: #ff3b19;
-  box-shadow: 0 0 0 3px rgba(255, 59, 25, 0.15);
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgb(var(--brand-rgb) / 0.15);
 }
 
 .crm-input.pass-padded {
@@ -159,7 +159,7 @@
   right: 12px;
   background: none;
   border: none;
-  color: #a3aed0;
+  color: var(--text-faint);
   cursor: pointer;
   padding: 4px;
   display: flex;
@@ -167,7 +167,7 @@
 }
 
 .toggle-password-btn:hover {
-  color: #1b2559;
+  color: var(--text-main);
 }
 
 .login-options-row {
@@ -182,7 +182,7 @@
   align-items: center;
   gap: 8px;
   font-size: 0.8rem;
-  color: #7090b0;
+  color: var(--text-muted);
   cursor: pointer;
 }
 
@@ -194,7 +194,7 @@
   font-weight: 700;
   font-size: 0.925rem;
   margin-top: 8px;
-  background: #ff3b19;
+  background: var(--brand);
   color: #ffffff;
   border: none;
   border-radius: var(--radius-md, 14px);
@@ -204,13 +204,13 @@
   justify-content: center;
   gap: 8px;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 14px rgba(255, 59, 25, 0.3);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-signin-aqua:hover,
 .btn-signin-submit:hover {
   background: #2b54e6;
-  box-shadow: 0 6px 18px rgba(52, 97, 253, 0.4);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-signin-aqua:disabled,

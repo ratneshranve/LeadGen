@@ -70,8 +70,8 @@ export const SalespersonWorkload = ({ repsWorkload }) => {
       {/* Top Header Row */}
       <div className="card-header-flex" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
         <div>
-          <h3 className="section-title" style={{ fontSize: "1.1rem", fontWeight: 800, color: "#141416", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
-            <ShieldCheck size={20} className="text-indigo" color="#ff3b19" /> Sales Employee Workload Table
+          <h3 className="section-title" style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--ink)", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
+            <ShieldCheck size={20} className="text-indigo" color="var(--brand)" /> Sales Employee Workload Table
           </h3>
           <span className="section-subtext" style={{ fontSize: "0.8rem", color: "#64748b", margin: "2px 0 0 0" }}>
             Capacity distribution and lead workflow tracking across team ({filteredAndSortedReps.length} sales employees)
@@ -117,13 +117,13 @@ export const SalespersonWorkload = ({ repsWorkload }) => {
         <table className="crm-table workload-table">
           <thead style={{ backgroundColor: "#f8fafc", borderBottom: "1px solid #cbd5e1" }}>
             <tr>
-              <th style={{ width: "240px", padding: "12px 16px", textAlign: "left", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>SALES EMPLOYEE</th>
-              <th style={{ width: "130px", padding: "12px 16px", textAlign: "center", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>ASSIGNED LEADS</th>
-              <th style={{ width: "120px", padding: "12px 16px", textAlign: "center", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>ACTIVE LEADS</th>
-              <th style={{ width: "120px", padding: "12px 16px", textAlign: "center", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>FOLLOW-UPS</th>
-              <th style={{ width: "120px", padding: "12px 16px", textAlign: "center", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>CONVERTED</th>
-              <th style={{ width: "240px", padding: "12px 16px", textAlign: "left", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>WORKLOAD LEVEL</th>
-              <th style={{ width: "100px", padding: "12px 16px", textAlign: "center", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>STATUS</th>
+              <th style={{ width: "240px", padding: "12px 16px", textAlign: "left", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>Sales Employee</th>
+              <th style={{ width: "130px", padding: "12px 16px", textAlign: "center", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>Assigned Leads</th>
+              <th style={{ width: "120px", padding: "12px 16px", textAlign: "center", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>Active Leads</th>
+              <th style={{ width: "120px", padding: "12px 16px", textAlign: "center", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>Follow-ups</th>
+              <th style={{ width: "120px", padding: "12px 16px", textAlign: "center", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>Converted</th>
+              <th style={{ width: "240px", padding: "12px 16px", textAlign: "left", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>Workload Level</th>
+              <th style={{ width: "100px", padding: "12px 16px", textAlign: "center", fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -141,14 +141,14 @@ export const SalespersonWorkload = ({ repsWorkload }) => {
                             width: "38px",
                             height: "38px",
                             borderRadius: "50%",
-                            background: "linear-gradient(135deg, #27272a 0%, #141416 100%)",
+                            background: "linear-gradient(135deg, #27272a 0%, var(--ink) 100%)",
                             color: "#ffffff",
                             fontWeight: 800,
                             fontSize: "0.85rem",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            boxShadow: "0 2px 6px rgba(20, 20, 22, 0.18)",
+                            boxShadow: "var(--shadow-sm)",
                             border: "1px solid rgba(255, 255, 255, 0.1)",
                             flexShrink: 0
                           }}
@@ -174,10 +174,10 @@ export const SalespersonWorkload = ({ repsWorkload }) => {
                           padding: "3px 10px",
                           fontSize: "0.85rem",
                           fontWeight: 800,
-                          backgroundColor: "#fff1ee",
-                          color: "#ff3b19",
+                          backgroundColor: "var(--brand-soft)",
+                          color: "var(--brand)",
                           borderRadius: "12px",
-                          border: "1px solid #ffd2c7"
+                          border: "1px solid var(--brand-border)"
                         }}
                       >
                         {rep.assigned} leads
@@ -185,7 +185,7 @@ export const SalespersonWorkload = ({ repsWorkload }) => {
                     </td>
 
                     {/* Active Leads */}
-                    <td style={{ padding: "12px 16px", textAlign: "center", fontWeight: 700, color: "#ea580c", fontSize: "0.875rem" }}>
+                    <td style={{ padding: "12px 16px", textAlign: "center", fontWeight: 700, color: "var(--accent-2)", fontSize: "0.875rem" }}>
                       {rep.active}
                     </td>
 
@@ -204,14 +204,14 @@ export const SalespersonWorkload = ({ repsWorkload }) => {
                       <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", fontWeight: 700, color: "#334155" }}>
                           <span>Workload Level</span>
-                          <span style={{ color: "#ff3b19" }}>{percentage}% ({rep.assigned}/{maxCapacity})</span>
+                          <span style={{ color: "var(--brand)" }}>{percentage}% ({rep.assigned}/{maxCapacity})</span>
                         </div>
-                        <div style={{ width: "100%", height: "8px", backgroundColor: "#ece7dc", borderRadius: "4px", overflow: "hidden" }}>
+                        <div style={{ width: "100%", height: "8px", backgroundColor: "var(--border-color)", borderRadius: "4px", overflow: "hidden" }}>
                           <div
                             style={{
                               width: `${percentage}%`,
                               height: "100%",
-                              backgroundColor: "#ff3b19",
+                              backgroundColor: "var(--brand)",
                               borderRadius: "4px",
                               transition: "width 0.3s ease"
                             }}

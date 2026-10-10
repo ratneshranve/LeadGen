@@ -1,0 +1,223 @@
+/* ==========================================================================
+   Motion layer
+   Admin  (video 1): perspective tilt-in of the workspace, dropdowns that
+          unfold from their trigger, slide-in filter drawers, modals that rise
+          and settle, checkbox rows that tint.
+   Sales  (video 2): floating hero art, logo marquee, cards that flood with
+          lime on hover, staggered rise of sections while scrolling, a soft
+          cursor follower.
+   Keyframe names used by existing inline styles (modalFadeIn, fadeIn,
+   slideInRight, dropdownFadeIn, customSelectFadeIn ...) are defined here.
+   ========================================================================== */
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.965); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-6px) scaleY(0.94); }
+  to   { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+
+@keyframes customSelectFadeIn {
+  from { opacity: 0; transform: translateY(-6px) scaleY(0.94); }
+  to   { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+
+@keyframes toastSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes skeletonLoading {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes lg-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes lg-tilt-in {
+  from { opacity: 0; transform: perspective(1400px) rotateX(9deg) rotateY(-7deg) translateY(28px) scale(0.97); }
+  to   { opacity: 1; transform: perspective(1400px) rotateX(0) rotateY(0) translateY(0) scale(1); }
+}
+
+@keyframes lg-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-12px) rotate(-2.5deg); }
+}
+
+@keyframes lg-float-alt {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-7px) rotate(3deg); }
+}
+
+@keyframes lg-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes lg-pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgb(var(--brand-rgb) / 0.45); }
+  70%  { box-shadow: 0 0 0 8px rgb(var(--brand-rgb) / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(var(--brand-rgb) / 0); }
+}
+
+@keyframes lg-shine {
+  from { transform: translateX(-120%) skewX(-18deg); }
+  to   { transform: translateX(220%) skewX(-18deg); }
+}
+
+@keyframes lg-draw {
+  from { stroke-dashoffset: var(--lg-dash, 400); }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes lg-page-sales {
+  from { opacity: 0; transform: translateY(26px); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: none; }
+}
+
+/* Route entrances (see components/motion/PageTransition.jsx) */
+.lg-page-admin {
+  transform-origin: 50% 0%;
+  animation: lg-tilt-in 0.8s var(--ease-out-expo) backwards;
+}
+.lg-page-sales {
+  animation: lg-page-sales 0.85s var(--ease-out-expo) backwards;
+}
+
+.spin-icon {
+  animation: spin 0.9s linear infinite;
+  color: var(--brand);
+}
+
+/* Entrance helpers --------------------------------------------------------- */
+.lg-rise {
+  animation: lg-rise 0.7s var(--ease-out-expo) backwards;
+}
+
+.lg-stagger > * {
+  animation: lg-rise 0.7s var(--ease-out-expo) backwards;
+}
+.lg-stagger > *:nth-child(1) { animation-delay: 0.04s; }
+.lg-stagger > *:nth-child(2) { animation-delay: 0.1s; }
+.lg-stagger > *:nth-child(3) { animation-delay: 0.16s; }
+.lg-stagger > *:nth-child(4) { animation-delay: 0.22s; }
+.lg-stagger > *:nth-child(5) { animation-delay: 0.28s; }
+.lg-stagger > *:nth-child(6) { animation-delay: 0.34s; }
+.lg-stagger > *:nth-child(7) { animation-delay: 0.4s; }
+.lg-stagger > *:nth-child(n+8) { animation-delay: 0.46s; }
+
+/* Scroll reveal (driven by useReveal / <Reveal>) */
+.lg-reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+  transition-delay: var(--lg-delay, 0s);
+}
+.lg-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.lg-float {
+  animation: lg-float 6.5s ease-in-out infinite;
+}
+.lg-float-alt {
+  animation: lg-float-alt 5s ease-in-out infinite;
+}
+
+/* Marquee */
+.lg-marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.lg-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: lg-marquee var(--lg-marquee-speed, 32s) linear infinite;
+}
+.lg-marquee:hover .lg-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Hover shine sweep for primary CTAs */
+.lg-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.lg-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: translateX(-120%) skewX(-18deg);
+  pointer-events: none;
+  z-index: 1;
+}
+.lg-shine:hover::after {
+  animation: lg-shine 0.85s var(--ease-out-expo);
+}
+
+/* Dropdown menus unfold from their trigger (video 1 sort / date menus) */
+.dropdown-menu,
+.table-dropdown-menu,
+.kanban-card-dropdown,
+.custom-type-dropdown-menu,
+.search-results-overlay,
+.advanced-filters-popover {
+  transform-origin: top center;
+  animation: dropdownFadeIn 0.26s var(--ease-out-expo) backwards;
+}
+
+.dropdown-submenu {
+  animation: dropdownFadeIn 0.22s var(--ease-out-expo) backwards;
+}
+
+.advanced-filters-backdrop,
+.mobile-backdrop,
+.admin-sidebar-overlay,
+.modal-overlay {
+  animation: fadeIn 0.28s ease backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .lg-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

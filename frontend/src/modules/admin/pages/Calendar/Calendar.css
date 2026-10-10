@@ -26,9 +26,9 @@
 /* Toolbar Card */
 .calendar-toolbar-card {
   padding: 16px 20px;
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  border: 1.5px solid #fed7aa;
-  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.12);
+  background: var(--surface-gradient);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
   color: #0f172a;
 }
 
@@ -51,7 +51,7 @@
   height: 32px;
   border-radius: var(--radius-sm);
   background-color: #ffffff;
-  border: 1.5px solid #fed7aa;
+  border: 1px solid var(--border-color);
   color: #0f172a;
   display: flex;
   align-items: center;
@@ -61,8 +61,8 @@
 }
 
 .nav-arrow-btn:hover {
-  background-color: #ff3b19;
-  border-color: #ff3b19;
+  background-color: var(--brand);
+  border-color: var(--brand);
   color: #ffffff;
 }
 
@@ -89,7 +89,7 @@
   display: flex;
   align-items: center;
   background-color: #ffffff;
-  border: 1.5px solid #fed7aa;
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   padding: 3px;
   gap: 2px;
@@ -108,23 +108,23 @@
 }
 
 .view-btn.active {
-  background-color: #ff3b19;
+  background-color: var(--brand);
   color: #ffffff;
-  box-shadow: 0 2px 6px rgba(255, 59, 25, 0.3);
+  box-shadow: var(--shadow-sm);
 }
 
 .filter-toggle-btn.active {
-  background-color: #ff3b19;
+  background-color: var(--brand);
   color: #ffffff;
-  border-color: #ff3b19;
+  border-color: var(--brand);
 }
 
 /* Calendar Filters Card */
 .calendar-filters-card {
   padding: 16px;
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  border: 1.5px solid #fed7aa;
-  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.1);
+  background: var(--surface-gradient);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
   animation: fadeIn 0.2s ease-in-out;
 }
 
@@ -165,18 +165,18 @@
 
 /* 7-Column Month View Grid */
 .month-calendar-container {
-  background-color: #fff7ed;
-  border: 1.5px solid #fed7aa;
+  background-color: var(--surface-tint);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.12);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
 
 .month-grid-header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
-  border-bottom: 1.5px solid #fdba74;
+  background: var(--surface-gradient);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .day-name-cell {
@@ -187,7 +187,7 @@
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-right: 1px solid #fdba74;
+  border-right: 1px solid var(--line-tint-strong);
 }
 
 .day-name-cell:last-child {
@@ -197,12 +197,12 @@
 .month-grid-body {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  background-color: #fed7aa;
+  background-color: var(--line-tint);
   gap: 1px;
 }
 
 .month-day-cell {
-  background-color: #fff7ed;
+  background-color: var(--surface-tint);
   min-height: 110px;
   padding: 8px;
   display: flex;
@@ -210,22 +210,22 @@
   gap: 6px;
   transition: background-color var(--transition-fast);
   position: relative;
-  border: 1px solid #fed7aa;
+  border: 1px solid var(--line-tint);
 }
 
 .month-day-cell:hover {
-  background-color: #ffedd5;
+  background-color: var(--surface-tint-2);
 }
 
 .month-day-cell.other-month {
-  background-color: #fffaf5;
+  background-color: var(--surface-tint);
   opacity: 0.65;
 }
 
 .month-day-cell.today-cell {
-  background-color: #fff1ee;
-  border: 2px solid #ff3b19;
-  box-shadow: inset 0 0 0 1px #ff3b19;
+  background-color: var(--brand-soft);
+  border: 2px solid var(--brand);
+  box-shadow: inset 0 0 0 1px var(--brand);
 }
 
 .day-cell-top {
@@ -295,8 +295,8 @@
   box-shadow: var(--shadow-xs);
 }
 
-.calendar-event-card.type-call { border-left-color: #ff3b19; background-color: #fff1ee; }
-.calendar-event-card.type-meeting { border-left-color: #ea580c; background-color: #fff7ed; }
+.calendar-event-card.type-call { border-left-color: var(--brand); background-color: var(--brand-soft); }
+.calendar-event-card.type-meeting { border-left-color: var(--accent-2); background-color: var(--accent-2-soft); }
 .calendar-event-card.type-whatsapp { border-left-color: #16a34a; background-color: #f0fdf4; }
 .calendar-event-card.type-email { border-left-color: #9333ea; background-color: #faf5ff; }
 
@@ -444,9 +444,9 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  border: 1.5px solid #fed7aa;
-  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.12);
+  background: var(--surface-gradient);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
   color: #0f172a;
 }
 
@@ -455,7 +455,7 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 6px;
   padding-bottom: 10px;
-  border-bottom: 1px dashed #fed7aa;
+  border-bottom: 1px dashed var(--line-tint);
 }
 
 .mini-stat-pill {
@@ -465,7 +465,7 @@
   background-color: #ffffff;
   padding: 6px 4px;
   border-radius: var(--radius-sm);
-  border: 1px solid #fed7aa;
+  border: 1px solid var(--line-tint);
 }
 
 .mini-stat-pill .stat-num {

@@ -140,14 +140,14 @@ export function Pattern({
               <button
                 type="button"
                 onClick={onNavigateToUpdate}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-[#ff3b19] hover:bg-[#e63010] text-white font-bold text-xs sm:text-sm px-4 py-2.5 transition-all shadow-sm shadow-[#ff3b19]/25 active:scale-95 cursor-pointer"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-brand hover:bg-brand-hover text-white font-bold text-xs sm:text-sm px-4 py-2.5 transition-all shadow-sm shadow-brand/25 active:scale-95 cursor-pointer"
               >
                 <Edit3 className="size-4" /> Update Profile
               </button>
             </div>
 
             {/* Log Out Button (Short name: Log Out, only shown in Profile Tab) */}
-            <div className="pt-2.5 border-t border-[#ece7dc] mt-0.5">
+            <div className="pt-2.5 border-t border-line mt-0.5">
               <button
                 type="button"
                 onClick={onLogout}
@@ -174,7 +174,7 @@ export function Pattern({
             <div className="flex flex-col gap-2.5">
               <div>
                 <p className="mb-1 font-medium text-[11px] sm:text-xs text-slate-600">Current password status</p>
-                <div className="rounded-lg border border-[#ece7dc] bg-slate-50/80 px-2.5 py-1.5 text-xs sm:text-sm text-slate-500 flex items-center justify-between select-none">
+                <div className="rounded-lg border border-line bg-slate-50/80 px-2.5 py-1.5 text-xs sm:text-sm text-slate-500 flex items-center justify-between select-none">
                   <span>••••••••••••</span>
                   <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
                     Active & Encrypted
@@ -190,7 +190,7 @@ export function Pattern({
                     placeholder="Enter new password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full rounded-lg border border-[#ece7dc] bg-slate-50/50 px-2.5 py-1.5 pr-9 text-xs sm:text-sm text-slate-900 outline-none focus:border-[#ff3b19] focus:bg-white focus:ring-2 focus:ring-[#ff3b19]/20 transition-all"
+                    className="w-full rounded-lg border border-line bg-slate-50/50 px-2.5 py-1.5 pr-9 text-xs sm:text-sm text-slate-900 outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition-all"
                   />
                   <button
                     type="button"
@@ -210,7 +210,7 @@ export function Pattern({
                     placeholder="Confirm new password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full rounded-lg border border-[#ece7dc] bg-slate-50/50 px-2.5 py-1.5 pr-9 text-xs sm:text-sm text-slate-900 outline-none focus:border-[#ff3b19] focus:bg-white focus:ring-2 focus:ring-[#ff3b19]/20 transition-all"
+                    className="w-full rounded-lg border border-line bg-slate-50/50 px-2.5 py-1.5 pr-9 text-xs sm:text-sm text-slate-900 outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition-all"
                   />
                   <button
                     type="button"
@@ -227,7 +227,7 @@ export function Pattern({
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-[#ff3b19] hover:bg-[#e63010] text-white font-bold text-xs sm:text-sm px-4 py-2.5 transition-all shadow-sm shadow-[#ff3b19]/25 active:scale-95 cursor-pointer"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-brand hover:bg-brand-hover text-white font-bold text-xs sm:text-sm px-4 py-2.5 transition-all shadow-sm shadow-brand/25 active:scale-95 cursor-pointer"
               >
                 <LockIcon className="size-4" /> Update Password
               </button>
@@ -259,14 +259,14 @@ export function Pattern({
                   <div
                     key={item.key}
                     onClick={() => toggleNotif(item.key)}
-                    className="flex items-center justify-between rounded-lg border border-[#ece7dc] bg-white hover:bg-[#fff7ed]/50 px-3 py-2 transition-all cursor-pointer select-none"
+                    className="flex items-center justify-between rounded-lg border border-line bg-white hover:bg-[var(--surface-tint)] px-3 py-2 transition-all cursor-pointer select-none"
                   >
                     <span className="text-xs sm:text-sm font-medium text-slate-800">{item.label}</span>
 
                     {/* Interactive iOS/Shadcn Toggle Switch */}
                     <div
                       className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out ${
-                        isOn ? "bg-[#ff3b19]" : "bg-slate-300"
+                        isOn ? "bg-brand" : "bg-slate-300"
                       }`}
                     >
                       <span

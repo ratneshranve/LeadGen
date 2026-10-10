@@ -5,9 +5,10 @@ import {
   Search,
   Bell,
   Menu,
-  LogOut
+  LogOut,
+  HelpCircle,
+  ChevronRight
 } from "lucide-react";
-import { adminProfile } from "../../modules/admin/data/dashboardMockData";
 import { initialLeadsData } from "../../modules/admin/pages/Leads/data/leadsMockData";
 
 export const AdminHeader = ({ toggleMobileSidebar }) => {
@@ -18,6 +19,7 @@ export const AdminHeader = ({ toggleMobileSidebar }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearchOverlay, setShowSearchOverlay] = useState(false);
   const searchRef = useRef(null);
+  const searchInputRef = useRef(null);
 
   // Dynamic Header Title (Breadcrumb simplified to "Lead Management")
   const getHeaderDetails = () => {
@@ -29,14 +31,14 @@ export const AdminHeader = ({ toggleMobileSidebar }) => {
     if (path === "/admin/pipeline") return { title: "Pipeline" };
     if (path.startsWith("/admin/follow")) return { title: "Follow-ups" };
     if (path === "/admin/calendar") return { title: "Calendar" };
-    if (path.startsWith("/admin/team")) return { title: "Sales Employees" };
+    if (path.startsWith("/admin/team") || path.startsWith("/admin/sales-employee")) return { title: "Sales Employees" };
     if (path.startsWith("/admin/source") || path.startsWith("/admin/lead-source")) return { title: "Lead Sources" };
     if (path.startsWith("/admin/report")) return { title: "Reports & Analytics" };
-    if (path === "/admin/import-export") return { title: "Import / Export" };
+    if (path === "/admin/import-export" || path === "/admin/export") return { title: "Export Data" };
     if (path.startsWith("/admin/activit")) return { title: "Activity History" };
     if (path === "/admin/notifications") return { title: "Notifications" };
     if (path === "/admin/settings") return { title: "Settings" };
-    return { title: "Admin Dashboard" };
+    return { title: "Dashboard" };
   };
 
   const { title } = getHeaderDetails();
@@ -84,6 +86,23 @@ export const AdminHeader = ({ toggleMobileSidebar }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // "/" focuses the lead search from anywhere outside a text field
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey) return;
+      const tag = (e.target?.tagName || "").toLowerCase();
+      if (tag === "input" || tag === "textarea" || tag === "select" || e.target?.isContentEditable) return;
+      e.preventDefault();
+      searchInputRef.current?.focus();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  const displayName = user?.name || "Admin";
+  const initials = displayName.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase();
+  const roleLabel = user?.role === "MASTER_ADMIN" ? "Master admin" : "Administrator";
+
   return (
     <header className="admin-header">
       <div className="header-left">
@@ -95,17 +114,16 @@ export const AdminHeader = ({ toggleMobileSidebar }) => {
           <Menu size={20} />
         </button>
 
-        {/* Header Title & Clean "Lead Management" Subtitle (No trailing slashes) */}
         <div className="header-title-container">
-          <h1 className="header-title">{title}</h1>
-          <span className="crumb-active" style={{ fontSize: "0.75rem", color: "var(--primary-600)", fontWeight: 500 }}>
-            LeadGen
+          <span className="header-breadcrumb">
+            LeadGen <ChevronRight size={12} className="crumb-separator" /> <span className="crumb-active">{title}</span>
           </span>
+          <h1 className="header-title" key={title}>{title}</h1>
         </div>
       </div>
 
       <div className="header-right">
-        {/* Active Search Input with Live Results Overlay */}
+        {/* Live lead search */}
         <div className="header-search-wrapper" ref={searchRef} style={{ position: "relative" }}>
           <div className="header-search">
             <Search size={16} className="search-icon" />
@@ -118,11 +136,12 @@ export const AdminHeader = ({ toggleMobileSidebar }) => {
                 setShowSearchOverlay(true);
               }}
               onFocus={() => setShowSearchOverlay(true)}
+              ref={searchInputRef}
               className="search-input"
             />
+            <kbd className="search-kbd">/</kbd>
           </div>
 
-          {/* Active Search Dropdown Overlay */}
           {showSearchOverlay && searchQuery.trim().length > 0 && (
             <div className="search-results-overlay">
               <div className="search-results-header">
@@ -160,43 +179,50 @@ export const AdminHeader = ({ toggleMobileSidebar }) => {
           )}
         </div>
 
-        {/* Action Controls */}
         <div className="header-actions">
-          {/* Notification Bell (Clicking navigates directly to Notifications Page) */}
+          <button
+            className="icon-btn"
+            onClick={() => navigate("/admin/settings")}
+            title="Help & settings"
+          >
+            <HelpCircle size={18} strokeWidth={1.75} />
+          </button>
+
           <button
             className="icon-btn"
             onClick={() => navigate("/admin/notifications")}
             title="Notifications"
           >
-            <Bell size={19} />
+            <Bell size={18} strokeWidth={1.75} />
             {adminUnreadCount > 0 && (
-              <span className="notif-badge">{adminUnreadCount}</span>
+              <span className="notif-badge">{adminUnreadCount > 9 ? "9+" : adminUnreadCount}</span>
             )}
           </button>
 
-          {/* Admin Avatar Logo Only (Clicking opens Admin Settings) */}
+          <span className="header-divider" aria-hidden="true" />
+
           <button
             type="button"
-            className="icon-btn profile-avatar-only-btn"
+            className="profile-btn"
             onClick={() => navigate("/admin/settings")}
-            title="Admin Profile & Settings"
-            style={{ width: "40px", height: "40px", padding: 0, border: "none", background: "none", cursor: "pointer" }}
+            title="Admin profile & settings"
           >
-            <div className="avatar-wrapper" style={{ width: "38px", height: "38px" }}>
-              <span className="avatar-initials">
-                {user?.name ? user.name.split(" ").map((n) => n[0]).join("") : "RK"}
-              </span>
+            <span className="avatar-wrapper">
+              <span className="avatar-initials">{initials}</span>
               <span className="status-online" />
-            </div>
+            </span>
+            <span className="profile-info-text">
+              <span className="profile-name">{displayName}</span>
+              <span className="profile-role">{roleLabel}</span>
+            </span>
           </button>
 
-          {/* Visible Logout Button Right Next to Profile */}
           <button
             className="icon-btn logout-header-btn"
             onClick={handleLogout}
-            title="Sign Out"
+            title="Sign out"
           >
-            <LogOut size={18} color="#ef4444" />
+            <LogOut size={17} strokeWidth={1.75} />
           </button>
         </div>
       </div>

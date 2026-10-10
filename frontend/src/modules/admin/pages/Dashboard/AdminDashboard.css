@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  background: var(--surface-gradient);
   border: 1px solid var(--border-color);
   padding: 20px 24px;
   border-radius: var(--radius-md);
@@ -90,7 +90,7 @@
 .kpi-card:hover {
   border-color: #cbd5e1;
   transform: translateY(-3px);
-  box-shadow: 0px 22px 45px rgba(112, 144, 176, 0.16);
+  box-shadow: 0px 22px 45px rgb(var(--ink-rgb) / 0.16);
 }
 
 .kpi-top {
@@ -148,7 +148,7 @@
 .kpi-value {
   font-size: 1.65rem;
   font-weight: 800;
-  color: #1b2559;
+  color: var(--text-main);
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
@@ -230,7 +230,7 @@
 
 .tab-pills {
   display: flex;
-  background: #f4f7fe;
+  background: var(--bg-subtle);
   padding: 4px;
   border-radius: var(--radius-full);
   border: 1px solid #e2e8f0;
@@ -245,7 +245,7 @@
   font-weight: 700;
   border: none;
   background: none;
-  color: #a3aed0;
+  color: var(--text-faint);
   border-radius: var(--radius-full);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -253,7 +253,7 @@
 
 .tab-btn.active {
   background: #ffffff;
-  color: #ff3b19;
+  color: var(--brand);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
@@ -281,7 +281,7 @@
 
 .tooltip-sub {
   font-size: 0.725rem;
-  color: #a3aed0;
+  color: var(--text-faint);
 }
 
 .status-grid-legend {
@@ -413,7 +413,7 @@
 }
 
 .action-tile:hover {
-  border-color: #ff3b19;
+  border-color: var(--brand);
   background-color: #ffffff;
   transform: translateX(2px);
 }
@@ -504,14 +504,14 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff4522 0%, #e62e0b 100%);
+  background: var(--brand-gradient);
   color: #ffffff;
   font-size: 0.75rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(255, 69, 34, 0.25);
+  box-shadow: var(--shadow-sm);
   flex-shrink: 0;
 }
 
@@ -597,9 +597,9 @@
 }
 
 .status-pill.consistent {
-  background-color: #fff7ed;
-  color: #ea580c;
-  border: 1px solid #fed7aa;
+  background-color: var(--surface-tint);
+  color: var(--accent-2);
+  border: 1px solid var(--line-tint);
 }
 
 .status-pill.standard {
@@ -620,14 +620,14 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px;
-  border: 1px solid #ece7dc;
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   background-color: #ffffff;
   transition: all var(--transition-fast);
 }
 
 .followup-item:hover {
-  border-color: #ff3b19;
+  border-color: var(--brand);
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
@@ -659,8 +659,8 @@
 }
 
 .channel-badge.call {
-  background-color: #fff7ed;
-  color: #ea580c;
+  background-color: var(--surface-tint);
+  color: var(--accent-2);
 }
 
 .channel-badge.whatsapp {

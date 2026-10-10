@@ -52,10 +52,10 @@ export const SalesPagination = ({
           justify-content: center;
           gap: 6px;
           background: #ffffff;
-          border: 1px solid #ece7dc;
+          border: 1px solid var(--border-color);
           border-radius: 12px;
           padding: 6px 10px;
-          box-shadow: 0 2px 8px rgba(20, 20, 22, 0.04);
+          box-shadow: var(--shadow-sm);
         }
 
         .sales-pag-btn {
@@ -68,7 +68,7 @@ export const SalesPagination = ({
           border: 1px solid #e6e0d2;
           border-radius: 8px;
           background: #ffffff;
-          color: #141416;
+          color: var(--ink);
           font-size: 0.825rem;
           font-weight: 600;
           cursor: pointer;
@@ -77,24 +77,24 @@ export const SalesPagination = ({
         }
 
         .sales-pag-btn:hover:not(:disabled) {
-          background: #fbf9f4;
+          background: var(--bg-app);
           border-color: #dcd4c3;
-          color: #ff3b19;
+          color: var(--brand);
         }
 
         .sales-pag-btn.active {
-          background: #ff3b19;
-          border-color: #ff3b19;
+          background: var(--brand);
+          border-color: var(--brand);
           color: #ffffff;
           font-weight: 700;
-          box-shadow: 0 2px 8px rgba(255, 59, 25, 0.35);
+          box-shadow: var(--shadow-sm);
         }
 
         .sales-pag-btn:disabled {
           opacity: 0.35;
           cursor: not-allowed;
-          background: #fbf9f4;
-          border-color: #ece7dc;
+          background: var(--bg-app);
+          border-color: var(--border-color);
         }
 
         .sales-pag-ellipsis {
@@ -104,7 +104,7 @@ export const SalesPagination = ({
           align-items: center;
           justify-content: center;
           font-size: 0.825rem;
-          color: #94a3b8;
+          color: var(--text-faint);
           font-weight: 700;
         }
       `}</style>

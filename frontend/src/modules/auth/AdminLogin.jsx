@@ -29,7 +29,7 @@ export const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#fbf9f4] p-3 sm:p-6">
+    <div className="min-h-screen w-full flex items-center justify-center bg-canvas p-3 sm:p-6">
       <SignInCard
         portalType="admin"
         brandName="LeadGen"

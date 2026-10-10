@@ -111,7 +111,7 @@ export const AddLeadSourceModal = ({ isOpen, onClose, existingSources, onAddSour
         {/* Top Header Card */}
         <div
           style={{
-            background: "linear-gradient(135deg, #ff3b19 0%, #e63010 100%)",
+            background: "linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%)",
             color: "#ffffff",
             padding: "20px 24px",
             display: "flex",
@@ -170,11 +170,11 @@ export const AddLeadSourceModal = ({ isOpen, onClose, existingSources, onAddSour
 
             {/* Source Name */}
             <div className="form-group">
-              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                 Source Name <span style={{ color: "#ef4444" }}>*</span>
               </label>
               <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                <Share2 size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                <Share2 size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                 <input
                   type="text"
                   name="name"
@@ -192,11 +192,11 @@ export const AddLeadSourceModal = ({ isOpen, onClose, existingSources, onAddSour
             {/* Source Type & Status Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Source Category <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Tag size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Tag size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <select
                     name="type"
                     className="crm-input select-input"
@@ -212,11 +212,11 @@ export const AddLeadSourceModal = ({ isOpen, onClose, existingSources, onAddSour
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Status <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Shield size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Shield size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <select
                     name="status"
                     className="crm-input select-input"
@@ -233,11 +233,11 @@ export const AddLeadSourceModal = ({ isOpen, onClose, existingSources, onAddSour
 
             {/* Description */}
             <div className="form-group">
-              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                 Description (Optional)
               </label>
               <div style={{ position: "relative", display: "flex" }}>
-                <AlignLeft size={16} style={{ position: "absolute", left: "12px", top: "12px", color: "#a3aed0" }} />
+                <AlignLeft size={16} style={{ position: "absolute", left: "12px", top: "12px", color: "var(--text-faint)" }} />
                 <textarea
                   name="description"
                   className="crm-input crm-textarea"

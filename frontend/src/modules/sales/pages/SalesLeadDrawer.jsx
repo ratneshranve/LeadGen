@@ -154,7 +154,7 @@ export const SalesLeadDrawer = ({ lead, isOpen, onClose, onScheduleFollowUp }) =
           )}
 
           {isDrafting && (
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", color: "#64748b" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", color: "var(--text-muted)" }}>
               <Loader2 size={14} className="spin-icon" /> Drafting a reply based on this lead's requirement...
             </div>
           )}

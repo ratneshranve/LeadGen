@@ -144,8 +144,8 @@ ${xmlRows}
       </div>
 
       {/* EXPORT DATA CARD */}
-      <div className="crm-card ie-main-card" style={{ marginBottom: "24px", background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)", border: "1px solid #fed7aa", boxShadow: "0 4px 14px rgba(249, 115, 22, 0.12)" }}>
-        <div className="card-header-flex" style={{ background: "linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%)", borderBottom: "1px solid #fdba74" }}>
+      <div className="crm-card ie-main-card" style={{ marginBottom: "24px", background: "var(--surface-gradient)", border: "1px solid var(--line-tint)", boxShadow: "var(--shadow-sm)" }}>
+        <div className="card-header-flex" style={{ background: "var(--surface-gradient)", borderBottom: "1px solid var(--line-tint-strong)" }}>
           <h3 className="section-title" style={{ color: "#0f172a", fontWeight: 800 }}>
             <Download size={18} className="text-indigo" /> Export Data
           </h3>
@@ -187,7 +187,7 @@ ${xmlRows}
           </div>
         </div>
 
-        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "20px", paddingTop: "16px", borderTop: "1px solid #fdba74" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "20px", paddingTop: "16px", borderTop: "1px solid var(--line-tint-strong)" }}>
           <button className="crm-btn crm-btn-primary" onClick={() => handleRunExport()}>
             <Download size={15} /> Export Data Now
           </button>
@@ -195,8 +195,8 @@ ${xmlRows}
       </div>
 
       {/* Recent Export History Table */}
-      <div className="crm-card ie-history-card" style={{ background: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)", border: "1px solid #86efac", boxShadow: "0 4px 14px rgba(34, 197, 94, 0.12)" }}>
-        <div className="card-header-flex" style={{ background: "linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)", borderBottom: "1px solid #86efac" }}>
+      <div className="crm-card ie-history-card" style={{ background: "var(--surface-gradient)", border: "1px solid #86efac", boxShadow: "0 4px 14px rgba(34, 197, 94, 0.12)" }}>
+        <div className="card-header-flex" style={{ background: "var(--surface-gradient)", borderBottom: "1px solid #86efac" }}>
           <h3 className="section-title" style={{ color: "#0f172a", fontWeight: 800 }}>
             <FileText size={18} className="text-indigo" /> Recent Export History
           </h3>
