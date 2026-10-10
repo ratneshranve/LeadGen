@@ -105,10 +105,10 @@ export const SalesFollowUps = () => {
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div>
-          <h2 style={{ fontSize: "1.05rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>
+          <h2 style={{ fontSize: "1.05rem", fontWeight: 800, color: "var(--text-main)", margin: 0 }}>
             Follow-up Schedule
           </h2>
-          <span style={{ fontSize: "0.75rem", color: "#64748b" }}>
+          <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
             Tasks assigned to you ({followups.length})
           </span>
         </div>
@@ -125,10 +125,10 @@ export const SalesFollowUps = () => {
             fontWeight: 700,
             padding: "9px 18px",
             fontSize: "0.8rem",
-            backgroundColor: "#ff3b19",
+            backgroundColor: "var(--brand)",
             color: "#ffffff",
             border: "none",
-            boxShadow: "0 4px 14px rgba(255, 59, 25, 0.28)",
+            boxShadow: "var(--shadow-sm)",
             cursor: "pointer",
           }}
         >
@@ -162,7 +162,7 @@ export const SalesFollowUps = () => {
         ) : filtered.length > 0 ? (
           paginatedFollowups.map((item) => {
             return (
-              <div key={item.id} className="sales-mobile-lead-card" style={{ borderLeft: "4px solid #ff3b19" }}>
+              <div key={item.id} className="sales-mobile-lead-card" style={{ borderLeft: "4px solid var(--brand)" }}>
                 <div className="lead-card-header">
                   <div className="lead-card-info">
                     <h4 className="lead-card-name">{item.leadName}</h4>
@@ -175,7 +175,7 @@ export const SalesFollowUps = () => {
                 </div>
 
                 {item.notes && (
-                  <p style={{ fontSize: "0.775rem", color: "#0f172a", fontWeight: 600, margin: "2px 0 0 0", fontStyle: "italic", background: "#ffffff", padding: "8px 10px", borderRadius: "8px", border: "1px solid #fed7aa" }}>
+                  <p style={{ fontSize: "0.775rem", color: "var(--text-main)", fontWeight: 600, margin: "2px 0 0 0", fontStyle: "italic", background: "#ffffff", padding: "8px 10px", borderRadius: "8px", border: "1px solid var(--line-tint)" }}>
                     "{item.notes}"
                   </p>
                 )}
@@ -221,15 +221,15 @@ export const SalesFollowUps = () => {
         ) : (
           <div
             style={{
-              background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)",
+              background: "var(--surface-gradient)",
               borderRadius: "16px",
               padding: "40px 20px",
               textAlign: "center",
-              border: "1.5px dashed #fdba74",
+              border: "1.5px dashed var(--line-tint-strong)",
             }}
           >
-            <p style={{ fontWeight: 800, color: "#0f172a", margin: "0 0 4px 0" }}>No follow-ups found</p>
-            <span style={{ fontSize: "0.775rem", color: "#334155", fontWeight: 600 }}>
+            <p style={{ fontWeight: 800, color: "var(--text-main)", margin: "0 0 4px 0" }}>No follow-ups found</p>
+            <span style={{ fontSize: "0.775rem", color: "var(--text-subtle)", fontWeight: 600 }}>
               All clear! You have no tasks in this tab.
             </span>
           </div>

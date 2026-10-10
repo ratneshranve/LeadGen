@@ -133,7 +133,7 @@ export const ProfileEditCardModal = ({
         {/* Header Card Area */}
         <div
           style={{
-            background: "linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%)",
+            background: "var(--surface-gradient)",
             padding: "16px 18px 14px 18px",
             borderBottom: "1px solid #e2e8f0",
             position: "relative",
@@ -172,8 +172,8 @@ export const ProfileEditCardModal = ({
                   height: "46px",
                   borderRadius: "50%",
                   background: isUser
-                    ? "linear-gradient(135deg, #27272a, #141416)"
-                    : "linear-gradient(135deg, #ff3b19, #e63010)",
+                    ? "linear-gradient(135deg, #27272a, var(--ink))"
+                    : "var(--brand-gradient)",
                   color: "#ffffff",
                   fontSize: "1rem",
                   fontWeight: 800,
@@ -197,7 +197,7 @@ export const ProfileEditCardModal = ({
                   padding: "1px"
                 }}
               >
-                <CheckCircle2 size={14} color="#ff3b19" fill="#ffffff" />
+                <CheckCircle2 size={14} color="var(--brand)" fill="#ffffff" />
               </div>
             </div>
 
@@ -252,14 +252,14 @@ export const ProfileEditCardModal = ({
                   className="crm-input"
                   value={formData.firstName}
                   readOnly
-                  style={{ height: "36px", fontSize: "0.8rem", backgroundColor: "#f8fafc", color: "#141416", fontWeight: 600, cursor: "default" }}
+                  style={{ height: "36px", fontSize: "0.8rem", backgroundColor: "#f8fafc", color: "var(--ink)", fontWeight: 600, cursor: "default" }}
                 />
                 <input
                   type="text"
                   className="crm-input"
                   value={formData.lastName}
                   readOnly
-                  style={{ height: "36px", fontSize: "0.8rem", backgroundColor: "#f8fafc", color: "#141416", fontWeight: 600, cursor: "default" }}
+                  style={{ height: "36px", fontSize: "0.8rem", backgroundColor: "#f8fafc", color: "var(--ink)", fontWeight: 600, cursor: "default" }}
                 />
               </div>
             ) : (
@@ -336,7 +336,7 @@ export const ProfileEditCardModal = ({
                   height: "36px",
                   fontSize: "0.8rem",
                   paddingLeft: "34px",
-                  ...(isUser || isReadOnlyLead ? { backgroundColor: "#f8fafc", color: "#141416", fontWeight: 600, cursor: "default" } : {})
+                  ...(isUser || isReadOnlyLead ? { backgroundColor: "#f8fafc", color: "var(--ink)", fontWeight: 600, cursor: "default" } : {})
                 }}
                 placeholder="name@company.com"
                 value={formData.email}
@@ -362,7 +362,7 @@ export const ProfileEditCardModal = ({
                   height: "36px",
                   fontSize: "0.8rem",
                   paddingLeft: "34px",
-                  ...(isUser || isReadOnlyLead ? { backgroundColor: "#f8fafc", color: "#141416", fontWeight: 600, cursor: "default" } : {})
+                  ...(isUser || isReadOnlyLead ? { backgroundColor: "#f8fafc", color: "var(--ink)", fontWeight: 600, cursor: "default" } : {})
                 }}
                 placeholder="+91 98765 43210"
                 value={formData.phone}
@@ -503,7 +503,7 @@ export const ProfileEditCardModal = ({
                     height: "36px",
                     fontSize: "0.8rem",
                     backgroundColor: "#f8fafc",
-                    color: "#141416",
+                    color: "var(--ink)",
                     fontWeight: 600,
                     display: "flex",
                     alignItems: "center",
@@ -525,7 +525,7 @@ export const ProfileEditCardModal = ({
                     height: "36px",
                     fontSize: "0.8rem",
                     backgroundColor: "#f8fafc",
-                    color: "#141416",
+                    color: "var(--ink)",
                     fontWeight: 600,
                     display: "flex",
                     alignItems: "center",
@@ -562,7 +562,7 @@ export const ProfileEditCardModal = ({
                     fontSize: "0.8rem",
                     paddingLeft: "34px",
                     backgroundColor: "#f8fafc",
-                    color: "#141416",
+                    color: "var(--ink)",
                     fontWeight: 600,
                     cursor: "default",
                     pointerEvents: "none"
@@ -652,10 +652,10 @@ export const ProfileEditCardModal = ({
                         height: "34px",
                         padding: "0 16px",
                         fontSize: "0.785rem",
-                        background: "linear-gradient(135deg, #ff3b19 0%, #e63010 100%)",
+                        background: "linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%)",
                         border: "none",
                         borderRadius: "8px",
-                        boxShadow: "0 2px 6px rgba(255, 59, 25, 0.28)"
+                        boxShadow: "var(--shadow-sm)"
                       }}
                     >
                       Save changes

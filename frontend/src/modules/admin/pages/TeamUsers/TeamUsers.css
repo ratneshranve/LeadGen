@@ -301,8 +301,8 @@
 
 .role-badge-chip.role-master-admin { background-color: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
 .role-badge-chip.role-admin { background-color: #faf5ff; color: #9333ea; border: 1px solid #f3e8ff; }
-.role-badge-chip.role-manager { background-color: #fff1ee; color: #ff3b19; border: 1px solid #ffd2c7; }
-.role-badge-chip.role-rep { background-color: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; }
+.role-badge-chip.role-manager { background-color: var(--brand-soft); color: var(--brand); border: 1px solid var(--brand-border); }
+.role-badge-chip.role-rep { background-color: var(--accent-2-soft); color: var(--accent-2); border: 1px solid var(--accent-2-border); }
 
 /* User Profile Detail View Styles */
 .profile-identity-card {

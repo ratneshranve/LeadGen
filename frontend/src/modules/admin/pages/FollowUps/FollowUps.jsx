@@ -333,8 +333,8 @@ export const FollowUps = ({ salespersonName, forceOpenScheduleModal = false }) =
           onClick={handleOpenScheduleModal}
           style={{
             display: "inline-flex", alignItems: "center", gap: "8px", padding: "10px 20px",
-            fontSize: "0.85rem", fontWeight: 700, backgroundColor: "#ff3b19", borderColor: "#e63010",
-            borderRadius: "10px", marginLeft: "auto", boxShadow: "0 4px 12px rgba(255, 59, 25, 0.25)", cursor: "pointer",
+            fontSize: "0.85rem", fontWeight: 700, backgroundColor: "var(--brand)", borderColor: "var(--brand-hover)",
+            borderRadius: "10px", marginLeft: "auto", boxShadow: "var(--shadow-sm)", cursor: "pointer",
           }}
         >
           <Plus size={16} /> Schedule Follow-up

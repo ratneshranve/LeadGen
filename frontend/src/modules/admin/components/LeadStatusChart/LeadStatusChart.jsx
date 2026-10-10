@@ -13,15 +13,15 @@ import { reportsApi } from "../../../../api/reportsApi";
 import "./LeadStatusChart.css";
 
 const STATUS_COLORS = {
-  New: "#ff3b19",
+  New: "var(--brand)",
   Contacted: "#7c3aed",
   "Follow-up": "#d97706",
-  Interested: "#2563eb",
+  Interested: "#0e9fb8",
   Converted: "#059669",
   Lost: "#dc2626",
 };
 
-const SOURCE_COLORS = ["#ff3b19", "#7c3aed", "#0ea5e9", "#059669", "#d97706", "#64748b"];
+const SOURCE_COLORS = ["var(--brand)", "var(--accent-2)", "#7c3aed", "#0e9fb8", "#059669", "#64748b"];
 
 // Clean Light Frosted Tooltip showing ONLY pipeline stage data
 const CustomPipelineTooltip = ({ active, payload, label }) => {
@@ -34,11 +34,11 @@ const CustomPipelineTooltip = ({ active, payload, label }) => {
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.96)",
           backdropFilter: "blur(12px)",
-          border: "1.5px solid #ffd2c7",
+          border: "1.5px solid var(--brand-border)",
           borderRadius: "14px",
           padding: "10px 14px",
           boxShadow: "0 12px 28px -4px rgba(0, 0, 0, 0.12)",
-          color: "#141416",
+          color: "var(--ink)",
           fontSize: "0.8rem",
           minWidth: "160px",
         }}
@@ -58,8 +58,8 @@ const CustomPipelineTooltip = ({ active, payload, label }) => {
               width: "10px",
               height: "10px",
               borderRadius: "50%",
-              backgroundColor: data.color || "#ff3b19",
-              boxShadow: `0 0 6px ${data.color || "#ff3b19"}`,
+              backgroundColor: data.color || "var(--brand)",
+              boxShadow: `0 0 6px ${data.color || "var(--brand)"}`,
             }}
           />
           <strong style={{ fontSize: "0.85rem", color: "#0f172a" }}>
@@ -79,7 +79,7 @@ const CustomPipelineTooltip = ({ active, payload, label }) => {
             <span style={{ color: "#64748b", fontSize: "0.75rem" }}>
               Total Leads:
             </span>
-            <strong style={{ color: "#ff3b19", fontSize: "0.95rem" }}>
+            <strong style={{ color: "var(--brand)", fontSize: "0.95rem" }}>
               {data.count.toLocaleString()}
             </strong>
           </div>
@@ -195,8 +195,8 @@ export const LeadStatusChart = ({ statusDistribution = [] }) => {
             >
               <defs>
                 <linearGradient id="pipelineAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ff3b19" stopOpacity={0.38} />
-                  <stop offset="95%" stopColor="#ff3b19" stopOpacity={0.02} />
+                  <stop offset="5%" stopColor="var(--brand)" stopOpacity={0.38} />
+                  <stop offset="95%" stopColor="var(--brand)" stopOpacity={0.02} />
                 </linearGradient>
               </defs>
 
@@ -229,7 +229,7 @@ export const LeadStatusChart = ({ statusDistribution = [] }) => {
               <Tooltip
                 content={<CustomPipelineTooltip />}
                 cursor={{
-                  stroke: "#ff3b19",
+                  stroke: "var(--brand)",
                   strokeWidth: 1.5,
                   strokeDasharray: "3 3",
                 }}
@@ -240,7 +240,7 @@ export const LeadStatusChart = ({ statusDistribution = [] }) => {
                 type="natural"
                 dataKey="count"
                 name="Leads Count"
-                stroke="#ff3b19"
+                stroke="var(--brand)"
                 strokeWidth={3}
                 fillOpacity={1}
                 fill="url(#pipelineAreaGradient)"
@@ -249,7 +249,7 @@ export const LeadStatusChart = ({ statusDistribution = [] }) => {
                 animationEasing="ease-in-out"
                 activeDot={{
                   r: 6,
-                  fill: "#ff3b19",
+                  fill: "var(--brand)",
                   stroke: "#ffffff",
                   strokeWidth: 2.5,
                 }}

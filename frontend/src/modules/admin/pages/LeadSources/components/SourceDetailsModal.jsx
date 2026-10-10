@@ -9,7 +9,7 @@ export const SourceDetailsModal = ({ isOpen, onClose, source }) => {
   if (!source) return null;
 
   const breakdown = [
-    { label: "New", count: Math.round(source.leads * 0.25) || 3, color: "#ff3b19" },
+    { label: "New", count: Math.round(source.leads * 0.25) || 3, color: "var(--brand)" },
     { label: "Contacted", count: Math.round(source.leads * 0.2) || 2, color: "#8b5cf6" },
     { label: "Follow-up", count: Math.round(source.leads * 0.2) || 2, color: "#eab308" },
     { label: "Interested", count: Math.round(source.leads * 0.15) || 1, color: "#06b6d4" },

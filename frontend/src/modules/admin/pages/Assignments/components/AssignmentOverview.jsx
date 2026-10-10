@@ -9,10 +9,10 @@ export const AssignmentOverview = ({ stats }) => {
       subtext: "System wide leads",
       icon: Users,
       iconBg: "#ffffff",
-      iconColor: "#ff3b19",
-      cardBg: "linear-gradient(135deg, #ffe5e0 0%, #ffd4cc 100%)",
-      borderColor: "#ffb3a6",
-      shadow: "0 4px 14px rgba(255, 59, 25, 0.12)",
+      iconColor: "var(--brand)",
+      cardBg: "var(--surface-gradient)",
+      borderColor: "var(--border-color)",
+      shadow: "var(--shadow-sm)",
     },
     {
       title: "Unassigned",
@@ -21,9 +21,9 @@ export const AssignmentOverview = ({ stats }) => {
       icon: UserX,
       iconBg: "#ffffff",
       iconColor: "#b45309",
-      cardBg: "linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)",
-      borderColor: "#fcd34d",
-      shadow: "0 4px 14px rgba(217, 119, 6, 0.12)",
+      cardBg: "var(--bg-surface)",
+      borderColor: "var(--border-color)",
+      shadow: "var(--shadow-sm)",
     },
     {
       title: "Assigned",
@@ -32,9 +32,9 @@ export const AssignmentOverview = ({ stats }) => {
       icon: UserCheck,
       iconBg: "#ffffff",
       iconColor: "#15803d",
-      cardBg: "linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)",
-      borderColor: "#86efac",
-      shadow: "0 4px 14px rgba(22, 163, 74, 0.12)",
+      cardBg: "var(--bg-surface)",
+      borderColor: "var(--border-color)",
+      shadow: "var(--shadow-sm)",
     },
     {
       title: "Sales Employees",
@@ -42,10 +42,10 @@ export const AssignmentOverview = ({ stats }) => {
       subtext: "Active team members",
       icon: ShieldCheck,
       iconBg: "#ffffff",
-      iconColor: "#c2410c",
-      cardBg: "linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%)",
-      borderColor: "#fdba74",
-      shadow: "0 4px 14px rgba(234, 88, 12, 0.12)",
+      iconColor: "var(--accent-2-deep)",
+      cardBg: "var(--surface-gradient)",
+      borderColor: "var(--border-color)",
+      shadow: "var(--shadow-sm)",
     },
   ];
 
@@ -59,7 +59,7 @@ export const AssignmentOverview = ({ stats }) => {
             className="crm-card overview-stat-card"
             style={{
               background: card.cardBg,
-              border: `1.5px solid ${card.borderColor}`,
+              border: `1px solid ${card.borderColor}`,
               boxShadow: card.shadow,
             }}
           >

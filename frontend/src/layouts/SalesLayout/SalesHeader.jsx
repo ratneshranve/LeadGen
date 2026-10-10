@@ -1,16 +1,25 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Bell, Zap, Settings, LayoutDashboard, Users, Kanban, Clock, CalendarDays } from "lucide-react";
+import { motion } from "framer-motion";
+import { Bell, CalendarDays, ArrowUpRight } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import { SalesLogoMark } from "../../components/brand/BrandMark";
 import "./SalesLayout.css";
+
+const NAV_ITEMS = [
+  { path: "/sales/dashboard", label: "Home", match: (p) => p === "/sales/dashboard" || p === "/sales" },
+  { path: "/sales/leads", label: "Leads", match: (p) => p.startsWith("/sales/leads") },
+  { path: "/sales/pipeline", label: "Pipeline", match: (p) => p.startsWith("/sales/pipeline") },
+  { path: "/sales/follow-ups", label: "Follow-ups", match: (p) => p.startsWith("/sales/follow") },
+];
 
 export const SalesHeader = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const path = location.pathname;
 
   const getScreenDetails = () => {
-    const path = location.pathname;
     if (path.startsWith("/sales/leads")) return { title: "My Leads", subtitle: "Assigned contacts" };
     if (path.startsWith("/sales/pipeline")) return { title: "Sales Pipeline", subtitle: "Stages & prospects" };
     if (path.startsWith("/sales/follow-ups")) return { title: "Follow-ups", subtitle: "Tasks & agenda" };
@@ -23,6 +32,8 @@ export const SalesHeader = () => {
 
   const { title, subtitle } = getScreenDetails();
   const currentSalesperson = user?.name || "Amit Sharma";
+  const firstName = currentSalesperson.split(" ")[0];
+  const initials = currentSalesperson.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase();
 
   // Dynamic unread count
   const getUnreadNotifCount = () => {
@@ -45,94 +56,76 @@ export const SalesHeader = () => {
 
   const unreadBadgeCount = getUnreadNotifCount();
 
-  const desktopNavItems = [
-    { path: "/sales/dashboard", label: "Home", icon: LayoutDashboard },
-    { path: "/sales/leads", label: "Leads", icon: Users },
-    { path: "/sales/pipeline", label: "Pipeline", icon: Kanban },
-    { path: "/sales/follow-ups", label: "Follow-ups", icon: Clock },
-  ];
-
   return (
     <header className="sales-app-topbar">
+      {/* Brand */}
       <div className="sales-topbar-left">
-        <div className="sales-app-logo-badge" onClick={() => navigate("/sales/dashboard")} title="LeadGen Sales">
-          <Zap size={18} color="#ffffff" />
-        </div>
+        <button type="button" className="sales-brand" onClick={() => navigate("/sales/dashboard")} title="LeadGen Sales">
+          <SalesLogoMark size={30} />
+          <span className="sales-brand-word">LeadGen</span>
+        </button>
         <div className="sales-topbar-titles">
-          <h1 className="sales-topbar-heading">{title}</h1>
+          <h1 className="sales-topbar-heading" key={title}>{title}</h1>
           <span className="sales-topbar-sub">{subtitle}</span>
         </div>
       </div>
 
-      {/* Desktop / Large Laptop Header Navigation (Converts footer into header on >=1024px) */}
-      <nav className="sales-desktop-header-nav" aria-label="Desktop Navigation">
-        {desktopNavItems.map((item) => {
-          const Icon = item.icon;
-          const isActive =
-            location.pathname === item.path ||
-            (item.path === "/sales/leads" && location.pathname.startsWith("/sales/leads")) ||
-            (item.path === "/sales/pipeline" && location.pathname.startsWith("/sales/pipeline")) ||
-            (item.path === "/sales/follow-ups" && location.pathname.startsWith("/sales/follow"));
+      {/* Cream tab with the capsule navigation (desktop) */}
+      <div className="sales-nav-tab">
+        <nav className="sales-nav-capsule" aria-label="Sales navigation">
+          {NAV_ITEMS.map((item) => {
+            const isActive = item.match(path);
+            return (
+              <button
+                key={item.path}
+                type="button"
+                onClick={() => navigate(item.path)}
+                className={`sales-nav-link ${isActive ? "active" : ""}`}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="sales-nav-active"
+                    className="sales-nav-active-bg"
+                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                  />
+                )}
+                <span className="sales-nav-text">{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+      </div>
 
-          return (
-            <button
-              key={item.path}
-              type="button"
-              onClick={() => navigate(item.path)}
-              className={`sales-desktop-nav-btn ${isActive ? "active" : ""}`}
-            >
-              <Icon size={15} />
-              <span>{item.label}</span>
-            </button>
-          );
-        })}
-      </nav>
-
+      {/* Actions */}
       <div className="sales-topbar-right">
-        {/* Calendar Icon Button (To the left of Notification Icon) */}
         <button
           type="button"
-          className="sales-topbar-icon-btn calendar-btn"
+          className={`sales-topbar-icon-btn ${path.startsWith("/sales/calendar") ? "active" : ""}`}
           onClick={() => navigate("/sales/calendar")}
-          title="Calendar Schedule"
-          style={{
-            background: location.pathname.startsWith("/sales/calendar") ? "#fff1ee" : "#ffffff",
-            color: location.pathname.startsWith("/sales/calendar") ? "#ff3b19" : "#475569",
-            borderColor: location.pathname.startsWith("/sales/calendar") ? "#ffd2c7" : "#ece7dc",
-          }}
+          title="Calendar"
         >
-          <CalendarDays size={18} />
+          <CalendarDays size={17} />
         </button>
 
-        {/* Notifications Icon Button */}
         <button
           type="button"
-          className="sales-topbar-icon-btn"
+          className={`sales-topbar-icon-btn ${path.startsWith("/sales/notifications") ? "active" : ""}`}
           onClick={() => navigate("/sales/notifications")}
           title="Notifications"
-          style={{
-            borderColor: location.pathname.startsWith("/sales/notifications") ? "#ffd2c7" : "#ece7dc",
-            background: location.pathname.startsWith("/sales/notifications") ? "#fff1ee" : "#ffffff",
-            color: location.pathname.startsWith("/sales/notifications") ? "#ff3b19" : "#475569",
-          }}
         >
-          <Bell size={18} />
+          <Bell size={17} />
           {unreadBadgeCount > 0 && <span className="sales-topbar-badge">{unreadBadgeCount}</span>}
         </button>
 
-        {/* Settings Icon Button (Profile & Settings) */}
         <button
           type="button"
-          className="sales-topbar-icon-btn settings-btn"
+          className={`sales-profile-pill ${path.startsWith("/sales/profile") ? "active" : ""}`}
           onClick={() => navigate("/sales/profile")}
-          title="Profile & Settings"
-          style={{
-            background: location.pathname.startsWith("/sales/profile") ? "#fff1ee" : "#ffffff",
-            color: location.pathname.startsWith("/sales/profile") ? "#ff3b19" : "#475569",
-            borderColor: location.pathname.startsWith("/sales/profile") ? "#ffd2c7" : "#ece7dc",
-          }}
+          title="Profile & settings"
         >
-          <Settings size={18} />
+          <span className="sales-profile-pill-avatar">{initials}</span>
+          <span className="sales-profile-pill-text">{firstName}</span>
+          <ArrowUpRight size={14} className="sales-profile-pill-arrow" />
         </button>
       </div>
     </header>

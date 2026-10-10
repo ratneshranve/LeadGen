@@ -1,10 +1,10 @@
 /* Animated Soft White-Grey Dashboard Chart - Blends with Page Theme */
 .animated-dashboard-chart {
   background: #ffffff !important;
-  border: 1px solid #ece7dc !important;
+  border: 1px solid var(--border-color) !important;
   border-radius: var(--radius-xl, 20px) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
-  color: #141416;
+  color: var(--ink);
   overflow: hidden;
   position: relative;
   display: flex;
@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px 14px 24px;
-  border-bottom: 1px solid #f1ede4;
+  border-bottom: 1px solid var(--border-light);
   background: #ffffff;
   flex-wrap: wrap;
   gap: 12px;
@@ -25,7 +25,7 @@
 .chart-light-title {
   font-size: 1.15rem;
   font-weight: 800;
-  color: #141416;
+  color: var(--ink);
   letter-spacing: -0.015em;
   margin: 0;
   display: flex;
@@ -41,10 +41,10 @@
 
 .chart-light-tabs {
   display: flex;
-  background: #f4f2ee;
+  background: var(--bg-subtle);
   padding: 3px;
   border-radius: 9999px;
-  border: 1px solid #ece7dc;
+  border: 1px solid var(--border-color);
 }
 
 .chart-light-tab-btn {
@@ -63,13 +63,13 @@
 }
 
 .chart-light-tab-btn:hover {
-  color: #141416;
+  color: var(--ink);
 }
 
 .chart-light-tab-btn.active {
-  background: #ff3b19;
+  background: var(--brand);
   color: #ffffff;
-  box-shadow: 0 2px 10px rgba(255, 59, 25, 0.28);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Area Chart Visual Stage Container */
@@ -77,14 +77,14 @@
   position: relative;
   width: 100%;
   padding: 10px 18px 12px 18px;
-  background: linear-gradient(180deg, rgba(255, 59, 25, 0.02) 0%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(180deg, rgb(var(--brand-rgb) / 0.02) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 /* Bottom Stats & Stage Legend */
 .chart-light-body {
   padding: 18px 24px 20px 24px;
-  background: #faf8f5;
-  border-top: 1px solid #ece7dc;
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border-color);
 }
 
 /* Responsive 3-column grid for stage pills */
@@ -113,7 +113,7 @@
   padding: 10px 14px;
   border-radius: 12px;
   background: #ffffff;
-  border: 1px solid #ece7dc;
+  border: 1px solid var(--border-color);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -122,10 +122,10 @@
 
 .chart-stage-pill:hover,
 .chart-stage-pill.active {
-  background: #fff1ee;
-  border-color: #ff3b19;
+  background: var(--brand-soft);
+  border-color: var(--brand);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 59, 25, 0.12);
+  box-shadow: var(--shadow-sm);
 }
 
 .stage-pill-left {
@@ -161,7 +161,7 @@
 .stage-pill-count {
   font-size: 0.9rem;
   font-weight: 800;
-  color: #ff3b19;
+  color: var(--brand);
   letter-spacing: -0.01em;
 }
 
@@ -189,7 +189,7 @@
   flex-direction: column;
   gap: 6px;
   background: #ffffff;
-  border: 1px solid #ece7dc;
+  border: 1px solid var(--border-color);
   padding: 10px 14px;
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
@@ -209,7 +209,7 @@
 
 .light-source-stats {
   font-weight: 700;
-  color: #ff3b19;
+  color: var(--brand);
 }
 
 .light-source-track {

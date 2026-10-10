@@ -51,11 +51,11 @@ export const ScheduleFollowUpModal = ({ isOpen, onClose, leadsList = [], onConfi
   const leadDropdownRef = useRef(null);
 
   const followUpTypes = [
-    { value: "Call", label: "Call", icon: Phone, color: "#ea580c" },
+    { value: "Call", label: "Call", icon: Phone, color: "var(--accent-2)" },
     { value: "WhatsApp", label: "WhatsApp", icon: MessageSquare, color: "#16a34a" },
-    { value: "Email", label: "Email", icon: Mail, color: "#ea580c" },
+    { value: "Email", label: "Email", icon: Mail, color: "var(--accent-2)" },
     { value: "Meeting", label: "Meeting", icon: Users, color: "#9333ea" },
-    { value: "Task", label: "Task", icon: CheckSquare, color: "#ff3b19" },
+    { value: "Task", label: "Task", icon: CheckSquare, color: "var(--brand)" },
   ];
 
   // Close dropdowns on click outside
@@ -185,8 +185,8 @@ export const ScheduleFollowUpModal = ({ isOpen, onClose, leadsList = [], onConfi
         }
         .custom-type-select-btn:focus,
         .custom-type-select-btn.active {
-          border-color: #ff3b19;
-          box-shadow: 0 0 0 3px rgba(255, 59, 25, 0.15);
+          border-color: var(--brand);
+          box-shadow: 0 0 0 3px rgb(var(--brand-rgb) / 0.15);
         }
         .custom-type-dropdown-menu {
           position: absolute;
@@ -217,8 +217,8 @@ export const ScheduleFollowUpModal = ({ isOpen, onClose, leadsList = [], onConfi
           background: #f1f5f9;
         }
         .custom-type-option-item.selected {
-          background: #fff1ee;
-          color: #ff3b19;
+          background: var(--brand-soft);
+          color: var(--brand);
           font-weight: 700;
         }
       `}</style>
@@ -249,8 +249,8 @@ export const ScheduleFollowUpModal = ({ isOpen, onClose, leadsList = [], onConfi
                   width: "24px",
                   height: "24px",
                   borderRadius: "50%",
-                  backgroundColor: "#fff1ee",
-                  color: "#ff3b19",
+                  backgroundColor: "var(--brand-soft)",
+                  color: "var(--brand)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -312,7 +312,7 @@ export const ScheduleFollowUpModal = ({ isOpen, onClose, leadsList = [], onConfi
                             width: "26px",
                             height: "26px",
                             borderRadius: "50%",
-                            backgroundColor: isSelected ? "#ff3b19" : "#fbf9f4",
+                            backgroundColor: isSelected ? "var(--brand)" : "var(--bg-app)",
                             color: isSelected ? "#ffffff" : "#71717a",
                             display: "flex",
                             alignItems: "center",
@@ -324,7 +324,7 @@ export const ScheduleFollowUpModal = ({ isOpen, onClose, leadsList = [], onConfi
                             {lead.name.charAt(0).toUpperCase()}
                           </div>
                           <div style={{ minWidth: 0 }}>
-                            <div style={{ fontWeight: isSelected ? 700 : 600, color: isSelected ? "#ff3b19" : "#141416", fontSize: "0.85rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                            <div style={{ fontWeight: isSelected ? 700 : 600, color: isSelected ? "var(--brand)" : "var(--ink)", fontSize: "0.85rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                               {lead.name}
                             </div>
                             {lead.company && (
@@ -335,7 +335,7 @@ export const ScheduleFollowUpModal = ({ isOpen, onClose, leadsList = [], onConfi
                           </div>
                         </div>
 
-                        {isSelected && <Check size={16} color="#ff3b19" style={{ flexShrink: 0 }} />}
+                        {isSelected && <Check size={16} color="var(--brand)" style={{ flexShrink: 0 }} />}
                       </div>
                     );
                   })

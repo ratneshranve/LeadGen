@@ -39,7 +39,7 @@ export const SourceTableToolbar = ({
       {/* Filter & Sort Controls */}
       <div className="filter-dropdowns-group" style={{ display: "flex", alignItems: "flex-end", gap: "10px", flexWrap: "wrap" }}>
         <div className="filter-select-wrapper" style={{ width: "120px" }}>
-          <label style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", color: "#7090b0", marginBottom: "4px", display: "block" }}>Status</label>
+          <label style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", color: "var(--text-muted)", marginBottom: "4px", display: "block" }}>Status</label>
           <CustomSelect
             size="sm"
             name="status"
@@ -50,7 +50,7 @@ export const SourceTableToolbar = ({
         </div>
 
         <div className="filter-select-wrapper" style={{ width: "160px" }}>
-          <label style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", color: "#7090b0", marginBottom: "4px", display: "block" }}>Sort</label>
+          <label style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", color: "var(--text-muted)", marginBottom: "4px", display: "block" }}>Sort</label>
           <CustomSelect
             size="sm"
             name="sort"

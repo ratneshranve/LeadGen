@@ -376,7 +376,7 @@ export const TeamUsers = ({ forceOpenAddModal = false, forceOpenUpdateModal = fa
         title="Confirm Delete Sales Employee"
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-          <p style={{ fontSize: "0.875rem", color: "#1b2559", lineHeight: "1.5" }}>
+          <p style={{ fontSize: "0.875rem", color: "var(--text-main)", lineHeight: "1.5" }}>
             Are you sure you want to delete sales employee <strong>{targetUser?.name}</strong> ({targetUser?.email})? This action cannot be undone.
           </p>
           <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "8px" }}>
@@ -395,7 +395,7 @@ export const TeamUsers = ({ forceOpenAddModal = false, forceOpenUpdateModal = fa
         title="Confirm Delete"
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-          <p style={{ fontSize: "0.875rem", color: "#1b2559", lineHeight: "1.5" }}>
+          <p style={{ fontSize: "0.875rem", color: "var(--text-main)", lineHeight: "1.5" }}>
             Are you sure you want to delete all <strong>{selectedIds.length}</strong> selected sales employees? This action cannot be undone.
           </p>
           <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "8px" }}>

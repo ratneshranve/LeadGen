@@ -21,18 +21,27 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Outfit", "Plus Jakarta Sans", "system-ui", "sans-serif"],
+        // Each panel sets --font-sans / --font-display on <html data-panel="...">
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       colors: {
+        // Panel-aware theme colors (values live in src/styles/tokens.css)
         brand: {
-          50: "#fff1ee",
-          100: "#ffe2dc",
-          200: "#ffc4b8",
-          500: "#ff3b19",
-          600: "#e63010",
-          700: "#c42407",
-          800: "#9e1a03",
+          DEFAULT: "rgb(var(--brand-rgb) / <alpha-value>)",
+          hover: "var(--brand-hover)",
+          soft: "var(--brand-soft)",
+          border: "var(--brand-border)",
+          contrast: "var(--brand-contrast)",
         },
+        ink: "rgb(var(--ink-rgb) / <alpha-value>)",
+        lime: "rgb(var(--accent-rgb) / <alpha-value>)",
+        ember: "rgb(var(--accent-2-rgb) / <alpha-value>)",
+        canvas: "var(--bg-app)",
+        surface: "var(--bg-surface)",
+        subtle: "var(--bg-subtle)",
+        line: "var(--border-color)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -82,6 +91,9 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      transitionTimingFunction: {
+        "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
+      },
       keyframes: {
         "accordion-down": {
           from: {
@@ -99,13 +111,22 @@ export default {
             height: "0",
           },
         },
+        float: {
+          "0%, 100%": { transform: "translateY(0) rotate(0deg)" },
+          "50%": { transform: "translateY(-10px) rotate(-2deg)" },
+        },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        float: "float 6s ease-in-out infinite",
+        marquee: "marquee 28s linear infinite",
       },
     },
   },
   plugins: [tailwindcssAnimate],
 };
-
