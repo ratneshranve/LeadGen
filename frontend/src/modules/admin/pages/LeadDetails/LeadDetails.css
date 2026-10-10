@@ -70,9 +70,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  border: 1.5px solid #fed7aa;
-  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.12);
+  background: var(--surface-gradient);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
   border-radius: var(--radius-lg);
   color: #0f172a;
 }
@@ -87,14 +87,14 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff4522, #e62e0b);
+  background: linear-gradient(135deg, var(--brand), var(--brand));
   color: #ffffff;
   font-size: 1.2rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(255, 59, 25, 0.25);
+  box-shadow: var(--shadow-sm);
   flex-shrink: 0;
 }
 
@@ -144,7 +144,7 @@
   font-weight: 700;
   padding: 2px 8px;
   border-radius: 4px;
-  border: 1px solid #fed7aa;
+  border: 1px solid var(--line-tint);
 }
 
 .source-meta {
@@ -173,7 +173,7 @@
   padding: 6px 12px;
   font-size: 0.775rem;
   font-weight: 700;
-  border: 1.5px solid #fed7aa;
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-full);
   background-color: #ffffff;
   color: #0f172a;
@@ -182,10 +182,10 @@
 }
 
 .contact-pill-btn:hover {
-  background-color: #ff3b19;
-  border-color: #ff3b19;
+  background-color: var(--brand);
+  border-color: var(--brand);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(255, 59, 25, 0.25);
+  box-shadow: var(--shadow-sm);
 }
 
 .summary-details-row {
@@ -206,9 +206,9 @@
 /* 2. Pipeline Horizontal Progress Card */
 .pipeline-card {
   padding: 18px 24px;
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border: 1.5px solid #93c5fd;
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.1);
+  background: var(--surface-gradient);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
   border-radius: var(--radius-lg);
   color: #0f172a;
 }
@@ -404,14 +404,14 @@
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff4522 0%, #e62e0b 100%);
+  background: var(--brand-gradient);
   color: #ffffff;
   font-size: 0.9rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(255, 69, 34, 0.25);
+  box-shadow: var(--shadow-sm);
   flex-shrink: 0;
 }
 
@@ -648,7 +648,7 @@
   padding: 20px;
 }
 
-.text-blue { color: #ff3b19; }
+.text-blue { color: var(--brand); }
 .text-purple { color: #9333ea; }
 .text-teal { color: #0891b2; }
 

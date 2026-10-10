@@ -102,14 +102,14 @@
 
 /* 2. Pipeline Toolbar & Filters Card */
 .pipeline-toolbar-card {
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border: 1.5px solid #93c5fd;
+  background: var(--surface-gradient);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 16px 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.1);
+  box-shadow: var(--shadow-sm);
   color: #0f172a;
 }
 
@@ -124,7 +124,7 @@
   display: flex;
   align-items: center;
   background-color: #ffffff;
-  border: 1px solid #93c5fd;
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   padding: 3px;
   gap: 2px;
@@ -146,9 +146,9 @@
 }
 
 .scope-btn.active {
-  background-color: #ff3b19;
+  background-color: var(--brand);
   color: #ffffff;
-  box-shadow: 0 2px 6px rgba(255, 59, 25, 0.3);
+  box-shadow: var(--shadow-sm);
 }
 
 .pipeline-search-wrapper {
@@ -161,13 +161,13 @@
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #ff3b19;
+  color: var(--brand);
 }
 
 .pipeline-search-wrapper .search-input {
   padding-left: 36px;
   background-color: #ffffff !important;
-  border: 1.5px solid #93c5fd !important;
+  border: 1px solid var(--border-color) !important;
   color: #0f172a !important;
   font-weight: 600 !important;
 }
@@ -197,7 +197,7 @@
   font-size: 0.775rem;
   font-weight: 700;
   background-color: #ffffff;
-  border: 1.5px solid #93c5fd !important;
+  border: 1px solid var(--border-color) !important;
   color: #0f172a;
 }
 
@@ -424,14 +424,14 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff4522 0%, #e62e0b 100%);
+  background: var(--brand-gradient);
   color: #ffffff;
   font-size: 0.6rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 4px rgba(255, 69, 34, 0.2);
+  box-shadow: var(--shadow-sm);
 }
 
 .rep-avatar-xs.unassigned-avatar {

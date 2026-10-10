@@ -29,7 +29,7 @@ export const SalesLogin = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#fbf9f4] p-2 sm:p-4 md:p-6 box-border">
+    <div className="min-h-screen w-full flex items-center justify-center bg-canvas p-2 sm:p-4 md:p-6 box-border">
       <div className="w-full flex justify-center items-center">
         <SignInCard
           portalType="sales"

@@ -22,9 +22,9 @@
 .settings-tabs-sidebar {
   padding: 16px 14px;
   border-radius: var(--radius-lg);
-  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.1);
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  border: 1.5px solid #fed7aa;
+  box-shadow: var(--shadow-sm);
+  background: var(--surface-gradient);
+  border: 1px solid var(--border-color);
 }
 
 .sidebar-tabs-list {
@@ -52,14 +52,14 @@
 
 .settings-nav-item:hover {
   background-color: #ffffff;
-  color: #ff3b19;
+  color: var(--brand);
 }
 
 .settings-nav-item.active {
-  background-color: #ff3b19 !important;
+  background-color: var(--brand) !important;
   color: #ffffff !important;
   font-weight: 800;
-  box-shadow: 0 4px 16px rgba(255, 59, 25, 0.35);
+  box-shadow: var(--shadow-sm);
 }
 
 .settings-nav-item.active svg {
@@ -69,29 +69,29 @@
 .settings-panel-card {
   padding: 28px;
   border-radius: var(--radius-lg);
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.1);
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border: 1.5px solid #93c5fd;
+  box-shadow: var(--shadow-sm);
+  background: var(--surface-gradient);
+  border: 1px solid var(--border-color);
   color: #0f172a;
 }
 
 .settings-panel-card .card-header-flex {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  border-bottom: 1.5px solid #93c5fd;
+  background: var(--surface-gradient);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .profile-avatar-lg {
   width: 56px;
   height: 56px;
   border-radius: 16px;
-  background: linear-gradient(135deg, #ff4522 0%, #e62e0b 100%);
+  background: var(--brand-gradient);
   color: #ffffff;
   font-size: 1.25rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(255, 59, 25, 0.35);
+  box-shadow: var(--shadow-sm);
 }
 
 @media (max-width: 900px) {

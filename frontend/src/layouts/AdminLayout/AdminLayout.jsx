@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { AdminSidebar } from "./AdminSidebar";
 import { AdminHeader } from "./AdminHeader";
 import { ErrorBoundary } from "../../components/common/ErrorBoundary";
+import { PageTransition, sectionKeyFromPath } from "../../components/motion/PageTransition";
 import "./AdminLayout.css";
 
 export const AdminLayout = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMobileSidebar = () => {
     setIsMobileOpen(!isMobileOpen);
@@ -26,7 +28,9 @@ export const AdminLayout = () => {
         <AdminHeader toggleMobileSidebar={toggleMobileSidebar} />
         <main className="content-body">
           <ErrorBoundary>
-            <Outlet />
+            <PageTransition panel="admin" sectionKey={sectionKeyFromPath(location.pathname)}>
+              <Outlet />
+            </PageTransition>
           </ErrorBoundary>
         </main>
       </div>

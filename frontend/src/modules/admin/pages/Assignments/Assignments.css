@@ -121,7 +121,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff4522 0%, #e62e0b 100%);
+  background: var(--brand-gradient);
   color: #ffffff;
   font-size: 0.8rem;
   font-weight: 800;
@@ -129,7 +129,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(255, 69, 34, 0.25);
+  box-shadow: var(--shadow-sm);
 }
 
 .rep-identity {
@@ -349,14 +349,14 @@
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff4522 0%, #e62e0b 100%);
+  background: var(--brand-gradient);
   color: #ffffff;
   font-size: 0.675rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 5px rgba(255, 69, 34, 0.2);
+  box-shadow: var(--shadow-sm);
 }
 
 .assignee-name {

@@ -8,7 +8,7 @@ import {
 
 // Maps backend/src/models/Activity.model.js actionType values to an icon.
 const ICON_BY_ACTION = {
-  LEAD_CREATED: { Icon: UserPlus, color: "#ff3b19" },
+  LEAD_CREATED: { Icon: UserPlus, color: "var(--brand)" },
   LEAD_ASSIGNED: { Icon: UserCheck, color: "#9333ea" },
   LEAD_REASSIGNED: { Icon: UserCheck, color: "#9333ea" },
   STATUS_CHANGED: { Icon: RefreshCw, color: "#0891b2" },

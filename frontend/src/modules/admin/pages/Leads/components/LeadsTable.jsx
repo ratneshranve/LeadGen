@@ -60,15 +60,15 @@ export const LeadsTable = ({
                 onChange={onSelectAll}
               />
             </th>
-            <th style={{ minWidth: "160px" }}>FULL NAME</th>
-            <th style={{ minWidth: "150px" }}>PHONE NUMBER</th>
-            <th style={{ minWidth: "180px" }}>EMAIL ADDRESS</th>
-            <th style={{ minWidth: "130px" }}>LEAD SOURCE</th>
-            <th style={{ minWidth: "110px" }}>LEAD STATUS</th>
-            <th style={{ minWidth: "120px" }}>LEAD CATEGORY</th>
-            <th style={{ minWidth: "110px" }}>AI SCORE</th>
-            <th style={{ minWidth: "180px" }}>ASSIGNED SALES EMPLOYEE</th>
-            <th style={{ minWidth: "100px", textAlign: "center" }}>ACTIONS</th>
+            <th style={{ minWidth: "160px" }}>Full Name</th>
+            <th style={{ minWidth: "150px" }}>Phone Number</th>
+            <th style={{ minWidth: "180px" }}>Email Address</th>
+            <th style={{ minWidth: "130px" }}>Lead Source</th>
+            <th style={{ minWidth: "110px" }}>Lead Status</th>
+            <th style={{ minWidth: "120px" }}>Lead Category</th>
+            <th style={{ minWidth: "110px" }}>AI Score</th>
+            <th style={{ minWidth: "180px" }}>Assigned Sales Employee</th>
+            <th style={{ minWidth: "100px", textAlign: "center" }}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -97,22 +97,22 @@ export const LeadsTable = ({
 
                   {/* Full Name */}
                   <td>
-                    <span style={{ fontWeight: 700, color: "#1b2559", fontSize: "0.875rem" }}>
+                    <span className="lead-name-text" style={{ fontWeight: 600, color: "var(--brand)", fontSize: "0.875rem" }}>
                       {lead.name}
                     </span>
                   </td>
 
                   {/* Phone Number */}
                   <td>
-                    <span style={{ fontSize: "0.8rem", color: "#1b2559", display: "inline-flex", alignItems: "center", gap: "5px" }}>
-                      <Phone size={12} color="#7090b0" /> {lead.phone}
+                    <span style={{ fontSize: "0.8rem", color: "var(--text-main)", display: "inline-flex", alignItems: "center", gap: "5px" }}>
+                      <Phone size={12} color="var(--text-muted)" /> {lead.phone}
                     </span>
                   </td>
 
                   {/* Email Address */}
                   <td>
-                    <span style={{ fontSize: "0.8rem", color: "#1b2559", display: "inline-flex", alignItems: "center", gap: "5px" }}>
-                      <Mail size={12} color="#7090b0" /> {lead.email}
+                    <span style={{ fontSize: "0.8rem", color: "var(--text-main)", display: "inline-flex", alignItems: "center", gap: "5px" }}>
+                      <Mail size={12} color="var(--text-muted)" /> {lead.email}
                     </span>
                   </td>
 
@@ -120,7 +120,7 @@ export const LeadsTable = ({
                   <td>
                     <div style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
                       {getSourceIcon(lead.source)}
-                      <span style={{ fontSize: "0.825rem", color: "#1b2559", fontWeight: 600 }}>
+                      <span style={{ fontSize: "0.825rem", color: "var(--text-main)", fontWeight: 600 }}>
                         {lead.source}
                       </span>
                     </div>
@@ -184,7 +184,7 @@ export const LeadsTable = ({
                           width: "28px",
                           height: "28px",
                           borderRadius: "50%",
-                          background: "linear-gradient(135deg, #ff4522 0%, #e62e0b 100%)",
+                          background: "var(--brand-gradient)",
                           color: "#ffffff",
                           display: "flex",
                           alignItems: "center",
@@ -212,7 +212,7 @@ export const LeadsTable = ({
                         title="Edit Lead Details"
                         style={{ padding: "6px 8px", borderRadius: "8px" }}
                       >
-                        <Edit3 size={15} color="#ff3b19" />
+                        <Edit3 size={15} color="var(--brand)" />
                       </button>
                       <button
                         type="button"

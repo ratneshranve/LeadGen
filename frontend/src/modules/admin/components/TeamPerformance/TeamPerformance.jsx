@@ -101,7 +101,7 @@ export const TeamPerformance = ({ teamPerformance = [] }) => {
                             person.conversionRate >= 27
                               ? "#10b981"
                               : person.conversionRate >= 20
-                              ? "#ff3b19"
+                              ? "var(--brand)"
                               : "#f59e0b",
                         }}
                       />

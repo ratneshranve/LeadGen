@@ -1,63 +1,40 @@
 import React from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 
-export const Modal = ({ isOpen, onClose, title, children, maxWidth = "560px" }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "rgba(15, 23, 42, 0.5)",
-      backdropFilter: "blur(4px)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      zIndex: 1000,
-      padding: "16px"
-    }}>
-      <div style={{
-        background: "#ffffff",
-        borderRadius: "var(--radius-md)",
-        width: "100%",
-        maxWidth: maxWidth,
-        boxShadow: "var(--shadow-lg)",
-        overflow: "hidden",
-        border: "1px solid var(--border-color)",
-        animation: "modalFadeIn 0.2s ease-out"
-      }}>
-        <div style={{
-          padding: "16px 20px",
-          borderBottom: "1px solid var(--border-color)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          background: "var(--bg-app)"
-        }}>
-          <h3 style={{ fontSize: "1.05rem", fontWeight: 600, color: "var(--text-main)" }}>{title}</h3>
-          <button
-            onClick={onClose}
-            style={{
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              color: "var(--text-muted)",
-              padding: "4px",
-              borderRadius: "var(--radius-sm)",
-              display: "flex",
-              alignItems: "center"
-            }}
-          >
-            <X size={18} />
-          </button>
-        </div>
-        <div style={{ padding: "20px" }}>
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-};
+// Shared dialog. Admin: crisp white sheet that rises and settles (the
+// "Save a new search" dialog of the lead-management reference). Sales: the
+// same motion with the cream/ink skin from styles/sales-theme.css.
+export const Modal = ({ isOpen, onClose, title, children, maxWidth = "560px" }) => (
+  <AnimatePresence>
+    {isOpen && (
+      <motion.div
+        className="lg-modal-backdrop"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.22 }}
+      >
+        <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label={typeof title === "string" ? title : undefined}
+          className="lg-modal"
+          style={{ maxWidth }}
+          initial={{ opacity: 0, y: 24, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 12, scale: 0.98 }}
+          transition={{ type: "spring", stiffness: 420, damping: 34, mass: 0.9 }}
+        >
+          <div className="lg-modal-header">
+            <h3 className="lg-modal-title">{title}</h3>
+            <button type="button" onClick={onClose} className="lg-modal-close" aria-label="Close">
+              <X size={17} />
+            </button>
+          </div>
+          <div className="lg-modal-body">{children}</div>
+        </motion.div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+);

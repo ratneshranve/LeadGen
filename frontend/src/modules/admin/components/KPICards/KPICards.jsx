@@ -7,7 +7,9 @@ import {
   CheckCircle2,
   XCircle,
   Clock,
+  ArrowUpRight,
 } from "lucide-react";
+import { CountUp } from "../../../../components/motion/CountUp";
 
 const formatCurrency = (value) =>
   `₹${Number(value || 0).toLocaleString("en-IN", { maximumFractionDigits: 0 })}`;
@@ -27,10 +29,7 @@ export const KPICards = ({ kpi }) => {
       value: safe.totalLeads,
       subtext: `Est. value ${formatCurrency(safe.totalEstimatedValue)}`,
       icon: Users,
-      color: "#ff3b19",
-      cardBg: "linear-gradient(135deg, #ffe5e0 0%, #ffd4cc 100%)",
-      borderColor: "#ffb3a6",
-      shadow: "0 6px 16px rgba(255, 59, 25, 0.15)",
+      tone: "brand",
       statusFilter: "All",
     },
     {
@@ -39,10 +38,7 @@ export const KPICards = ({ kpi }) => {
       value: safe.newLeads,
       subtext: "Awaiting first contact",
       icon: UserPlus,
-      color: "#c2410c",
-      cardBg: "linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%)",
-      borderColor: "#fdba74",
-      shadow: "0 6px 16px rgba(234, 88, 12, 0.15)",
+      tone: "ember",
       statusFilter: "New",
     },
     {
@@ -51,10 +47,7 @@ export const KPICards = ({ kpi }) => {
       value: safe.activeLeads,
       subtext: "Currently in pipeline",
       icon: Activity,
-      color: "#0369a1",
-      cardBg: "linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)",
-      borderColor: "#7dd3fc",
-      shadow: "0 6px 16px rgba(2, 132, 199, 0.15)",
+      tone: "sky",
       statusFilter: "Active",
     },
     {
@@ -63,10 +56,7 @@ export const KPICards = ({ kpi }) => {
       value: safe.convertedLeads,
       subtext: `${safe.conversionRate}% conversion rate`,
       icon: CheckCircle2,
-      color: "#15803d",
-      cardBg: "linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)",
-      borderColor: "#86efac",
-      shadow: "0 6px 16px rgba(22, 163, 74, 0.15)",
+      tone: "green",
       statusFilter: "Converted",
     },
     {
@@ -75,10 +65,7 @@ export const KPICards = ({ kpi }) => {
       value: safe.lostLeads,
       subtext: "Needs review",
       icon: XCircle,
-      color: "#b91c1c",
-      cardBg: "linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)",
-      borderColor: "#fca5a5",
-      shadow: "0 6px 16px rgba(220, 38, 38, 0.15)",
+      tone: "red",
       statusFilter: "Lost",
     },
     {
@@ -87,47 +74,43 @@ export const KPICards = ({ kpi }) => {
       value: safe.pendingFollowUps,
       subtext: `${safe.overdueFollowUps} overdue`,
       icon: Clock,
-      color: "#b45309",
-      cardBg: "linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)",
-      borderColor: "#fcd34d",
-      shadow: "0 6px 16px rgba(217, 119, 6, 0.15)",
+      tone: "amber",
       statusFilter: "Follow-up",
     },
   ];
 
   return (
-    <div className="kpi-grid">
-      {cards.map((card) => {
+    <div className="kpi-grid lg-stagger">
+      {cards.map((card, index) => {
         const Icon = card.icon;
 
         return (
-          <div
+          <button
+            type="button"
             key={card.id}
-            className="kpi-card"
-            style={{
-              cursor: "pointer",
-              background: card.cardBg,
-              border: `1.5px solid ${card.borderColor}`,
-              boxShadow: card.shadow,
-            }}
+            className={`kpi-card kpi-tone-${card.tone}`}
             onClick={() => navigate(`/admin/leads?status=${card.statusFilter}`)}
-            title={`Click to view ${card.label}`}
+            title={`View ${card.label}`}
           >
             <div className="kpi-top">
-              <div className="kpi-icon-box" style={{ backgroundColor: "#ffffff", color: card.color, boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-                <Icon size={18} />
-              </div>
+              <span className="kpi-icon-box">
+                <Icon size={18} strokeWidth={1.9} />
+              </span>
+              <span className="kpi-index">/{String(index + 1).padStart(2, "0")}</span>
             </div>
 
             <div className="kpi-middle">
-              <span className="kpi-label" style={{ color: "#1e293b", fontWeight: 800 }}>{card.label}</span>
-              <h3 className="kpi-value" style={{ color: "#0f172a", fontWeight: 900 }}>{Number(card.value || 0).toLocaleString()}</h3>
+              <span className="kpi-label">{card.label}</span>
+              <h3 className="kpi-value">
+                <CountUp value={card.value} />
+              </h3>
             </div>
 
             <div className="kpi-bottom">
-              <span className="kpi-subtext" style={{ color: "#334155", fontWeight: 700 }}>{card.subtext}</span>
+              <span className="kpi-subtext">{card.subtext}</span>
+              <ArrowUpRight size={15} className="kpi-arrow" />
             </div>
-          </div>
+          </button>
         );
       })}
     </div>

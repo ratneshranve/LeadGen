@@ -129,7 +129,7 @@ export const SourceDirectoryTable = ({
                         title="Edit Source & Change Status/Name"
                         style={{ padding: "6px 10px", borderRadius: "8px" }}
                       >
-                        <Edit3 size={15} color="#ff3b19" />
+                        <Edit3 size={15} color="var(--brand)" />
                       </button>
                       <button
                         type="button"

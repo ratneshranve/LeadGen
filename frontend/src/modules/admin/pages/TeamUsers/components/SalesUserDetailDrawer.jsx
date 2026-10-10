@@ -49,7 +49,7 @@ export const SalesUserDetailDrawer = ({ isOpen, onClose, user, onEdit, onDeactiv
         <div
           style={{
             padding: "20px 24px",
-            background: "linear-gradient(135deg, #ff3b19 0%, #e63010 100%)",
+            background: "linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%)",
             color: "#ffffff",
             display: "flex",
             alignItems: "center",
@@ -63,7 +63,7 @@ export const SalesUserDetailDrawer = ({ isOpen, onClose, user, onEdit, onDeactiv
                 height: "48px",
                 borderRadius: "50%",
                 background: "#ffffff",
-                color: "#ff3b19",
+                color: "var(--brand)",
                 fontSize: "1.2rem",
                 fontWeight: 800,
                 display: "flex",
@@ -137,7 +137,7 @@ export const SalesUserDetailDrawer = ({ isOpen, onClose, user, onEdit, onDeactiv
               style={{ flex: 1, fontSize: "0.8rem", padding: "8px 12px" }}
               onClick={() => { onClose(); onEdit && onEdit(user); }}
             >
-              <Edit3 size={14} color="#ff3b19" /> Edit Profile
+              <Edit3 size={14} color="var(--brand)" /> Edit Profile
             </button>
             <button
               type="button"
@@ -160,27 +160,27 @@ export const SalesUserDetailDrawer = ({ isOpen, onClose, user, onEdit, onDeactiv
 
           {/* 4 Metric Cards Grid */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-            <div className="crm-card" style={{ padding: "14px", background: "#fbf9f4", border: "1px solid #ece7dc" }}>
+            <div className="crm-card" style={{ padding: "14px", background: "var(--bg-app)", border: "1px solid var(--border-color)" }}>
               <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#64748b", textTransform: "uppercase" }}>
                 Assigned Leads
               </span>
-              <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "#ea580c", marginTop: "2px" }}>
+              <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--accent-2)", marginTop: "2px" }}>
                 {user.assignedLeads || 12}
               </div>
               <span style={{ fontSize: "0.7rem", color: "#64748b" }}>Allocated in pipeline</span>
             </div>
 
-            <div className="crm-card" style={{ padding: "14px", background: "#fbf9f4", border: "1px solid #ece7dc" }}>
+            <div className="crm-card" style={{ padding: "14px", background: "var(--bg-app)", border: "1px solid var(--border-color)" }}>
               <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#64748b", textTransform: "uppercase" }}>
                 Active Discussions
               </span>
-              <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "#ff3b19", marginTop: "2px" }}>
+              <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--brand)", marginTop: "2px" }}>
                 {user.activeLeads || 8}
               </div>
               <span style={{ fontSize: "0.7rem", color: "#64748b" }}>In negotiation</span>
             </div>
 
-            <div className="crm-card" style={{ padding: "14px", background: "#fbf9f4", border: "1px solid #ece7dc" }}>
+            <div className="crm-card" style={{ padding: "14px", background: "var(--bg-app)", border: "1px solid var(--border-color)" }}>
               <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#64748b", textTransform: "uppercase" }}>
                 Converted Deals
               </span>
@@ -190,7 +190,7 @@ export const SalesUserDetailDrawer = ({ isOpen, onClose, user, onEdit, onDeactiv
               <span style={{ fontSize: "0.7rem", color: "#64748b" }}>Won client accounts</span>
             </div>
 
-            <div className="crm-card" style={{ padding: "14px", background: "#fbf9f4", border: "1px solid #ece7dc" }}>
+            <div className="crm-card" style={{ padding: "14px", background: "var(--bg-app)", border: "1px solid var(--border-color)" }}>
               <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#64748b", textTransform: "uppercase" }}>
                 Conversion Rate
               </span>
@@ -202,40 +202,40 @@ export const SalesUserDetailDrawer = ({ isOpen, onClose, user, onEdit, onDeactiv
           </div>
 
           {/* Contact Details Card */}
-          <div className="crm-card" style={{ padding: "16px", background: "#ffffff", border: "1px solid #ece7dc" }}>
+          <div className="crm-card" style={{ padding: "16px", background: "#ffffff", border: "1px solid var(--border-color)" }}>
             <h4 style={{ fontSize: "0.875rem", fontWeight: 700, color: "#0f172a", marginBottom: "12px" }}>
               Contact & Account Info
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px", fontSize: "0.825rem" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <span style={{ color: "#64748b", display: "flex", alignItems: "center", gap: "6px" }}>
-                  <Mail size={14} color="#ff3b19" /> Email Address:
+                  <Mail size={14} color="var(--brand)" /> Email Address:
                 </span>
                 <strong style={{ color: "#0f172a", marginLeft: "auto" }}>{user.email}</strong>
               </div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <span style={{ color: "#64748b", display: "flex", alignItems: "center", gap: "6px" }}>
-                  <Phone size={14} color="#ff3b19" /> Mobile Number:
+                  <Phone size={14} color="var(--brand)" /> Mobile Number:
                 </span>
                 <strong style={{ color: "#0f172a", marginLeft: "auto" }}>{user.phone || "+91 98765 00000"}</strong>
               </div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <span style={{ color: "#71717a", display: "flex", alignItems: "center", gap: "6px" }}>
-                  <Calendar size={14} color="#ff3b19" /> Date of Birth (DOB):
+                  <Calendar size={14} color="var(--brand)" /> Date of Birth (DOB):
                 </span>
-                <strong style={{ color: "#141416", marginLeft: "auto" }}>{user.dob || "1995-08-15"}</strong>
+                <strong style={{ color: "var(--ink)", marginLeft: "auto" }}>{user.dob || "1995-08-15"}</strong>
               </div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <span style={{ color: "#71717a", display: "flex", alignItems: "center", gap: "6px" }}>
-                  <Target size={14} color="#ff3b19" /> Max Capacity:
+                  <Target size={14} color="var(--brand)" /> Max Capacity:
                 </span>
-                <strong style={{ color: "#141416", marginLeft: "auto" }}>{user.maxCapacity || 50} leads</strong>
+                <strong style={{ color: "var(--ink)", marginLeft: "auto" }}>{user.maxCapacity || 50} leads</strong>
               </div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <span style={{ color: "#71717a", display: "flex", alignItems: "center", gap: "6px" }}>
-                  <Calendar size={14} color="#ff3b19" /> Joined Date:
+                  <Calendar size={14} color="var(--brand)" /> Joined Date:
                 </span>
-                <strong style={{ color: "#141416", marginLeft: "auto" }}>{user.createdAt || "Jan 10, 2026"}</strong>
+                <strong style={{ color: "var(--ink)", marginLeft: "auto" }}>{user.createdAt || "Jan 10, 2026"}</strong>
               </div>
             </div>
           </div>

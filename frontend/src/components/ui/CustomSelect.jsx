@@ -81,12 +81,12 @@ export const CustomSelect = ({
             ? isSmall ? "6px 10px 6px 30px" : "10px 14px 10px 38px"
             : isSmall ? "6px 10px" : "10px 14px",
           backgroundColor: "#ffffff",
-          border: isOpen ? "1px solid #ff3b19" : "1px solid #ece7dc",
-          boxShadow: isOpen ? "0 0 0 3px rgba(255, 59, 25, 0.15)" : "none",
+          border: isOpen ? "1px solid var(--brand)" : "1px solid var(--border-color)",
+          boxShadow: isOpen ? "0 0 0 3px rgb(var(--brand-rgb) / 0.15)" : "none",
           borderRadius: isSmall ? "9px" : "12px",
           fontSize: isSmall ? "0.8rem" : "0.875rem",
           fontWeight: 600,
-          color: value && value !== "All" ? "#141416" : "#64748b",
+          color: value && value !== "All" ? "var(--ink)" : "#64748b",
           cursor: disabled ? "not-allowed" : "pointer",
           transition: "all 0.15s ease",
           textAlign: "left",
@@ -102,7 +102,7 @@ export const CustomSelect = ({
             style={{
               position: "absolute",
               left: "12px",
-              color: isOpen ? "#ff3b19" : "#a3aed0",
+              color: isOpen ? "var(--brand)" : "var(--text-faint)",
               transition: "color 0.15s ease",
             }}
           />
@@ -113,7 +113,7 @@ export const CustomSelect = ({
         <ChevronDown
           size={16}
           style={{
-            color: isOpen ? "#ff3b19" : "#71717a",
+            color: isOpen ? "var(--brand)" : "#71717a",
             transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
             transition: "transform 0.2s ease, color 0.15s ease",
             flexShrink: 0,
@@ -134,9 +134,9 @@ export const CustomSelect = ({
             maxWidth: "260px",
             zIndex: 99999,
             backgroundColor: "#ffffff",
-            border: "1px solid #ece7dc",
+            border: "1px solid var(--border-color)",
             borderRadius: "14px",
-            boxShadow: "0 12px 32px rgba(20, 20, 22, 0.14)",
+            boxShadow: "var(--shadow-sm)",
             padding: "6px",
             maxHeight: "240px",
             overflowY: "auto",
@@ -160,26 +160,26 @@ export const CustomSelect = ({
                   borderRadius: "9px",
                   fontSize: "0.85rem",
                   fontWeight: isSelected ? 700 : 500,
-                  backgroundColor: isSelected ? "#fff1ee" : "transparent",
-                  color: isSelected ? "#ff3b19" : "#141416",
+                  backgroundColor: isSelected ? "var(--brand-soft)" : "transparent",
+                  color: isSelected ? "var(--brand)" : "var(--ink)",
                   cursor: "pointer",
                   transition: "background-color 0.12s ease, color 0.12s ease",
                 }}
                 onMouseEnter={(e) => {
                   if (!isSelected) {
-                    e.currentTarget.style.backgroundColor = "#fff7ed";
-                    e.currentTarget.style.color = "#ea580c";
+                    e.currentTarget.style.backgroundColor = "var(--surface-tint)";
+                    e.currentTarget.style.color = "var(--accent-2)";
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isSelected) {
                     e.currentTarget.style.backgroundColor = "transparent";
-                    e.currentTarget.style.color = "#141416";
+                    e.currentTarget.style.color = "var(--ink)";
                   }
                 }}
               >
                 <span>{optLabel}</span>
-                {isSelected && <Check size={15} color="#ff3b19" />}
+                {isSelected && <Check size={15} color="var(--brand)" />}
               </div>
             );
           })}

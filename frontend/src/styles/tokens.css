@@ -1,0 +1,261 @@
+/* ==========================================================================
+   LeadGen design tokens
+   ADMIN  — "Navy Console": deep-navy icon rail, cool white canvas, electric
+            blue actions, Manrope. Lime + ember accents used sparingly.
+   SALES  — "Ink & Cream": warm cream canvas inside an ink frame, notched
+            panels, lime highlights, ember accents, Geist.
+   The active panel is set on <html data-panel="admin|sales"> by
+   usePanelTheme(); :root falls back to the admin values.
+   ========================================================================== */
+
+:root,
+[data-panel="admin"] {
+  /* Type */
+  --font-sans: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-display: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", monospace;
+  --heading-tracking: -0.02em;
+  --heading-weight: 700;
+
+  /* Navy rail */
+  --navy-950: #021435;
+  --navy-900: #031b45;
+  --navy-800: #0a2d64;
+  --navy-700: #123a78;
+
+  /* Brand (primary actions) */
+  --brand: #2b6beb;
+  --brand-rgb: 43 107 235;
+  --brand-hover: #1f57cf;
+  --brand-deep: #1a47a8;
+  --brand-soft: #eaf1fe;
+  --brand-soft-2: #dce8fd;
+  --brand-border: #c5d8fb;
+  --brand-contrast: #ffffff;
+  --brand-gradient: linear-gradient(135deg, #3b7bf5 0%, #2257d6 100%);
+
+  /* Large tinted surfaces (cards, table heads, row hovers) */
+  --surface-tint: #f6f9fe;
+  --surface-tint-2: #edf2fb;
+  --surface-gradient: linear-gradient(180deg, #ffffff 0%, #f7f9fd 100%);
+  --line-tint: #dce4f2;
+  --line-tint-strong: #c3d0e6;
+
+  /* Ink + accents */
+  --ink: #0b1b3a;
+  --ink-rgb: 11 27 58;
+  --ink-2: #13254a;
+  --lime: #eef26a;
+  --accent-rgb: 238 242 106;
+  --accent-ink: #1b1a1d;
+  --accent-2: #e8691c;
+  --accent-2-rgb: 232 105 28;
+  --accent-2-deep: #c2540f;
+  --accent-2-soft: #fff1e7;
+  --accent-2-border: #fbd5ba;
+
+  /* Legacy primary scale → brand */
+  --primary-50: var(--brand-soft);
+  --primary-100: var(--brand-soft-2);
+  --primary-200: var(--brand-border);
+  --primary-300: #9dbdf8;
+  --primary-400: #5f8ff1;
+  --primary-500: var(--brand);
+  --primary-600: var(--brand);
+  --primary-700: var(--brand-hover);
+
+  /* Sidebar */
+  --sidebar-bg: var(--navy-900);
+  --sidebar-border: rgba(255, 255, 255, 0.07);
+  --sidebar-text: rgba(255, 255, 255, 0.72);
+  --sidebar-text-active: #ffffff;
+  --sidebar-active-bg: var(--navy-800);
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.06);
+  --sidebar-muted: rgba(255, 255, 255, 0.45);
+
+  /* Canvas & surfaces */
+  --bg-app: #f6f8fc;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f3f6fa;
+  --bg-hover: #f5f8fe;
+  --border-color: #e2e8f1;
+  --border-light: #edf1f7;
+  --border-strong: #cdd6e4;
+
+  /* Text */
+  --text-main: #101b33;
+  --text-muted: #6a768c;
+  --text-subtle: #3e4a61;
+  --text-faint: #98a2b5;
+
+  /* Status pills */
+  --status-new-bg: var(--brand-soft);
+  --status-new-text: var(--brand);
+  --status-new-border: var(--brand-border);
+  --status-contacted-bg: #f2efff;
+  --status-contacted-text: #6d3fe0;
+  --status-contacted-border: #dcd3fd;
+  --status-followup-bg: #fff6e5;
+  --status-followup-text: #c27406;
+  --status-followup-border: #fbe1a8;
+  --status-interested-bg: #e8f8f1;
+  --status-interested-text: #0b8a5f;
+  --status-interested-border: #b6ead2;
+  --status-converted-bg: #e8f8f1;
+  --status-converted-text: #0b8a5f;
+  --status-converted-border: #b6ead2;
+  --status-lost-bg: #fdeeee;
+  --status-lost-text: #d23a3a;
+  --status-lost-border: #f8caca;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(16, 27, 51, 0.04), 0 1px 3px rgba(16, 27, 51, 0.04);
+  --shadow-md: 0 8px 24px rgba(16, 27, 51, 0.06);
+  --shadow-lg: 0 24px 48px -12px rgba(16, 27, 51, 0.2);
+  --shadow-pop: 0 18px 40px -8px rgba(16, 27, 51, 0.22), 0 0 0 1px rgba(16, 27, 51, 0.04);
+
+  /* Layout */
+  --sidebar-width: 248px;
+  --sidebar-collapsed-width: 76px;
+  --header-height: 72px;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fast: 0.18s var(--ease-out-expo);
+  --transition-normal: 0.32s var(--ease-out-expo);
+
+  /* shadcn/tailwind HSL tokens (--accent here is shadcn's; the lime is --lime) */
+  --background: 220 50% 98%;
+  --foreground: 222 52% 13%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 52% 13%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 52% 13%;
+  --primary: 220 83% 55%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 218 40% 96%;
+  --secondary-foreground: 222 52% 13%;
+  --muted: 218 40% 96%;
+  --muted-foreground: 218 13% 48%;
+  --accent: 220 90% 96%;
+  --accent-foreground: 220 83% 55%;
+  --destructive: 0 72% 52%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 216 32% 92%;
+  --input: 216 32% 92%;
+  --ring: 220 83% 55%;
+  --radius: 0.625rem;
+  --sidebar-background: 219 92% 14%;
+  --sidebar-foreground: 0 0% 95%;
+  --sidebar-primary: 220 83% 55%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 216 82% 22%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 216 60% 20%;
+  --sidebar-ring: 220 83% 55%;
+}
+
+[data-panel="sales"] {
+  --font-sans: "Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-display: "Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", monospace;
+  --heading-tracking: -0.035em;
+  --heading-weight: 600;
+
+  --brand: #1b1a1d;
+  --brand-rgb: 27 26 29;
+  --brand-hover: #3a383e;
+  --brand-deep: #000000;
+  --brand-soft: #f3f4cc;
+  --brand-soft-2: #eaecaf;
+  --brand-border: #dcdd8f;
+  --brand-contrast: #ffffff;
+  --brand-gradient: linear-gradient(135deg, #2a292d 0%, #141316 100%);
+
+  --surface-tint: #faf7f1;
+  --surface-tint-2: #f3eee5;
+  --surface-gradient: linear-gradient(180deg, #fffdfa 0%, #faf6ef 100%);
+  --line-tint: #e8e1d5;
+  --line-tint-strong: #d8cebe;
+
+  --ink: #1b1a1d;
+  --ink-rgb: 27 26 29;
+  --ink-2: #242327;
+  --ink-3: #2f2e33;
+  --lime: #f4f576;
+  --accent-rgb: 244 245 118;
+  --accent-ink: #1b1a1d;
+  --accent-2: #f07a1f;
+  --accent-2-rgb: 240 122 31;
+  --accent-2-deep: #c85f0e;
+  --accent-2-soft: #fdf0e4;
+  --accent-2-border: #f6d2b2;
+
+  --primary-300: #8b8890;
+  --primary-400: #55535a;
+
+  --sidebar-bg: var(--ink);
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-active-bg: var(--lime);
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.08);
+
+  --bg-app: #f3eee6;
+  --bg-surface: #fffdfa;
+  --bg-subtle: #f7f3ec;
+  --bg-hover: #faf6ef;
+  --border-color: #e7e0d4;
+  --border-light: #efe9df;
+  --border-strong: #d9d0c1;
+
+  --text-main: #1b1a1d;
+  --text-muted: #77716a;
+  --text-subtle: #4a4642;
+  --text-faint: #a39c93;
+
+  --status-new-bg: var(--brand-soft);
+  --status-new-text: #4c4d0a;
+  --status-new-border: var(--brand-border);
+
+  --shadow-sm: 0 1px 2px rgba(27, 26, 29, 0.05);
+  --shadow-md: 0 10px 28px -6px rgba(27, 26, 29, 0.1);
+  --shadow-lg: 0 28px 56px -16px rgba(27, 26, 29, 0.28);
+  --shadow-pop: 0 20px 44px -10px rgba(27, 26, 29, 0.3), 0 0 0 1px rgba(27, 26, 29, 0.05);
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --background: 37 37% 93%;
+  --foreground: 260 5% 11%;
+  --card: 40 100% 99%;
+  --card-foreground: 260 5% 11%;
+  --popover: 40 100% 99%;
+  --popover-foreground: 260 5% 11%;
+  --primary: 260 5% 11%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 38 39% 95%;
+  --secondary-foreground: 260 5% 11%;
+  --muted: 38 39% 95%;
+  --muted-foreground: 30 6% 44%;
+  --accent: 61 66% 88%;
+  --accent-foreground: 260 5% 11%;
+  --border: 38 26% 87%;
+  --input: 38 26% 87%;
+  --ring: 260 5% 11%;
+  --radius: 0.875rem;
+  --sidebar-background: 260 5% 11%;
+  --sidebar-primary: 61 87% 71%;
+  --sidebar-primary-foreground: 260 5% 11%;
+  --sidebar-accent: 260 5% 18%;
+  --sidebar-border: 260 5% 18%;
+  --sidebar-ring: 61 87% 71%;
+}

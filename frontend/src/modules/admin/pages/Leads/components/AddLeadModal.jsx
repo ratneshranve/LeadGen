@@ -113,7 +113,7 @@ export const AddLeadModal = ({ isOpen, onClose, onAddLead, sources = [], salespe
         {/* Top Header Card */}
         <div
           style={{
-            background: "linear-gradient(135deg, #ff3b19 0%, #e63010 100%)",
+            background: "linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%)",
             color: "#ffffff",
             padding: "20px 24px",
             display: "flex",
@@ -172,11 +172,11 @@ export const AddLeadModal = ({ isOpen, onClose, onAddLead, sources = [], salespe
 
             {/* Full Name */}
             <div className="form-group">
-              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                 Full Name <span style={{ color: "#ef4444" }}>*</span>
               </label>
               <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                <User size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                <User size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                 <input
                   type="text"
                   name="name"
@@ -194,11 +194,11 @@ export const AddLeadModal = ({ isOpen, onClose, onAddLead, sources = [], salespe
             {/* Phone & Email Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Phone Number <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Phone size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Phone size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <input
                     type="tel"
                     name="phone"
@@ -213,11 +213,11 @@ export const AddLeadModal = ({ isOpen, onClose, onAddLead, sources = [], salespe
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Email Address
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Mail size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Mail size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <input
                     type="email"
                     name="email"
@@ -235,7 +235,7 @@ export const AddLeadModal = ({ isOpen, onClose, onAddLead, sources = [], salespe
             {/* Lead Source & Lead Category Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Lead Source <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <CustomSelect
@@ -249,7 +249,7 @@ export const AddLeadModal = ({ isOpen, onClose, onAddLead, sources = [], salespe
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Lead Category
                 </label>
                 <CustomSelect
@@ -265,17 +265,17 @@ export const AddLeadModal = ({ isOpen, onClose, onAddLead, sources = [], salespe
             {/* Lead Status & Assigned Sales Employee Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Lead Status
                 </label>
-                <div style={{ position: "relative", display: "flex", alignItems: "center", height: "42px", backgroundColor: "#f4f7fe", borderRadius: "10px", padding: "0 12px" }}>
+                <div style={{ position: "relative", display: "flex", alignItems: "center", height: "42px", backgroundColor: "var(--bg-subtle)", borderRadius: "10px", padding: "0 12px" }}>
                   <Badge status="New" />
-                  <span style={{ fontSize: "0.75rem", color: "#a3aed0", marginLeft: "8px", fontWeight: 600 }}>(Default)</span>
+                  <span style={{ fontSize: "0.75rem", color: "var(--text-faint)", marginLeft: "8px", fontWeight: 600 }}>(Default)</span>
                 </div>
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Assigned Sales Employee <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <CustomSelect

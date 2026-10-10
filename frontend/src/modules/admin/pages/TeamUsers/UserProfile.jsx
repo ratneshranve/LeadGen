@@ -251,7 +251,7 @@ export const UserProfile = () => {
               <div className="stat-value text-indigo">{user.activeLeads || 0}</div>
               <span className="stat-subtext">In active pipeline</span>
             </div>
-            <div className="stat-icon-wrapper" style={{ backgroundColor: "#fff1ee", color: "#ff3b19" }}>
+            <div className="stat-icon-wrapper" style={{ backgroundColor: "var(--brand-soft)", color: "var(--brand)" }}>
               <Clock size={20} />
             </div>
           </div>

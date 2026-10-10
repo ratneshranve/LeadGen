@@ -19,7 +19,7 @@ import { reportsApi } from "../../../../api/reportsApi";
 import "./ReportsAnalytics.css";
 
 const STATUS_COLORS = {
-  New: "#ff3b19",
+  New: "var(--brand)",
   Contacted: "#8b5cf6",
   "Follow-up": "#eab308",
   Interested: "#06b6d4",
@@ -189,20 +189,20 @@ export const ReportsAnalytics = () => {
         <>
           {/* Top 4 KPI Cards */}
           <div className="reports-kpi-grid">
-            <div className="crm-card overview-stat-card" style={{ background: "linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)", border: "1px solid #93c5fd", boxShadow: "0 4px 14px rgba(59, 130, 246, 0.12)" }}>
+            <div className="crm-card overview-stat-card" style={{ background: "var(--surface-gradient)", border: "1px solid var(--border-color)", boxShadow: "var(--shadow-sm)" }}>
               <div className="stat-card-inner">
                 <div className="stat-info">
                   <span className="stat-label" style={{ color: "#334155", fontWeight: 700 }}>Total Leads</span>
                   <div className="stat-value" style={{ color: "#0f172a", fontWeight: 900 }}>{kpi.totalLeads}</div>
                   <span className="stat-subtext" style={{ color: "#166534", fontWeight: 700 }}>In {dateRange.toLowerCase()}</span>
                 </div>
-                <div className="stat-icon-wrapper" style={{ backgroundColor: "#dbeafe", color: "#1d4ed8", border: "1px solid #bfdbfe" }}>
+                <div className="stat-icon-wrapper" style={{ backgroundColor: "var(--brand-soft-2)", color: "#1d4ed8", border: "1px solid var(--brand-border)" }}>
                   <Users size={20} />
                 </div>
               </div>
             </div>
 
-            <div className="crm-card overview-stat-card" style={{ background: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)", border: "1px solid #86efac", boxShadow: "0 4px 14px rgba(34, 197, 94, 0.12)" }}>
+            <div className="crm-card overview-stat-card" style={{ background: "var(--surface-gradient)", border: "1px solid #86efac", boxShadow: "0 4px 14px rgba(34, 197, 94, 0.12)" }}>
               <div className="stat-card-inner">
                 <div className="stat-info">
                   <span className="stat-label" style={{ color: "#334155", fontWeight: 700 }}>Converted Leads</span>
@@ -215,20 +215,20 @@ export const ReportsAnalytics = () => {
               </div>
             </div>
 
-            <div className="crm-card overview-stat-card" style={{ background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)", border: "1px solid #fed7aa", boxShadow: "0 4px 14px rgba(249, 115, 22, 0.12)" }}>
+            <div className="crm-card overview-stat-card" style={{ background: "var(--surface-gradient)", border: "1px solid var(--line-tint)", boxShadow: "var(--shadow-sm)" }}>
               <div className="stat-card-inner">
                 <div className="stat-info">
                   <span className="stat-label" style={{ color: "#334155", fontWeight: 700 }}>Conversion Rate</span>
                   <div className="stat-value" style={{ color: "#0f172a", fontWeight: 900 }}>{kpi.rate}</div>
                   <span className="stat-subtext" style={{ color: "#166534", fontWeight: 700 }}>Converted / Total</span>
                 </div>
-                <div className="stat-icon-wrapper" style={{ backgroundColor: "#ffedd5", color: "#c2410c", border: "1px solid #fed7aa" }}>
+                <div className="stat-icon-wrapper" style={{ backgroundColor: "var(--accent-2-soft)", color: "var(--accent-2-deep)", border: "1px solid var(--accent-2-border)" }}>
                   <TrendingUp size={20} />
                 </div>
               </div>
             </div>
 
-            <div className="crm-card overview-stat-card" style={{ background: "linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%)", border: "1px solid #c7d2fe", boxShadow: "0 4px 14px rgba(99, 102, 241, 0.12)" }}>
+            <div className="crm-card overview-stat-card" style={{ background: "var(--surface-gradient)", border: "1px solid #c7d2fe", boxShadow: "0 4px 14px rgba(99, 102, 241, 0.12)" }}>
               <div className="stat-card-inner">
                 <div className="stat-info">
                   <span className="stat-label" style={{ color: "#334155", fontWeight: 700 }}>Revenue Won</span>
@@ -244,8 +244,8 @@ export const ReportsAnalytics = () => {
 
           {/* Analytics Charts Grid */}
           <div className="charts-grid-two">
-            <div className="crm-card report-chart-card" style={{ background: "linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%)", border: "1px solid #a5f3fc", boxShadow: "0 4px 14px rgba(6, 182, 212, 0.1)" }}>
-              <div className="card-header-flex" style={{ background: "linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)", borderBottom: "1px solid #7dd3fc" }}>
+            <div className="crm-card report-chart-card" style={{ background: "var(--surface-gradient)", border: "1px solid #a5f3fc", boxShadow: "0 4px 14px rgba(6, 182, 212, 0.1)" }}>
+              <div className="card-header-flex" style={{ background: "var(--surface-gradient)", borderBottom: "1px solid #7dd3fc" }}>
                 <h3 className="section-title" style={{ color: "#0f172a", fontWeight: 800 }}>
                   <LineIcon size={18} className="text-indigo" /> Lead Conversion Trend
                 </h3>
@@ -255,8 +255,8 @@ export const ReportsAnalytics = () => {
               <LeadConversionTrendChart dateRange={dateRange} data={trendChartData} />
             </div>
 
-            <div className="crm-card report-chart-card" style={{ background: "linear-gradient(135deg, #fdf2f8 0%, #fae8ff 100%)", border: "1px solid #f5d0fe", boxShadow: "0 4px 14px rgba(217, 70, 239, 0.1)" }}>
-              <div className="card-header-flex" style={{ background: "linear-gradient(135deg, #fae8ff 0%, #f5d0fe 100%)", borderBottom: "1px solid #e9d5ff" }}>
+            <div className="crm-card report-chart-card" style={{ background: "var(--surface-gradient)", border: "1px solid #f5d0fe", boxShadow: "0 4px 14px rgba(217, 70, 239, 0.1)" }}>
+              <div className="card-header-flex" style={{ background: "var(--surface-gradient)", borderBottom: "1px solid #e9d5ff" }}>
                 <h3 className="section-title" style={{ color: "#0f172a", fontWeight: 800 }}>
                   <PieIcon size={18} className="text-indigo" /> Pipeline Distribution
                 </h3>
@@ -280,8 +280,8 @@ export const ReportsAnalytics = () => {
           </div>
 
           {/* Sales Performance Section */}
-          <div className="crm-card reports-table-card" style={{ background: "linear-gradient(135deg, #fffbe6 0%, #fef3c7 100%)", border: "1px solid #fde68a", boxShadow: "0 4px 14px rgba(245, 158, 11, 0.1)" }}>
-            <div className="card-header-flex" style={{ background: "linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)", borderBottom: "1px solid #fcd34d" }}>
+          <div className="crm-card reports-table-card" style={{ background: "var(--surface-gradient)", border: "1px solid #fde68a", boxShadow: "0 4px 14px rgba(245, 158, 11, 0.1)" }}>
+            <div className="card-header-flex" style={{ background: "var(--surface-gradient)", borderBottom: "1px solid #fcd34d" }}>
               <h3 className="section-title" style={{ color: "#0f172a", fontWeight: 800 }}>
                 <BarChart3 size={18} className="text-indigo" /> Salesperson Performance
               </h3>

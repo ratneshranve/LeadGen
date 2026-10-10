@@ -186,7 +186,7 @@ export const AddBulkLeadsModal = ({ isOpen, onClose, onAddBulkLeads }) => {
                 type="button"
                 className="crm-btn crm-btn-subtle crm-btn-xs"
                 onClick={handleToggleSelectAllSources}
-                style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "0.75rem", fontWeight: 700, color: "#ff3b19" }}
+                style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "0.75rem", fontWeight: 700, color: "var(--brand)" }}
               >
                 {isAllSourcesSelected ? <CheckSquare size={14} /> : <Square size={14} />}
                 {isAllSourcesSelected ? "Deselect All" : "Select All Sources"}
@@ -200,8 +200,8 @@ export const AddBulkLeadsModal = ({ isOpen, onClose, onAddBulkLeads }) => {
                 gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
                 gap: "10px",
                 padding: "12px",
-                backgroundColor: "#fbf9f4",
-                border: "1px solid #ece7dc",
+                backgroundColor: "var(--bg-app)",
+                border: "1px solid var(--border-color)",
                 borderRadius: "10px",
                 maxHeight: "200px",
                 overflowY: "auto",
@@ -217,12 +217,12 @@ export const AddBulkLeadsModal = ({ isOpen, onClose, onAddBulkLeads }) => {
                       alignItems: "center",
                       gap: "8px",
                       padding: "8px 12px",
-                      backgroundColor: isChecked ? "#fff1ee" : "#ffffff",
-                      border: isChecked ? "1px solid #ff3b19" : "1px solid #ece7dc",
+                      backgroundColor: isChecked ? "var(--brand-soft)" : "#ffffff",
+                      border: isChecked ? "1px solid var(--brand)" : "1px solid var(--border-color)",
                       borderRadius: "8px",
                       fontSize: "0.825rem",
                       fontWeight: isChecked ? 700 : 500,
-                      color: isChecked ? "#ff3b19" : "#334155",
+                      color: isChecked ? "var(--brand)" : "#334155",
                       cursor: "pointer",
                       transition: "all 0.15s ease",
                     }}
@@ -261,9 +261,9 @@ export const AddBulkLeadsModal = ({ isOpen, onClose, onAddBulkLeads }) => {
                 padding: "10px 22px",
                 fontSize: "0.875rem",
                 fontWeight: 800,
-                backgroundColor: "#ff3b19",
-                borderColor: "#e63010",
-                boxShadow: "0 2px 8px rgba(255, 59, 25, 0.3)"
+                backgroundColor: "var(--brand)",
+                borderColor: "var(--brand-hover)",
+                boxShadow: "var(--shadow-sm)"
               }}
             >
               <Plus size={16} /> Add Leads

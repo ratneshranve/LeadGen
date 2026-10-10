@@ -144,7 +144,7 @@ export const RescheduleModal = ({ isOpen, onClose, targetFollowup, onConfirm }) 
               className="crm-input select-input"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              style={{ fontWeight: 700, borderColor: "#ff3b19" }}
+              style={{ fontWeight: 700, borderColor: "var(--brand)" }}
             >
               <option value="Pending">Pending</option>
               <option value="Completed">Completed</option>

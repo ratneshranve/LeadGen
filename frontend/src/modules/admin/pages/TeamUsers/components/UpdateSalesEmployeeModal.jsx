@@ -112,7 +112,7 @@ export const UpdateSalesEmployeeModal = ({
         {/* Top Header Card */}
         <div
           style={{
-            background: "linear-gradient(135deg, #ff3b19 0%, #e63010 100%)",
+            background: "linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%)",
             color: "#ffffff",
             padding: "20px 24px",
             display: "flex",
@@ -171,11 +171,11 @@ export const UpdateSalesEmployeeModal = ({
 
             {/* Full Name */}
             <div className="form-group">
-              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                 Full Name <span style={{ color: "#ef4444" }}>*</span>
               </label>
               <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                <User size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                <User size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                 <input
                   type="text"
                   name="name"
@@ -193,11 +193,11 @@ export const UpdateSalesEmployeeModal = ({
             {/* Phone & Email Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Phone Number <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Phone size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Phone size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <input
                     type="tel"
                     name="phone"
@@ -212,11 +212,11 @@ export const UpdateSalesEmployeeModal = ({
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Email Address <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Mail size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Mail size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <input
                     type="email"
                     name="email"
@@ -234,11 +234,11 @@ export const UpdateSalesEmployeeModal = ({
             {/* Date of Birth & Password Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Date of Birth (DOB)
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Calendar size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Calendar size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <input
                     type="date"
                     name="dob"
@@ -251,11 +251,11 @@ export const UpdateSalesEmployeeModal = ({
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Password
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Key size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Key size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <input
                     type="password"
                     name="password"
@@ -272,11 +272,11 @@ export const UpdateSalesEmployeeModal = ({
             {/* Account Status & Role Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Account Status <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Shield size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Shield size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <select
                     name="status"
                     className="crm-input select-input"
@@ -291,11 +291,11 @@ export const UpdateSalesEmployeeModal = ({
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Role <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <UserCheck size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <UserCheck size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <select
                     name="role"
                     className="crm-input select-input"

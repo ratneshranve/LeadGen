@@ -43,7 +43,7 @@ export const UserDirectoryToolbar = ({
       <div className="filter-dropdowns-group" style={{ display: "flex", alignItems: "flex-end", gap: "10px", flexWrap: "wrap" }}>
         {/* DOB Filter Input */}
         <div className="filter-select-wrapper">
-          <label style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", color: "#7090b0", marginBottom: "4px", display: "block" }}>
+          <label style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", color: "var(--text-muted)", marginBottom: "4px", display: "block" }}>
             DOB
           </label>
           <input
@@ -57,7 +57,7 @@ export const UserDirectoryToolbar = ({
 
         {/* Status Filter Dropdown */}
         <div className="filter-select-wrapper">
-          <label style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", color: "#7090b0", marginBottom: "4px", display: "block" }}>
+          <label style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", color: "var(--text-muted)", marginBottom: "4px", display: "block" }}>
             Status
           </label>
           <CustomSelect
@@ -71,7 +71,7 @@ export const UserDirectoryToolbar = ({
 
         {/* Sort Dropdown */}
         <div className="filter-select-wrapper">
-          <label style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", color: "#7090b0", marginBottom: "4px", display: "block" }}>
+          <label style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", color: "var(--text-muted)", marginBottom: "4px", display: "block" }}>
             Sort
           </label>
           <CustomSelect

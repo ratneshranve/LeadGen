@@ -31,14 +31,14 @@ export const LeadDetailsModal = ({ isOpen, onClose, lead }) => {
               width: "52px",
               height: "52px",
               borderRadius: "50%",
-              background: "linear-gradient(135deg, #ff4522 0%, #e62e0b 100%)",
+              background: "var(--brand-gradient)",
               color: "#ffffff",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontSize: "1.25rem",
               fontWeight: 800,
-              boxShadow: "0 4px 14px rgba(255, 59, 25, 0.35)"
+              boxShadow: "var(--shadow-sm)"
             }}
           >
             {lead.name ? lead.name.charAt(0).toUpperCase() : "L"}
@@ -52,7 +52,7 @@ export const LeadDetailsModal = ({ isOpen, onClose, lead }) => {
               <Badge status={lead.status || "New"} />
             </div>
             <p style={{ fontSize: "0.825rem", color: "#64748b", margin: "4px 0 0 0", fontWeight: 600 }}>
-              {lead.company || "No Company Specified"} • Category: <span style={{ color: "#ff3b19" }}>{lead.category || lead.leadType || "SMB"}</span>
+              {lead.company || "No Company Specified"} • Category: <span style={{ color: "var(--brand)" }}>{lead.category || lead.leadType || "SMB"}</span>
             </p>
           </div>
         </div>
@@ -62,7 +62,7 @@ export const LeadDetailsModal = ({ isOpen, onClose, lead }) => {
           {/* Phone */}
           <div style={{ padding: "12px 14px", backgroundColor: "#ffffff", border: "1px solid var(--border-color)", borderRadius: "14px" }}>
             <span style={{ fontSize: "0.75rem", color: "#64748b", fontWeight: 600, display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
-              <Phone size={13} color="#ff3b19" /> Phone Number
+              <Phone size={13} color="var(--brand)" /> Phone Number
             </span>
             <strong style={{ color: "#0f172a", fontSize: "0.9rem" }}>{lead.phone || "N/A"}</strong>
           </div>
@@ -70,7 +70,7 @@ export const LeadDetailsModal = ({ isOpen, onClose, lead }) => {
           {/* Email */}
           <div style={{ padding: "12px 14px", backgroundColor: "#ffffff", border: "1px solid var(--border-color)", borderRadius: "14px" }}>
             <span style={{ fontSize: "0.75rem", color: "#64748b", fontWeight: 600, display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
-              <Mail size={13} color="#ff3b19" /> Email Address
+              <Mail size={13} color="var(--brand)" /> Email Address
             </span>
             <strong style={{ color: "#0f172a", fontSize: "0.9rem" }}>{lead.email || "N/A"}</strong>
           </div>
@@ -78,7 +78,7 @@ export const LeadDetailsModal = ({ isOpen, onClose, lead }) => {
           {/* Source */}
           <div style={{ padding: "12px 14px", backgroundColor: "#ffffff", border: "1px solid var(--border-color)", borderRadius: "14px" }}>
             <span style={{ fontSize: "0.75rem", color: "#64748b", fontWeight: 600, display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
-              <Globe size={13} color="#ff3b19" /> Lead Source
+              <Globe size={13} color="var(--brand)" /> Lead Source
             </span>
             <span className="source-tag" style={{ display: "inline-block", marginTop: "2px" }}>{lead.source || "Website"}</span>
           </div>
@@ -100,7 +100,7 @@ export const LeadDetailsModal = ({ isOpen, onClose, lead }) => {
           {/* Company */}
           <div style={{ padding: "12px 14px", backgroundColor: "#ffffff", border: "1px solid var(--border-color)", borderRadius: "14px" }}>
             <span style={{ fontSize: "0.75rem", color: "#64748b", fontWeight: 600, display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
-              <Building size={13} color="#ff3b19" /> Company / Organization
+              <Building size={13} color="var(--brand)" /> Company / Organization
             </span>
             <strong style={{ color: "#0f172a" }}>{lead.company || "N/A"}</strong>
           </div>
@@ -108,7 +108,7 @@ export const LeadDetailsModal = ({ isOpen, onClose, lead }) => {
           {/* Created Date */}
           <div style={{ padding: "12px 14px", backgroundColor: "#ffffff", border: "1px solid var(--border-color)", borderRadius: "14px" }}>
             <span style={{ fontSize: "0.75rem", color: "#64748b", fontWeight: 600, display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
-              <Calendar size={13} color="#ff3b19" /> Created Date
+              <Calendar size={13} color="var(--brand)" /> Created Date
             </span>
             <strong style={{ color: "#0f172a" }}>{lead.createdDate || "Aug 25, 2026"}</strong>
           </div>

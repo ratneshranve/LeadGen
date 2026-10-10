@@ -70,12 +70,12 @@ export const AssignmentTable = ({
                   className="crm-checkbox"
                 />
               </th>
-              <th style={{ width: "240px" }}>LEAD DETAILS</th>
-              <th style={{ width: "130px" }}>SOURCE</th>
-              <th style={{ width: "120px" }}>STATUS</th>
+              <th style={{ width: "240px" }}>Lead Details</th>
+              <th style={{ width: "130px" }}>Source</th>
+              <th style={{ width: "120px" }}>Status</th>
               <th style={{ width: "190px" }}>CURRENT ASSIGNEE (OWNER)</th>
-              <th style={{ width: "120px" }}>CREATED</th>
-              <th className="col-actions text-center" style={{ width: "160px" }}>ACTIONS</th>
+              <th style={{ width: "120px" }}>Created</th>
+              <th className="col-actions text-center" style={{ width: "160px" }}>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -128,7 +128,7 @@ export const AssignmentTable = ({
                         </span>
                       ) : (
                         <div className="assignee-cell" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          <span className="assignee-avatar" style={{ background: "linear-gradient(135deg, #ff4522 0%, #e62e0b 100%)", color: "#fff", width: "26px", height: "26px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.725rem", fontWeight: 800, boxShadow: "0 2px 6px rgba(255, 69, 34, 0.25)" }}>
+                          <span className="assignee-avatar" style={{ background: "var(--brand-gradient)", color: "#fff", width: "26px", height: "26px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.725rem", fontWeight: 800, boxShadow: "var(--shadow-sm)" }}>
                             {getInitials(lead.salesperson)}
                           </span>
                           <span className="assignee-name" style={{ fontWeight: 600, color: "#0f172a", fontSize: "0.825rem" }}>
@@ -166,7 +166,7 @@ export const AssignmentTable = ({
                             title="Reassign Lead to another Sales Employee"
                             style={{ padding: "5px 12px", borderRadius: "6px", fontSize: "0.75rem", borderColor: "#cbd5e1" }}
                           >
-                            <RefreshCw size={13} color="#ff3b19" /> Reassign
+                            <RefreshCw size={13} color="var(--brand)" /> Reassign
                           </button>
                         )}
                       </div>

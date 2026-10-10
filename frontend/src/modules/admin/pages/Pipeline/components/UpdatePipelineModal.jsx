@@ -53,7 +53,7 @@ export const UpdatePipelineModal = ({ isOpen, onClose, lead, onUpdateStage }) =>
         {/* Modal Top Banner */}
         <div
           style={{
-            background: "linear-gradient(135deg, #ff3b19 0%, #e63010 100%)",
+            background: "linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%)",
             color: "#ffffff",
             padding: "20px 24px",
             display: "flex",
@@ -135,7 +135,7 @@ export const UpdatePipelineModal = ({ isOpen, onClose, lead, onUpdateStage }) =>
 
             {/* Read-Only Lead Name */}
             <div className="form-group">
-              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                 Full Name <span style={{ fontSize: "0.725rem", color: "#64748b" }}>(Read-only)</span>
               </label>
               <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
@@ -153,7 +153,7 @@ export const UpdatePipelineModal = ({ isOpen, onClose, lead, onUpdateStage }) =>
             {/* Read-Only Phone & Email Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Phone Number <span style={{ fontSize: "0.725rem", color: "#64748b" }}>(Read-only)</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
@@ -169,7 +169,7 @@ export const UpdatePipelineModal = ({ isOpen, onClose, lead, onUpdateStage }) =>
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Email Address <span style={{ fontSize: "0.725rem", color: "#64748b" }}>(Read-only)</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
@@ -188,7 +188,7 @@ export const UpdatePipelineModal = ({ isOpen, onClose, lead, onUpdateStage }) =>
             {/* Read-Only Lead Source & Category Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Lead Source <span style={{ fontSize: "0.725rem", color: "#64748b" }}>(Read-only)</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
@@ -204,7 +204,7 @@ export const UpdatePipelineModal = ({ isOpen, onClose, lead, onUpdateStage }) =>
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Lead Category <span style={{ fontSize: "0.725rem", color: "#64748b" }}>(Read-only)</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
@@ -222,7 +222,7 @@ export const UpdatePipelineModal = ({ isOpen, onClose, lead, onUpdateStage }) =>
 
             {/* Read-Only Assigned Employee */}
             <div className="form-group">
-              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                 Assigned Sales Employee <span style={{ fontSize: "0.725rem", color: "#64748b" }}>(Read-only)</span>
               </label>
               <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
@@ -249,17 +249,17 @@ export const UpdatePipelineModal = ({ isOpen, onClose, lead, onUpdateStage }) =>
               className="form-group"
               style={{
                 marginTop: "4px",
-                backgroundColor: isUnassigned ? "#f8fafc" : "#eff6ff",
+                backgroundColor: isUnassigned ? "#f8fafc" : "var(--brand-soft)",
                 padding: "14px",
                 borderRadius: "12px",
-                border: `1px solid ${isUnassigned ? "#cbd5e1" : "#bfdbfe"}`
+                border: `1px solid ${isUnassigned ? "#cbd5e1" : "var(--brand-border)"}`
               }}
             >
-              <label style={{ fontSize: "0.85rem", fontWeight: 800, color: isUnassigned ? "#71717a" : "#ff3b19", display: "block", marginBottom: "8px" }}>
+              <label style={{ fontSize: "0.85rem", fontWeight: 800, color: isUnassigned ? "#71717a" : "var(--brand)", display: "block", marginBottom: "8px" }}>
                 Pipeline Stage {isUnassigned ? <span style={{ fontSize: "0.725rem", color: "#dc2626" }}>(Disabled for Unassigned Lead)</span> : <span style={{ color: "#ef4444" }}>*</span>}
               </label>
               <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                <Layers size={18} style={{ position: "absolute", left: "12px", color: isUnassigned ? "#a1a1aa" : "#ff3b19" }} />
+                <Layers size={18} style={{ position: "absolute", left: "12px", color: isUnassigned ? "#a1a1aa" : "var(--brand)" }} />
                 <select
                   className="crm-input select-input"
                   style={{
@@ -267,10 +267,10 @@ export const UpdatePipelineModal = ({ isOpen, onClose, lead, onUpdateStage }) =>
                     height: "42px",
                     fontSize: "0.875rem",
                     fontWeight: 700,
-                    borderColor: isUnassigned ? "#ece7dc" : "#ff3b19",
-                    backgroundColor: isUnassigned ? "#fbf9f4" : "#ffffff",
+                    borderColor: isUnassigned ? "var(--border-color)" : "var(--brand)",
+                    backgroundColor: isUnassigned ? "var(--bg-app)" : "#ffffff",
                     cursor: isUnassigned ? "not-allowed" : "pointer",
-                    color: isUnassigned ? "#71717a" : "#141416"
+                    color: isUnassigned ? "#71717a" : "var(--ink)"
                   }}
                   value={selectedStage}
                   onChange={(e) => setSelectedStage(e.target.value)}

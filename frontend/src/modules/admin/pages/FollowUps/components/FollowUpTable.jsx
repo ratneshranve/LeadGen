@@ -61,13 +61,13 @@ export const FollowUpTable = ({
                   className="crm-checkbox"
                 />
               </th>
-              <th>LEAD</th>
-              <th>FOLLOW-UP AGENDA</th>
-              <th>TYPE</th>
-              <th>ASSIGNED TO</th>
-              <th>DATE & TIME</th>
-              <th>STATUS</th>
-              <th style={{ textAlign: "right", paddingRight: "24px" }}>ACTIONS</th>
+              <th>Lead</th>
+              <th>Follow-up Agenda</th>
+              <th>Type</th>
+              <th>Assigned To</th>
+              <th>Date & Time</th>
+              <th>Status</th>
+              <th style={{ textAlign: "right", paddingRight: "24px" }}>Actions</th>
             </tr>
           </thead>
 
@@ -101,7 +101,7 @@ export const FollowUpTable = ({
                       <div className="lead-name-cell">
                         <span
                           className="lead-name-link"
-                          style={{ fontWeight: 700, color: "#ff3b19", cursor: "pointer" }}
+                          style={{ fontWeight: 700, color: "var(--brand)", cursor: "pointer" }}
                           onClick={() => {
                             if (onViewLead) {
                               onViewLead(item);
@@ -134,7 +134,7 @@ export const FollowUpTable = ({
                     {/* Assigned Salesperson */}
                     <td>
                       <div className="assignee-cell" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                        <span className="assignee-avatar" style={{ background: "linear-gradient(135deg, #ff4522 0%, #e62e0b 100%)", color: "#fff", width: "26px", height: "26px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.725rem", fontWeight: 800, boxShadow: "0 2px 6px rgba(255, 69, 34, 0.25)" }}>
+                        <span className="assignee-avatar" style={{ background: "var(--brand-gradient)", color: "#fff", width: "26px", height: "26px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.725rem", fontWeight: 800, boxShadow: "var(--shadow-sm)" }}>
                           {getInitials(item.assignedTo)}
                         </span>
                         <span className="assignee-name" style={{ fontWeight: 600, color: "#0f172a", fontSize: "0.825rem" }}>

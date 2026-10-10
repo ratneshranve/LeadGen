@@ -100,7 +100,7 @@ export const DesktopSidebar = ({
   return (
     <motion.div
       className={cn(
-        "h-screen px-3 py-4 hidden md:flex md:flex-col bg-[#141416] text-white border-r border-white/10 w-[280px] flex-shrink-0 sticky top-0 z-40 overflow-y-auto select-none [overscroll-behavior:contain] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0",
+        "h-screen px-3 py-4 hidden md:flex md:flex-col bg-ink text-white border-r border-white/10 w-[280px] flex-shrink-0 sticky top-0 z-40 overflow-y-auto select-none [overscroll-behavior:contain] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0",
         className
       )}
       animate={{
@@ -131,7 +131,7 @@ export const MobileSidebar = ({
   return (
     <div
       className={cn(
-        "h-14 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-[#141416] text-white border-b border-white/10 w-full sticky top-0 z-50"
+        "h-14 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-ink text-white border-b border-white/10 w-full sticky top-0 z-50"
       )}
       {...props}
     >
@@ -153,7 +153,7 @@ export const MobileSidebar = ({
               ease: "easeInOut",
             }}
             className={cn(
-              "fixed h-full w-full inset-0 bg-[#141416] text-white p-6 z-[100] flex flex-col justify-between overflow-y-auto",
+              "fixed h-full w-full inset-0 bg-ink text-white p-6 z-[100] flex flex-col justify-between overflow-y-auto",
               className
             )}
           >
@@ -193,7 +193,7 @@ export const SidebarLink = ({
       className={({ isActive }) =>
         cn(
           "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group/sidebar text-white/70 hover:text-white hover:bg-white/10",
-          (isActive || link.isActive) && "bg-[#ff3b19] !text-white font-bold shadow-lg shadow-[#ff3b19]/30",
+          (isActive || link.isActive) && "bg-brand !text-white font-bold shadow-lg shadow-brand/30",
           className
         )
       }

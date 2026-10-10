@@ -46,7 +46,7 @@ export const kpiMetrics = kpiMetricsByDateRange.this_month;
 
 export const leadStatusDistributionByDateRange = {
   today: [
-    { status: "New", count: 8, color: "#ff3b19", percentage: 19.0 },
+    { status: "New", count: 8, color: "var(--brand)", percentage: 19.0 },
     { status: "Contacted", count: 14, color: "#a855f7", percentage: 33.3 },
     { status: "Follow-up", count: 10, color: "#f59e0b", percentage: 23.8 },
     { status: "Interested", count: 4, color: "#0891b2", percentage: 9.5 },
@@ -54,7 +54,7 @@ export const leadStatusDistributionByDateRange = {
     { status: "Lost", count: 2, color: "#f43f5e", percentage: 4.7 },
   ],
   this_week: [
-    { status: "New", count: 48, color: "#ff3b19", percentage: 15.3 },
+    { status: "New", count: 48, color: "var(--brand)", percentage: 15.3 },
     { status: "Contacted", count: 90, color: "#a855f7", percentage: 28.8 },
     { status: "Follow-up", count: 75, color: "#f59e0b", percentage: 24.0 },
     { status: "Interested", count: 25, color: "#0891b2", percentage: 8.0 },
@@ -62,7 +62,7 @@ export const leadStatusDistributionByDateRange = {
     { status: "Lost", count: 25, color: "#f43f5e", percentage: 8.0 },
   ],
   this_month: [
-    { status: "New", count: 184, color: "#ff3b19", percentage: 14.7 },
+    { status: "New", count: 184, color: "var(--brand)", percentage: 14.7 },
     { status: "Contacted", count: 350, color: "#a855f7", percentage: 28.0 },
     { status: "Follow-up", count: 292, color: "#f59e0b", percentage: 23.4 },
     { status: "Interested", count: 100, color: "#0891b2", percentage: 8.0 },
@@ -70,7 +70,7 @@ export const leadStatusDistributionByDateRange = {
     { status: "Lost", count: 110, color: "#f43f5e", percentage: 8.8 },
   ],
   q3: [
-    { status: "New", count: 520, color: "#ff3b19", percentage: 13.5 },
+    { status: "New", count: 520, color: "var(--brand)", percentage: 13.5 },
     { status: "Contacted", count: 1100, color: "#a855f7", percentage: 28.6 },
     { status: "Follow-up", count: 840, color: "#f59e0b", percentage: 21.8 },
     { status: "Interested", count: 300, color: "#0891b2", percentage: 7.8 },

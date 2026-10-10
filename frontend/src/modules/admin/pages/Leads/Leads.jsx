@@ -493,7 +493,7 @@ export const Leads = ({ forceOpenAddModal = false, forceOpenUpdateModal = false,
           <div className="crm-card" style={{ width: "90%", maxWidth: "420px", padding: "24px", background: "#ffffff", borderRadius: "14px", boxShadow: "0 20px 40px rgba(0,0,0,0.2)", border: "1px solid #cbd5e1" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
               <h3 style={{ fontSize: "1.05rem", fontWeight: 800, color: "#0f172a", display: "flex", alignItems: "center", gap: "8px" }}>
-                <Share2 size={18} color="#ff3b19" /> Add New Lead Source
+                <Share2 size={18} color="var(--brand)" /> Add New Lead Source
               </h3>
               <button
                 type="button"
@@ -655,7 +655,7 @@ export const Leads = ({ forceOpenAddModal = false, forceOpenUpdateModal = false,
         title="Confirm Delete"
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-          <p style={{ fontSize: "0.875rem", color: "#1b2559", lineHeight: "1.5" }}>
+          <p style={{ fontSize: "0.875rem", color: "var(--text-main)", lineHeight: "1.5" }}>
             Are you sure you want to delete all <strong>{selectedLeadIds.length}</strong> selected lead records? This action cannot be undone.
           </p>
           <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "8px" }}>

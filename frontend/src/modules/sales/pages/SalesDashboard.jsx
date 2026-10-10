@@ -1,9 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, Activity, Clock, CheckCircle2, Phone, MessageSquare, ArrowRight, Sparkles, Kanban, Calendar, Loader2 } from "lucide-react";
+import {
+  Users,
+  Activity,
+  Clock,
+  CheckCircle2,
+  Phone,
+  MessageSquare,
+  ArrowRight,
+  ArrowUpRight,
+  Kanban,
+  Calendar,
+  Loader2,
+  Target,
+} from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
 import { dashboardApi } from "../../../api/dashboardApi";
 import { followupsApi } from "../../../api/followupsApi";
+import { FloatingStack } from "../../../components/brand/BrandMark";
+import { Marquee } from "../../../components/motion/Marquee";
+import { Reveal } from "../../../components/motion/Reveal";
+import { CountUp } from "../../../components/motion/CountUp";
 import "./SalesPages.css";
 
 export const SalesDashboard = () => {
@@ -46,131 +63,173 @@ export const SalesDashboard = () => {
     );
   }
 
+  const statCards = [
+    {
+      id: "leads",
+      title: "My Leads",
+      value: safeKpi.totalLeads,
+      note: "Assigned to you",
+      detail: "Every prospect routed to you — open a lead to call, WhatsApp or move it forward.",
+      icon: Users,
+      path: "/sales/leads",
+    },
+    {
+      id: "prospects",
+      title: "Prospects",
+      value: safeKpi.activeLeads,
+      note: "In pipeline",
+      detail: "Leads currently moving through your stages. Drag them along as conversations progress.",
+      icon: Activity,
+      path: "/sales/pipeline",
+    },
+    {
+      id: "followups",
+      title: "Follow-ups",
+      value: safeKpi.pendingFollowUps,
+      note: `${safeKpi.overdueFollowUps || 0} overdue`,
+      detail: "Calls, meetings and reminders waiting on you. Clear the overdue ones first.",
+      icon: Clock,
+      path: "/sales/follow-ups",
+    },
+    {
+      id: "won",
+      title: "Converted",
+      value: safeKpi.convertedLeads,
+      note: "Won deals",
+      detail: "Deals you've closed. Every conversion feeds your performance score.",
+      icon: CheckCircle2,
+      path: "/sales/leads?status=Converted",
+    },
+  ];
+
+  const tickerItems = [
+    `${safeKpi.totalLeads} leads assigned`,
+    `${safeKpi.activeLeads} in pipeline`,
+    `${safeKpi.pendingFollowUps} follow-ups pending`,
+    `${safeKpi.convertedLeads} deals won`,
+    ...todayTasks.map((t) => `${t.time} · ${t.lead}`),
+  ];
+
+  const shortcuts = [
+    { label: "My Leads Directory", desc: "Manage and view assigned prospects", icon: Users, path: "/sales/leads" },
+    { label: "Sales Pipeline Stages", desc: "Track stage movements and progress", icon: Kanban, path: "/sales/pipeline" },
+    { label: "Sales Calendar", desc: "Review meeting schedule and events", icon: Calendar, path: "/sales/calendar" },
+  ];
+
   return (
-    <div className="sales-page-container">
-      {/* Mobile App Hero Welcome Card */}
-      <div className="sales-mobile-hero">
-        <div className="sales-hero-text">
-          <h2>Hi, {salesName}! 👋</h2>
-          <p>Here is your sales overview for today.</p>
-        </div>
-        <div className="sales-hero-badge">
-          <Sparkles size={12} style={{ display: "inline", marginRight: "3px" }} />
-          Active Rep
-        </div>
-      </div>
+    <div className="sales-page-container sales-home">
+      {/* Hero */}
+      <section className="sh-hero">
+        <div className="sh-hero-copy">
+          <span className="sh-eyebrow">Hi {salesName} — here's your day</span>
+          <h2 className="sh-hero-title">
+            <span className="sh-line">Your pipeline</span>
+            <span className="sh-line">
+              <span className="sh-inline-chip" aria-hidden="true">
+                <Target size={20} />
+              </span>
+              is in motion
+            </span>
+            <span className="sh-line">today.</span>
+          </h2>
 
-      {/* KPI 4-Card Grid */}
-      <div className="sales-mobile-kpi-grid">
-        {/* Card 1: My Leads */}
-        <div
-          className="sales-mobile-kpi-card"
-          onClick={() => navigate("/sales/leads")}
-          style={{ background: "linear-gradient(135deg, #ffe5e0 0%, #ffd4cc 100%)", border: "1.5px solid #ffb3a6", boxShadow: "0 6px 16px rgba(255, 59, 25, 0.15)" }}
-        >
-          <div className="sales-kpi-top-row">
-            <span className="sales-kpi-title" style={{ color: "#1e293b", fontWeight: 800 }}>My Leads</span>
-            <div className="sales-kpi-icon-halo" style={{ background: "#ffffff", color: "#ff3b19", boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <Users size={16} />
-            </div>
-          </div>
-          <div className="sales-kpi-num" style={{ color: "#0f172a", fontWeight: 900 }}>{safeKpi.totalLeads}</div>
-          <span style={{ fontSize: "0.685rem", color: "#c2410c", fontWeight: 800 }}>Assigned to you</span>
+          <button type="button" className="sh-dot-link" onClick={() => navigate("/sales/follow-ups")}>
+            <span className="sh-dot-link-dot">
+              <ArrowRight size={11} />
+            </span>
+            View follow-ups
+          </button>
+
+          <p className="sh-hero-sub">
+            {safeKpi.pendingFollowUps} follow-ups are waiting and {safeKpi.activeLeads} prospects are moving through
+            your stages. Pick up where you left off.
+          </p>
         </div>
 
-        {/* Card 2: Active Prospects */}
-        <div
-          className="sales-mobile-kpi-card"
-          onClick={() => navigate("/sales/pipeline")}
-          style={{ background: "linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%)", border: "1.5px solid #fdba74", boxShadow: "0 6px 16px rgba(234, 88, 12, 0.15)" }}
-        >
-          <div className="sales-kpi-top-row">
-            <span className="sales-kpi-title" style={{ color: "#1e293b", fontWeight: 800 }}>Prospects</span>
-            <div className="sales-kpi-icon-halo" style={{ background: "#ffffff", color: "#c2410c", boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <Activity size={16} />
-            </div>
-          </div>
-          <div className="sales-kpi-num" style={{ color: "#0f172a", fontWeight: 900 }}>{safeKpi.activeLeads}</div>
-          <span style={{ fontSize: "0.685rem", color: "#c2410c", fontWeight: 800 }}>In pipeline</span>
+        <FloatingStack className="sh-hero-art" />
+      </section>
+
+      {/* Ticker band */}
+      <Reveal as="section" className="sh-band">
+        <div className="sh-band-head">
+          <h3 className="sh-section-title sh-section-title--light">Today's pulse</h3>
+          <span className="sh-band-note">Live from your book of leads</span>
+        </div>
+        <Marquee speed={36} gap={10}>
+          {tickerItems.map((item, i) => (
+            <span key={`${item}-${i}`} className="sh-ticker-chip">
+              <span className="sh-ticker-dot" />
+              {item}
+            </span>
+          ))}
+        </Marquee>
+      </Reveal>
+
+      {/* Numbers — notched cards that flood lime on hover */}
+      <Reveal as="section" className="sh-numbers">
+        <div className="sh-section-head">
+          <h3 className="sh-section-title">Your numbers</h3>
+          <p className="sh-section-sub">Tap a card to jump straight into the work behind it.</p>
         </div>
 
-        {/* Card 3: Follow-ups */}
-        <div
-          className="sales-mobile-kpi-card"
-          onClick={() => navigate("/sales/follow-ups")}
-          style={{ background: "linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)", border: "1.5px solid #fcd34d", boxShadow: "0 6px 16px rgba(217, 119, 6, 0.15)" }}
-        >
-          <div className="sales-kpi-top-row">
-            <span className="sales-kpi-title" style={{ color: "#1e293b", fontWeight: 800 }}>Follow-ups</span>
-            <div className="sales-kpi-icon-halo" style={{ background: "#ffffff", color: "#b45309", boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <Clock size={16} />
-            </div>
-          </div>
-          <div className="sales-kpi-num" style={{ color: "#0f172a", fontWeight: 900 }}>{safeKpi.pendingFollowUps}</div>
-          <span style={{ fontSize: "0.685rem", color: "#b45309", fontWeight: 800 }}>{safeKpi.overdueFollowUps || 0} overdue</span>
+        <div className="sh-card-grid">
+          {statCards.map((card, index) => {
+            const Icon = card.icon;
+            return (
+              <button type="button" key={card.id} className="sh-card" onClick={() => navigate(card.path)}>
+                <span className="sh-card-tab">/{String(index + 1).padStart(2, "0")}</span>
+                <span className="sh-card-icon">
+                  <Icon size={26} strokeWidth={1.6} />
+                </span>
+                <span className="sh-card-value">
+                  <CountUp value={card.value} />
+                </span>
+                <span className="sh-card-title">{card.title}</span>
+                <span className="sh-card-note">{card.note}</span>
+                <span className="sh-card-detail">
+                  {card.detail}
+                  <span className="sh-card-more">
+                    <span className="sh-dot-link-dot">
+                      <ArrowRight size={11} />
+                    </span>
+                    Open
+                  </span>
+                </span>
+              </button>
+            );
+          })}
         </div>
+      </Reveal>
 
-        {/* Card 4: Converted */}
-        <div
-          className="sales-mobile-kpi-card"
-          onClick={() => navigate("/sales/leads?status=Converted")}
-          style={{ background: "linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)", border: "1.5px solid #86efac", boxShadow: "0 6px 16px rgba(22, 163, 74, 0.15)" }}
-        >
-          <div className="sales-kpi-top-row">
-            <span className="sales-kpi-title" style={{ color: "#1e293b", fontWeight: 800 }}>Converted</span>
-            <div className="sales-kpi-icon-halo" style={{ background: "#ffffff", color: "#15803d", boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <CheckCircle2 size={16} />
-            </div>
-          </div>
-          <div className="sales-kpi-num" style={{ color: "#0f172a", fontWeight: 900 }}>{safeKpi.convertedLeads}</div>
-          <span style={{ fontSize: "0.685rem", color: "#15803d", fontWeight: 800 }}>Won deals</span>
-        </div>
-      </div>
-
-      {/* Two Column Section */}
-      <div className="sales-dashboard-two-col">
-        {/* Left: Today's Schedule Section */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>
-              Today's Schedule ({todayTasks.length})
+      {/* Schedule + shortcuts */}
+      <Reveal className="sales-dashboard-two-col">
+        <div className="sh-panel">
+          <div className="sh-panel-head">
+            <h3 className="sh-panel-title">
+              Today's schedule <span className="sh-count">{todayTasks.length}</span>
             </h3>
-            <button
-              type="button"
-              onClick={() => navigate("/sales/follow-ups")}
-              style={{
-                background: "none",
-                border: "none",
-                color: "#ff3b19",
-                fontSize: "0.775rem",
-                fontWeight: 700,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: "4px"
-              }}
-            >
-              See All <ArrowRight size={13} />
+            <button type="button" className="sh-text-btn" onClick={() => navigate("/sales/follow-ups")}>
+              See all <ArrowUpRight size={14} />
             </button>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div className="sh-task-list">
             {todayTasks.length === 0 && (
-              <div style={{ fontSize: "0.8rem", color: "#94a3b8", padding: "12px 0" }}>No pending follow-ups. You're all caught up.</div>
+              <div className="sh-empty">No pending follow-ups. You're all caught up.</div>
             )}
             {todayTasks.map((task, idx) => (
-              <div key={idx} className="sales-mobile-task-card">
+              <div key={idx} className="sales-mobile-task-card" style={{ animationDelay: `${idx * 0.06}s` }}>
                 <div className="sales-task-left-content">
                   <div className="sales-task-icon-circle">
                     <Clock size={16} />
                   </div>
                   <div className="sales-task-meta">
-                    <h4 className="sales-task-lead-name" style={{ color: "#0f172a", fontWeight: 800 }}>{task.lead}</h4>
-                    <span className="sales-task-details" style={{ color: "#334155", fontWeight: 600 }}>{task.company} · {task.type}</span>
+                    <h4 className="sales-task-lead-name">{task.lead}</h4>
+                    <span className="sales-task-details">{task.company} · {task.type}</span>
                   </div>
                 </div>
 
-                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <div className="sales-task-actions">
                   <a
                     href={`tel:${task.phone}`}
                     className="btn-mobile-call"
@@ -196,90 +255,30 @@ export const SalesDashboard = () => {
           </div>
         </div>
 
-        {/* Right: Quick Action Navigation Shortcuts */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>
-            Quick Shortcuts
-          </h3>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            <div
-              onClick={() => navigate("/sales/leads")}
-              style={{
-                background: "linear-gradient(135deg, #ffe5e0 0%, #ffd4cc 100%)",
-                border: "1.5px solid #ffb3a6",
-                borderLeft: "5px solid #ff3b19",
-                borderRadius: "14px",
-                padding: "12px 14px",
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                cursor: "pointer",
-                boxShadow: "0 4px 12px rgba(255, 59, 25, 0.12)"
-              }}
-            >
-              <div style={{ background: "#ffffff", color: "#ff3b19", padding: "8px", borderRadius: "10px", boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-                <Users size={16} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <strong style={{ fontSize: "0.825rem", color: "#0f172a", fontWeight: 800, display: "block" }}>My Leads Directory</strong>
-                <span style={{ fontSize: "0.7rem", color: "#334155", fontWeight: 600 }}>Manage and view assigned prospects</span>
-              </div>
-              <ArrowRight size={14} color="#ff3b19" />
-            </div>
-
-            <div
-              onClick={() => navigate("/sales/pipeline")}
-              style={{
-                background: "linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)",
-                border: "1.5px solid #86efac",
-                borderLeft: "5px solid #16a34a",
-                borderRadius: "14px",
-                padding: "12px 14px",
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                cursor: "pointer",
-                boxShadow: "0 4px 12px rgba(22, 163, 74, 0.12)"
-              }}
-            >
-              <div style={{ background: "#ffffff", color: "#16a34a", padding: "8px", borderRadius: "10px", boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-                <Kanban size={16} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <strong style={{ fontSize: "0.825rem", color: "#0f172a", fontWeight: 800, display: "block" }}>Sales Pipeline Stages</strong>
-                <span style={{ fontSize: "0.7rem", color: "#334155", fontWeight: 600 }}>Track stage movements and progress</span>
-              </div>
-              <ArrowRight size={14} color="#16a34a" />
-            </div>
-
-            <div
-              onClick={() => navigate("/sales/calendar")}
-              style={{
-                background: "linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%)",
-                border: "1.5px solid #fdba74",
-                borderLeft: "5px solid #ea580c",
-                borderRadius: "14px",
-                padding: "12px 14px",
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                cursor: "pointer",
-                boxShadow: "0 4px 12px rgba(234, 88, 12, 0.12)"
-              }}
-            >
-              <div style={{ background: "#ffffff", color: "#ea580c", padding: "8px", borderRadius: "10px", boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-                <Calendar size={16} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <strong style={{ fontSize: "0.825rem", color: "#0f172a", fontWeight: 800, display: "block" }}>Sales Calendar</strong>
-                <span style={{ fontSize: "0.7rem", color: "#334155", fontWeight: 600 }}>Review meeting schedule and events</span>
-              </div>
-              <ArrowRight size={14} color="#ea580c" />
-            </div>
+        <div className="sh-panel sh-panel--ink">
+          <div className="sh-panel-head">
+            <h3 className="sh-panel-title">Quick shortcuts</h3>
+          </div>
+          <div className="sh-shortcuts">
+            {shortcuts.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <button type="button" key={s.path} className="sh-shortcut" onClick={() => navigate(s.path)}>
+                  <span className="sh-shortcut-index">/{String(i + 1).padStart(2, "0")}</span>
+                  <span className="sh-shortcut-icon">
+                    <Icon size={16} />
+                  </span>
+                  <span className="sh-shortcut-text">
+                    <strong>{s.label}</strong>
+                    <span>{s.desc}</span>
+                  </span>
+                  <ArrowUpRight size={16} className="sh-shortcut-arrow" />
+                </button>
+              );
+            })}
           </div>
         </div>
-      </div>
+      </Reveal>
     </div>
   );
 };

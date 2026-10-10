@@ -103,8 +103,8 @@ export const AssignUnassignedLeadsModal = ({
           <div
             style={{
               padding: "12px 16px",
-              backgroundColor: "#FFF7ED",
-              border: "1px solid #FED7AA",
+              backgroundColor: "var(--surface-tint)",
+              border: "1px solid var(--line-tint)",
               borderRadius: "10px",
               display: "flex",
               alignItems: "center",
@@ -117,7 +117,7 @@ export const AssignUnassignedLeadsModal = ({
               <span style={{ fontSize: "0.875rem", fontWeight: 800, color: "#9A3412", display: "flex", alignItems: "center", gap: "6px" }}>
                 <Users size={16} /> Total Leads: {leadsPool.length} ({unassignedCount} Unassigned, {assignedCount} Assigned)
               </span>
-              <span style={{ fontSize: "0.75rem", color: "#C2410C" }}>
+              <span style={{ fontSize: "0.75rem", color: "var(--accent-2-deep)" }}>
                 Select leads (both unassigned and assigned) to assign or reassign to a sales employee.
               </span>
             </div>
@@ -147,8 +147,8 @@ export const AssignUnassignedLeadsModal = ({
                     borderRadius: "20px",
                     fontSize: "0.775rem",
                     fontWeight: 700,
-                    border: activeFilter === tab.key ? "1px solid #ff3b19" : "1px solid #ece7dc",
-                    background: activeFilter === tab.key ? "#ff3b19" : "#ffffff",
+                    border: activeFilter === tab.key ? "1px solid var(--brand)" : "1px solid var(--border-color)",
+                    background: activeFilter === tab.key ? "var(--brand)" : "#ffffff",
                     color: activeFilter === tab.key ? "#ffffff" : "#71717a",
                     cursor: "pointer",
                     transition: "all 0.15s ease",
@@ -166,7 +166,7 @@ export const AssignUnassignedLeadsModal = ({
               onClick={handleToggleSelectAll}
               style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "0.775rem", fontWeight: 700 }}
             >
-              {isAllFilteredSelected ? <CheckSquare size={14} color="#ff3b19" /> : <Square size={14} />}
+              {isAllFilteredSelected ? <CheckSquare size={14} color="var(--brand)" /> : <Square size={14} />}
               {isAllFilteredSelected ? "Deselect Filtered" : "Select Filtered"}
             </button>
           </div>
@@ -204,10 +204,10 @@ export const AssignUnassignedLeadsModal = ({
                       className="crm-checkbox"
                     />
                   </th>
-                  <th>LEAD DETAILS</th>
-                  <th>ASSIGNMENT STATUS</th>
-                  <th>SOURCE</th>
-                  <th>LEAD STATUS</th>
+                  <th>Lead Details</th>
+                  <th>Assignment Status</th>
+                  <th>Source</th>
+                  <th>Lead Status</th>
                 </tr>
               </thead>
               <tbody>
