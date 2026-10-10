@@ -165,7 +165,7 @@
 }
 
 .progress-bar-fill.fill-subtle {
-  background-color: #ea580c;
+  background-color: var(--accent-2);
 }
 
 /* 3. Source Analytics Bar Chart Card */

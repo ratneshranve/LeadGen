@@ -53,7 +53,7 @@ export const ErrorPage = ({
         <p className="error-desc-text">{message}</p>
 
         <div className="error-suggestion-box">
-          <Info size={18} color="#ff3b19" style={{ flexShrink: 0 }} />
+          <Info size={18} color="var(--brand)" style={{ flexShrink: 0 }} />
           <span>
             We suggest returning to your <strong>Dashboard</strong> to navigate smoothly to active modules.
           </span>

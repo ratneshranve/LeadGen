@@ -22,7 +22,7 @@ import { CustomSelect } from "../../../../../components/ui/CustomSelect";
 
 // Stage Config Array
 export const stages = [
-  { key: "New", label: "New", color: "#ff3b19", bg: "#fff1ee", icon: Sparkles },
+  { key: "New", label: "New", color: "var(--brand)", bg: "var(--brand-soft)", icon: Sparkles },
   { key: "Contacted", label: "Contacted", color: "#8b5cf6", bg: "#f5f3ff", icon: PhoneCall },
   { key: "Follow-up", label: "Follow-up", color: "#d97706", bg: "#fffbeb", icon: Clock },
   { key: "Interested", label: "Interested", color: "#0891b2", bg: "#ecfeff", icon: Heart },
@@ -207,7 +207,7 @@ export const PipelineTable = ({
     return {
       color: st.color,
       backgroundColor: st.bg,
-      border: `1px solid ${st.color}40`,
+      border: `1px solid color-mix(in srgb, ${st.color} 25%, transparent)`,
       fontWeight: 700,
     };
   };
@@ -578,7 +578,7 @@ export const PipelineTable = ({
                                 background:
                                   repName === "Unassigned"
                                     ? "#94a3b8"
-                                    : "linear-gradient(135deg, #ff4522 0%, #e62e0b 100%)",
+                                    : "var(--brand-gradient)",
                                 color: "#ffffff",
                                 fontSize: "0.7rem",
                                 fontWeight: 800,
@@ -589,7 +589,7 @@ export const PipelineTable = ({
                                 boxShadow:
                                   repName === "Unassigned"
                                     ? "none"
-                                    : "0 2px 6px rgba(255, 69, 34, 0.25)",
+                                    : "0 2px 6px rgb(var(--brand-rgb) / 0.25)",
                               }}
                             >
                               {getInitials(repName)}
@@ -624,9 +624,9 @@ export const PipelineTable = ({
                               className="crm-btn crm-btn-secondary crm-btn-xs"
                               onClick={() => onOpenUpdateModal && onOpenUpdateModal(l.id)}
                               title="Update Pipeline Stage"
-                              style={{ padding: "6px 9px", color: "#ff3b19", borderColor: "#ffd2c7", borderRadius: "8px" }}
+                              style={{ padding: "6px 9px", color: "var(--brand)", borderColor: "var(--brand-border)", borderRadius: "8px" }}
                             >
-                              <Edit3 size={15} color="#ff3b19" />
+                              <Edit3 size={15} color="var(--brand)" />
                             </button>
                           </div>
                         ) : (

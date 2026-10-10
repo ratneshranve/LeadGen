@@ -73,12 +73,12 @@ export const TabsTab = ({ value: tabValue, className, children, ...props }) => {
       className={cn(
         "relative flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 text-sm font-medium transition-all text-left rounded-lg outline-none whitespace-nowrap",
         isActive
-          ? "text-[#ff3b19] font-bold bg-[#fff1ee] sm:bg-[#fff1ee]/70"
-          : "text-slate-600 hover:text-[#ff3b19] hover:bg-[#fbf9f4]",
+          ? "text-brand font-bold bg-brand-soft sm:bg-brand-soft"
+          : "text-slate-600 hover:text-brand hover:bg-canvas",
         // Vertical active indicator line on the left on desktop
         orientation === "vertical" &&
           isActive &&
-          "sm:before:absolute sm:before:left-0 sm:before:top-1 sm:before:bottom-1 sm:before:w-[3px] sm:before:bg-[#ff3b19] sm:before:rounded-r-sm",
+          "sm:before:absolute sm:before:left-0 sm:before:top-1 sm:before:bottom-1 sm:before:w-[3px] sm:before:bg-brand sm:before:rounded-r-sm",
         className
       )}
       {...props}

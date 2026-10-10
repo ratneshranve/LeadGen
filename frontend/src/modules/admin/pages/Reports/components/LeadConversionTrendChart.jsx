@@ -122,11 +122,11 @@ export const LeadConversionTrendChart = ({ dateRange, data }) => {
     <div style={{ width: "100%", height: 260, marginTop: "12px" }}>
       {/* Legend Row */}
       <div style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "16px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 700, color: "#1b2559" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)" }}>
           <span style={{ width: "12px", height: "12px", borderRadius: "50%", backgroundColor: "#06b6d4", display: "inline-block" }} />
           Total Leads
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 700, color: "#1b2559" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)" }}>
           <span style={{ width: "12px", height: "12px", borderRadius: "50%", backgroundColor: "#ec4899", display: "inline-block" }} />
           Converted Deals
         </div>

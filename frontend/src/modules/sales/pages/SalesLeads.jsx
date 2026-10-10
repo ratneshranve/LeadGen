@@ -156,14 +156,14 @@ export const SalesLeads = () => {
       </div>
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2px" }}>
-        <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#475569" }}>
+        <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-subtle)" }}>
           Showing {filteredLeads.length} Lead{filteredLeads.length !== 1 ? "s" : ""}
         </span>
         {activeTab !== "All" && (
           <button
             type="button"
             onClick={() => setActiveTab("All")}
-            style={{ background: "none", border: "none", color: "#ff3b19", fontSize: "0.75rem", fontWeight: 700, cursor: "pointer" }}
+            style={{ background: "none", border: "none", color: "var(--brand)", fontSize: "0.75rem", fontWeight: 700, cursor: "pointer" }}
           >
             Clear Filter
           </button>
@@ -204,7 +204,7 @@ export const SalesLeads = () => {
                   </div>
 
                   <div className="lead-card-actions">
-                    <span style={{ fontSize: "0.725rem", color: "#94a3b8" }}>Tap card for details</span>
+                    <span style={{ fontSize: "0.725rem", color: "var(--text-faint)" }}>Tap card for details</span>
 
                     <div className="lead-card-action-btns">
                       {lead.phone && (
@@ -242,15 +242,15 @@ export const SalesLeads = () => {
           ) : (
             <div
               style={{
-                background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)",
+                background: "var(--surface-gradient)",
                 borderRadius: "16px",
                 padding: "40px 20px",
                 textAlign: "center",
-                border: "1.5px dashed #fdba74",
+                border: "1.5px dashed var(--line-tint-strong)",
               }}
             >
-              <p style={{ fontWeight: 800, color: "#0f172a", margin: "0 0 4px 0" }}>No leads found</p>
-              <span style={{ fontSize: "0.775rem", color: "#334155", fontWeight: 600 }}>
+              <p style={{ fontWeight: 800, color: "var(--text-main)", margin: "0 0 4px 0" }}>No leads found</p>
+              <span style={{ fontSize: "0.775rem", color: "var(--text-subtle)", fontWeight: 600 }}>
                 Try adjusting your search query or status filter.
               </span>
             </div>

@@ -196,46 +196,46 @@ export const ActivityHistory = () => {
 
       {/* Top 4 KPI Cards */}
       <div className="act-kpi-grid">
-        <div className="crm-card overview-stat-card" style={{ background: "linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)", border: "1px solid #93c5fd", boxShadow: "0 4px 14px rgba(59, 130, 246, 0.12)" }}>
+        <div className="crm-card overview-stat-card" style={{ background: "var(--surface-gradient)", border: "1px solid var(--border-color)", boxShadow: "var(--shadow-sm)" }}>
           <div className="stat-card-inner">
             <div className="stat-info">
               <span className="stat-label" style={{ color: "#334155", fontWeight: 700 }}>Total Activities</span>
               <div className="stat-value" style={{ color: "#0f172a", fontWeight: 900 }}>1,248</div>
               <span className="stat-subtext" style={{ color: "#1e3a8a", fontWeight: 700 }}>Lifetime audit logs</span>
             </div>
-            <div className="stat-icon-wrapper" style={{ backgroundColor: "#dbeafe", color: "#1d4ed8", border: "1px solid #bfdbfe" }}>
+            <div className="stat-icon-wrapper" style={{ backgroundColor: "var(--brand-soft-2)", color: "#1d4ed8", border: "1px solid var(--brand-border)" }}>
               <History size={20} />
             </div>
           </div>
         </div>
 
-        <div className="crm-card overview-stat-card" style={{ background: "linear-gradient(135deg, #fff1ee 0%, #ffe2dc 100%)", border: "1px solid #ffc4b8", boxShadow: "0 4px 14px rgba(255, 59, 25, 0.12)" }}>
+        <div className="crm-card overview-stat-card" style={{ background: "linear-gradient(135deg, var(--brand-soft) 0%, var(--brand-soft) 100%)", border: "1px solid var(--brand-soft-2)", boxShadow: "var(--shadow-sm)" }}>
           <div className="stat-card-inner">
             <div className="stat-info">
               <span className="stat-label" style={{ color: "#334155", fontWeight: 700 }}>Today's Logs</span>
               <div className="stat-value" style={{ color: "#0f172a", fontWeight: 900 }}>36</div>
               <span className="stat-subtext" style={{ color: "#991b1b", fontWeight: 700 }}>Recent interactions</span>
             </div>
-            <div className="stat-icon-wrapper" style={{ backgroundColor: "#ffe2dc", color: "#e63010", border: "1px solid #ffc4b8" }}>
+            <div className="stat-icon-wrapper" style={{ backgroundColor: "var(--brand-soft)", color: "var(--brand-hover)", border: "1px solid var(--brand-soft-2)" }}>
               <Clock size={20} />
             </div>
           </div>
         </div>
 
-        <div className="crm-card overview-stat-card" style={{ background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)", border: "1px solid #fed7aa", boxShadow: "0 4px 14px rgba(249, 115, 22, 0.12)" }}>
+        <div className="crm-card overview-stat-card" style={{ background: "var(--surface-gradient)", border: "1px solid var(--line-tint)", boxShadow: "var(--shadow-sm)" }}>
           <div className="stat-card-inner">
             <div className="stat-info">
               <span className="stat-label" style={{ color: "#334155", fontWeight: 700 }}>Lead Updates</span>
               <div className="stat-value" style={{ color: "#0f172a", fontWeight: 900 }}>482</div>
               <span className="stat-subtext" style={{ color: "#9a3412", fontWeight: 700 }}>Pipeline stage moves</span>
             </div>
-            <div className="stat-icon-wrapper" style={{ backgroundColor: "#ffedd5", color: "#c2410c", border: "1px solid #fed7aa" }}>
+            <div className="stat-icon-wrapper" style={{ backgroundColor: "var(--accent-2-soft)", color: "var(--accent-2-deep)", border: "1px solid var(--accent-2-border)" }}>
               <FileText size={20} />
             </div>
           </div>
         </div>
 
-        <div className="crm-card overview-stat-card" style={{ background: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)", border: "1px solid #86efac", boxShadow: "0 4px 14px rgba(34, 197, 94, 0.12)" }}>
+        <div className="crm-card overview-stat-card" style={{ background: "var(--surface-gradient)", border: "1px solid #86efac", boxShadow: "0 4px 14px rgba(34, 197, 94, 0.12)" }}>
           <div className="stat-card-inner">
             <div className="stat-info">
               <span className="stat-label" style={{ color: "#334155", fontWeight: 700 }}>Assignments</span>
@@ -250,7 +250,7 @@ export const ActivityHistory = () => {
       </div>
 
       {/* Main Activity Timeline Section */}
-      <div className="crm-card act-table-card" style={{ background: "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)", border: "1px solid #cbd5e1", boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)" }}>
+      <div className="crm-card act-table-card" style={{ background: "var(--surface-gradient)", border: "1px solid #cbd5e1", boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)" }}>
         {/* Tabs */}
         <div className="act-tabs-bar">
           {["All", "Status Changes", "Assignments", "Follow-ups", "System"].map((t) => (
@@ -319,7 +319,7 @@ export const ActivityHistory = () => {
               {paginatedActivities.length > 0 ? (
                 paginatedActivities.map((act) => (
                   <tr key={act.id}>
-                    <td><span className="date-sub-text" style={{ fontWeight: 600, color: "#1b2559" }}>{act.dateTime}</span></td>
+                    <td><span className="date-sub-text" style={{ fontWeight: 600, color: "var(--text-main)" }}>{act.dateTime}</span></td>
                     <td><strong>{act.user}</strong></td>
                     <td><span className="role-badge-chip role-master-admin">{act.action}</span></td>
                     <td><span className="role-badge-chip role-manager">{act.module}</span></td>

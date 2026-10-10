@@ -53,14 +53,14 @@ export const SalesUpdateProfile = () => {
         <button
           type="button"
           onClick={() => navigate("/sales/profile")}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-[#ece7dc] bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-[#fff7ed] hover:border-[#ffd2c7] hover:text-[#ff3b19] transition-all cursor-pointer"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-[var(--surface-tint)] hover:border-brand-border hover:text-brand transition-all cursor-pointer"
         >
           <ArrowLeft size={13} /> Back to Profile
         </button>
       </div>
 
       {/* Edit Form Card (Compact width & Short field height) */}
-      <div className="mx-auto w-full max-w-lg bg-white border border-[#ece7dc] rounded-2xl shadow-sm p-4 sm:p-6 text-slate-900">
+      <div className="mx-auto w-full max-w-lg bg-white border border-line rounded-2xl shadow-sm p-4 sm:p-6 text-slate-900">
         <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
           <div>
             <h2 className="font-bold text-base text-slate-900">Update Profile Details</h2>
@@ -79,7 +79,7 @@ export const SalesUpdateProfile = () => {
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full rounded-lg border border-[#ece7dc] bg-slate-50/50 px-2.5 py-1.5 text-xs sm:text-sm text-slate-900 outline-none focus:border-[#ff3b19] focus:bg-white focus:ring-2 focus:ring-[#ff3b19]/20 transition-all"
+                  className="w-full rounded-lg border border-line bg-slate-50/50 px-2.5 py-1.5 text-xs sm:text-sm text-slate-900 outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition-all"
                   required
                 />
               </div>
@@ -89,7 +89,7 @@ export const SalesUpdateProfile = () => {
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full rounded-lg border border-[#ece7dc] bg-slate-50/50 px-2.5 py-1.5 text-xs sm:text-sm text-slate-900 outline-none focus:border-[#ff3b19] focus:bg-white focus:ring-2 focus:ring-[#ff3b19]/20 transition-all"
+                  className="w-full rounded-lg border border-line bg-slate-50/50 px-2.5 py-1.5 text-xs sm:text-sm text-slate-900 outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition-all"
                   required
                 />
               </div>
@@ -101,7 +101,7 @@ export const SalesUpdateProfile = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-[#ece7dc] bg-slate-50/50 px-2.5 py-1.5 text-xs sm:text-sm text-slate-900 outline-none focus:border-[#ff3b19] focus:bg-white focus:ring-2 focus:ring-[#ff3b19]/20 transition-all"
+                className="w-full rounded-lg border border-line bg-slate-50/50 px-2.5 py-1.5 text-xs sm:text-sm text-slate-900 outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition-all"
                 required
               />
             </div>
@@ -113,7 +113,7 @@ export const SalesUpdateProfile = () => {
                   type="text"
                   value={mobile}
                   onChange={(e) => setMobile(e.target.value)}
-                  className="w-full rounded-lg border border-[#ece7dc] bg-slate-50/50 px-2.5 py-1.5 text-xs sm:text-sm text-slate-900 outline-none focus:border-[#ff3b19] focus:bg-white focus:ring-2 focus:ring-[#ff3b19]/20 transition-all"
+                  className="w-full rounded-lg border border-line bg-slate-50/50 px-2.5 py-1.5 text-xs sm:text-sm text-slate-900 outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition-all"
                 />
               </div>
               <div>
@@ -122,7 +122,7 @@ export const SalesUpdateProfile = () => {
                   type="date"
                   value={dob}
                   onChange={(e) => setDob(e.target.value)}
-                  className="w-full rounded-lg border border-[#ece7dc] bg-slate-50/50 px-2.5 py-1.5 text-xs sm:text-sm text-slate-900 outline-none focus:border-[#ff3b19] focus:bg-white focus:ring-2 focus:ring-[#ff3b19]/20 transition-all"
+                  className="w-full rounded-lg border border-line bg-slate-50/50 px-2.5 py-1.5 text-xs sm:text-sm text-slate-900 outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition-all"
                 />
               </div>
             </div>
@@ -132,13 +132,13 @@ export const SalesUpdateProfile = () => {
             <button
               type="button"
               onClick={() => navigate("/sales/profile")}
-              className="flex-1 rounded-lg border border-[#ece7dc] bg-white px-3 py-2 text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-all cursor-pointer"
+              className="flex-1 rounded-lg border border-line bg-white px-3 py-2 text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-all cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-2 inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#ff3b19] hover:bg-[#e63010] text-white font-bold text-xs sm:text-sm px-4 py-2 transition-all shadow-sm shadow-[#ff3b19]/25 active:scale-95 cursor-pointer"
+              className="flex-2 inline-flex items-center justify-center gap-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white font-bold text-xs sm:text-sm px-4 py-2 transition-all shadow-sm shadow-brand/25 active:scale-95 cursor-pointer"
             >
               <Save size={14} /> Save Changes
             </button>

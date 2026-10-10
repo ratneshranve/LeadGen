@@ -14,7 +14,6 @@ import {
   History,
   Bell,
   Settings,
-  Zap,
   LogOut
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
@@ -25,6 +24,7 @@ import {
   useSidebar
 } from "../../components/ui/sidebar";
 import { motion } from "framer-motion";
+import { AdminLogoMark } from "../../components/brand/BrandMark";
 
 export const AdminSidebar = ({ isMobileOpen, closeMobileSidebar }) => {
   const location = useLocation();
@@ -122,7 +122,7 @@ export const AdminSidebar = ({ isMobileOpen, closeMobileSidebar }) => {
 
   return (
     <Sidebar open={isMobileOpen} setOpen={closeMobileSidebar}>
-      <SidebarBody className="justify-between min-h-full flex flex-col">
+      <SidebarBody>
         <SidebarContent
           mainMenuItems={mainMenuItems}
           systemMenuItems={systemMenuItems}
@@ -135,6 +135,21 @@ export const AdminSidebar = ({ isMobileOpen, closeMobileSidebar }) => {
   );
 };
 
+const SectionLabel = ({ children }) => {
+  const { open, animate, openMobile } = useSidebar();
+  const show = !animate || open || openMobile;
+  return (
+    <motion.div
+      initial={false}
+      animate={{ opacity: show ? 1 : 0 }}
+      transition={{ duration: 0.2 }}
+      className="admin-rail-section"
+    >
+      {show ? children : <span className="admin-rail-section-dash" />}
+    </motion.div>
+  );
+};
+
 const SidebarContent = ({
   mainMenuItems,
   systemMenuItems,
@@ -142,43 +157,32 @@ const SidebarContent = ({
   handleLogout,
   closeMobileSidebar,
 }) => {
-  const { open, animate } = useSidebar();
+  const { open, animate, openMobile } = useSidebar();
+  const showText = !animate || open || openMobile;
 
   return (
     <div className="flex flex-col flex-1 justify-between min-h-full">
       <div className="flex flex-col flex-1">
-        {/* Brand Header */}
-        <div className="flex items-center gap-3 px-1 py-3 mb-2 border-b border-white/10 flex-shrink-0">
-          <div className="w-10 h-10 bg-[#ff3b19] rounded-xl flex items-center justify-center shadow-lg shadow-[#ff3b19]/35 flex-shrink-0">
-            <Zap size={20} className="text-white" />
-          </div>
+        {/* Brand */}
+        <div className="admin-rail-brand">
+          <span className="admin-rail-logo">
+            <AdminLogoMark size={30} />
+          </span>
           <motion.div
-            animate={{
-              display: animate ? (open ? "flex" : "none") : "flex",
-              opacity: animate ? (open ? 1 : 0) : 1,
-            }}
+            initial={false}
+            animate={{ opacity: showText ? 1 : 0, x: showText ? 0 : -6 }}
             transition={{ duration: 0.2 }}
             className="flex flex-col min-w-0 overflow-hidden"
           >
-            <span className="font-extrabold text-white text-base tracking-tight whitespace-nowrap">
-              LeadGen
-            </span>
+            <span className="admin-rail-brand-name">LeadGen</span>
+            <span className="admin-rail-brand-sub">Admin console</span>
           </motion.div>
         </div>
 
-        {/* Navigation Menu */}
-        <div className="flex flex-col gap-5 py-2">
-          {/* Main Menu Section */}
+        {/* Navigation */}
+        <nav className="flex flex-col gap-4 pt-3" aria-label="Admin navigation">
           <div>
-            <motion.div
-              animate={{
-                display: animate ? (open ? "block" : "none") : "block",
-                opacity: animate ? (open ? 1 : 0) : 1,
-              }}
-              className="text-[0.65rem] font-extrabold text-white/45 tracking-widest px-3 mb-2 uppercase"
-            >
-              MENU
-            </motion.div>
+            <SectionLabel>Menu</SectionLabel>
             <div className="flex flex-col gap-1">
               {mainMenuItems.map((item) => (
                 <SidebarLink
@@ -195,17 +199,8 @@ const SidebarContent = ({
             </div>
           </div>
 
-          {/* System Section */}
           <div>
-            <motion.div
-              animate={{
-                display: animate ? (open ? "block" : "none") : "block",
-                opacity: animate ? (open ? 1 : 0) : 1,
-              }}
-              className="text-[0.65rem] font-extrabold text-white/45 tracking-widest px-3 mb-2 uppercase"
-            >
-              SYSTEM & SETTINGS
-            </motion.div>
+            <SectionLabel>System</SectionLabel>
             <div className="flex flex-col gap-1">
               {systemMenuItems.map((item) => (
                 <SidebarLink
@@ -221,25 +216,20 @@ const SidebarContent = ({
               ))}
             </div>
           </div>
-        </div>
+        </nav>
       </div>
 
-      {/* Sidebar Footer Logout Button */}
-      <div className="pt-3 mt-auto border-t border-white/10 flex-shrink-0 pb-2">
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/10 text-white border border-white/15 hover:bg-white/20 transition-all duration-200 group/logout"
-        >
-          <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 text-white">
-            <LogOut size={17} />
-          </div>
+      {/* Logout */}
+      <div className="pt-3 mt-4 border-t border-white/10 flex-shrink-0">
+        <button type="button" onClick={handleLogout} className="admin-rail-link admin-rail-logout" title="Logout">
+          <span className="admin-rail-icon">
+            <LogOut size={18} strokeWidth={1.75} />
+          </span>
           <motion.span
-            animate={{
-              display: animate ? (open ? "inline-block" : "none") : "inline-block",
-              opacity: animate ? (open ? 1 : 0) : 1,
-            }}
+            initial={false}
+            animate={{ opacity: showText ? 1 : 0, x: showText ? 0 : -6 }}
             transition={{ duration: 0.2 }}
-            className="text-sm font-bold whitespace-nowrap overflow-hidden text-ellipsis"
+            className="admin-rail-label"
           >
             Logout
           </motion.span>

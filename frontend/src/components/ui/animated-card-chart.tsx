@@ -113,8 +113,8 @@ interface Visual3Props {
 }
 
 export function Visual3({
-  mainColor = "#ff3b19",
-  secondaryColor = "#ea580c",
+  mainColor = "var(--brand)",
+  secondaryColor = "var(--accent-2)",
   gridColor = "#ffffff10",
   badge1Text = "+15,2%",
   badge2Text = "+18,7%",
@@ -324,7 +324,7 @@ const Layer4: React.FC<{
       hoverY: 130,
       x: 40,
       fill: "rgba(255,255,255,0.12)",
-      hoverFill: secondaryColor || "#ea580c",
+      hoverFill: secondaryColor || "var(--accent-2)",
     },
     {
       width: 15,
@@ -364,7 +364,7 @@ const Layer4: React.FC<{
       hoverY: 110,
       x: 120,
       fill: "rgba(255,255,255,0.12)",
-      hoverFill: secondaryColor || "#ea580c",
+      hoverFill: secondaryColor || "var(--accent-2)",
     },
     {
       width: 15,
@@ -374,7 +374,7 @@ const Layer4: React.FC<{
       hoverY: 130,
       x: 140,
       fill: "rgba(255,255,255,0.12)",
-      hoverFill: secondaryColor || "#ea580c",
+      hoverFill: secondaryColor || "var(--accent-2)",
     },
     {
       width: 15,
@@ -404,7 +404,7 @@ const Layer4: React.FC<{
       hoverY: 110,
       x: 200,
       fill: "rgba(255,255,255,0.12)",
-      hoverFill: secondaryColor || "#ea580c",
+      hoverFill: secondaryColor || "var(--accent-2)",
     },
     {
       width: 15,
@@ -424,7 +424,7 @@ const Layer4: React.FC<{
       hoverY: 80,
       x: 240,
       fill: "rgba(255,255,255,0.12)",
-      hoverFill: secondaryColor || "#ea580c",
+      hoverFill: secondaryColor || "var(--accent-2)",
     },
     {
       width: 15,
@@ -434,7 +434,7 @@ const Layer4: React.FC<{
       hoverY: 100,
       x: 260,
       fill: "rgba(255,255,255,0.12)",
-      hoverFill: secondaryColor || "#ea580c",
+      hoverFill: secondaryColor || "var(--accent-2)",
     },
     {
       width: 15,
@@ -444,7 +444,7 @@ const Layer4: React.FC<{
       hoverY: 70,
       x: 280,
       fill: "rgba(255,255,255,0.12)",
-      hoverFill: secondaryColor || "#ea580c",
+      hoverFill: secondaryColor || "var(--accent-2)",
     },
     {
       width: 15,
