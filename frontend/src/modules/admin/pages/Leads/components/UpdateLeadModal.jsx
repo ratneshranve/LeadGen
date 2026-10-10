@@ -114,7 +114,7 @@ export const UpdateLeadModal = ({ isOpen, onClose, targetLead, onUpdateLead, sou
         {/* Top Header Card */}
         <div
           style={{
-            background: "linear-gradient(135deg, #ff3b19 0%, #e63010 100%)",
+            background: "linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%)",
             color: "#ffffff",
             padding: "20px 24px",
             display: "flex",
@@ -173,11 +173,11 @@ export const UpdateLeadModal = ({ isOpen, onClose, targetLead, onUpdateLead, sou
 
             {/* Full Name */}
             <div className="form-group">
-              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                 Full Name <span style={{ color: "#ef4444" }}>*</span>
               </label>
               <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                <User size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                <User size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                 <input
                   type="text"
                   name="name"
@@ -195,11 +195,11 @@ export const UpdateLeadModal = ({ isOpen, onClose, targetLead, onUpdateLead, sou
             {/* Phone & Email Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Phone Number <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Phone size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Phone size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <input
                     type="tel"
                     name="phone"
@@ -214,11 +214,11 @@ export const UpdateLeadModal = ({ isOpen, onClose, targetLead, onUpdateLead, sou
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Email Address
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                  <Mail size={16} style={{ position: "absolute", left: "12px", color: "#a3aed0" }} />
+                  <Mail size={16} style={{ position: "absolute", left: "12px", color: "var(--text-faint)" }} />
                   <input
                     type="email"
                     name="email"
@@ -236,7 +236,7 @@ export const UpdateLeadModal = ({ isOpen, onClose, targetLead, onUpdateLead, sou
             {/* Lead Source & Lead Category Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Lead Source <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <CustomSelect
@@ -250,7 +250,7 @@ export const UpdateLeadModal = ({ isOpen, onClose, targetLead, onUpdateLead, sou
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Lead Category
                 </label>
                 <CustomSelect
@@ -266,7 +266,7 @@ export const UpdateLeadModal = ({ isOpen, onClose, targetLead, onUpdateLead, sou
             {/* Lead Status & Assigned Sales Employee Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Lead Status <span style={{ fontSize: "0.725rem", fontWeight: 600, color: "#64748b" }}>(Read-only)</span>
                 </label>
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
@@ -283,7 +283,7 @@ export const UpdateLeadModal = ({ isOpen, onClose, targetLead, onUpdateLead, sou
               </div>
 
               <div className="form-group">
-                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1b2559", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-main)", display: "block", marginBottom: "6px" }}>
                   Assigned Sales Employee
                 </label>
                 <CustomSelect

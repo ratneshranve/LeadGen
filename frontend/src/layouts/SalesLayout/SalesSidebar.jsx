@@ -46,7 +46,7 @@ export const SalesSidebar = ({ isMobileOpen, closeMobileSidebar }) => {
         {/* Brand Header */}
         <div className="sidebar-brand">
           <div className="brand-logo-icon-centered">
-            <Zap size={20} color="#ff3b19" />
+            <Zap size={20} color="var(--brand)" />
           </div>
           <div className="brand-text">
             <span className="brand-name">LeadGen</span>

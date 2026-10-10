@@ -200,7 +200,7 @@ export const SettingsPage = () => {
       {/* Settings Split Layout */}
       <div className="settings-split-grid">
         {/* Left Settings Sidebar */}
-        <div className="crm-card settings-tabs-sidebar" style={{ background: "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)", border: "1px solid #cbd5e1" }}>
+        <div className="crm-card settings-tabs-sidebar" style={{ background: "var(--surface-gradient)", border: "1px solid #cbd5e1" }}>
           <div className="sidebar-tabs-list">
             {tabs.map((t) => {
               const IconComp = t.icon;
@@ -220,7 +220,7 @@ export const SettingsPage = () => {
         {/* Right Settings Content Panel */}
         <div className="settings-content-area">
           {activeTab === "profile" && (
-            <div className="crm-card settings-panel-card" style={{ background: "linear-gradient(135deg, #fafaf9 0%, #f4f4f5 100%)", border: "1px solid #cbd5e1", boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)" }}>
+            <div className="crm-card settings-panel-card" style={{ background: "var(--surface-gradient)", border: "1px solid #cbd5e1", boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)" }}>
               <div className="card-header-flex">
                 <h3 className="section-title">My Profile</h3>
               </div>
@@ -232,7 +232,7 @@ export const SettingsPage = () => {
                     {getInitials(profileData.name)}
                   </div>
                   <div>
-                    <h4 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#1b2559", margin: 0 }}>
+                    <h4 style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--text-main)", margin: 0 }}>
                       {profileData.name}
                     </h4>
                     <span className="role-badge-chip role-master-admin" style={{ marginTop: "4px" }}>
@@ -339,7 +339,7 @@ export const SettingsPage = () => {
           )}
 
           {activeTab === "pipeline" && (
-            <div className="crm-card settings-panel-card" style={{ background: "linear-gradient(135deg, #fafaf9 0%, #f4f4f5 100%)", border: "1px solid #cbd5e1", boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)" }}>
+            <div className="crm-card settings-panel-card" style={{ background: "var(--surface-gradient)", border: "1px solid #cbd5e1", boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)" }}>
               <div className="card-header-flex">
                 <h3 className="section-title">Pipeline Stages Configuration</h3>
                 <button className="crm-btn crm-btn-primary crm-btn-sm" onClick={() => setShowAddStageModal(true)}>
@@ -361,7 +361,7 @@ export const SettingsPage = () => {
           )}
 
           {activeTab === "notifications" && (
-            <div className="crm-card settings-panel-card" style={{ background: "linear-gradient(135deg, #fafaf9 0%, #f4f4f5 100%)", border: "1px solid #cbd5e1", boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)" }}>
+            <div className="crm-card settings-panel-card" style={{ background: "var(--surface-gradient)", border: "1px solid #cbd5e1", boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)" }}>
               <h3 className="section-title" style={{ color: "#0f172a" }}>Notification Preferences</h3>
               <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
                 {[
@@ -384,7 +384,7 @@ export const SettingsPage = () => {
           )}
 
           {activeTab === "lead-mgmt" && (
-            <div className="crm-card settings-panel-card" style={{ background: "linear-gradient(135deg, #fafaf9 0%, #f4f4f5 100%)", border: "1px solid #cbd5e1", boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)" }}>
+            <div className="crm-card settings-panel-card" style={{ background: "var(--surface-gradient)", border: "1px solid #cbd5e1", boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)" }}>
               <h3 className="section-title" style={{ color: "#0f172a" }}>Lead Management Rules</h3>
               <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "14px" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px", backgroundColor: "#ffffff", borderRadius: "var(--radius-sm)", border: "1px solid #e2e8f0" }}>

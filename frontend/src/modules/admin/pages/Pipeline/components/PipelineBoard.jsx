@@ -3,7 +3,7 @@ import { PipelineColumn } from "./PipelineColumn";
 
 export const PipelineBoard = ({ leads, onViewLead, onMoveStage, onDragStart, onDropLead }) => {
   const stageDefinitions = [
-    { key: "New", name: "New", color: "#ff3b19" },
+    { key: "New", name: "New", color: "var(--brand)" },
     { key: "Contacted", name: "Contacted", color: "#0891b2" },
     { key: "Follow-up", name: "Follow-up", color: "#d97706" },
     { key: "Interested", name: "Interested", color: "#9333ea" },

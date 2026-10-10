@@ -102,7 +102,7 @@ export const TodaySummarySidebar = ({ events, todayDateStr, onEventClick, onSche
                 {/* Top Row: Time, Type & Status */}
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <span className="row-time" style={{ fontSize: "0.75rem", fontWeight: 800, color: "#ff3b19" }}>
+                    <span className="row-time" style={{ fontSize: "0.75rem", fontWeight: 800, color: "var(--brand)" }}>
                       {evt.time}
                     </span>
                     <span
@@ -115,8 +115,8 @@ export const TodaySummarySidebar = ({ events, todayDateStr, onEventClick, onSche
                         borderRadius: "6px",
                         fontSize: "0.7rem",
                         fontWeight: 700,
-                        backgroundColor: evt.type === "Call" ? "#fff7ed" : evt.type === "Meeting" ? "#fff1ee" : "#f0fdf4",
-                        color: evt.type === "Call" ? "#ea580c" : evt.type === "Meeting" ? "#ff3b19" : "#15803d"
+                        backgroundColor: evt.type === "Call" ? "var(--surface-tint)" : evt.type === "Meeting" ? "var(--brand-soft)" : "#f0fdf4",
+                        color: evt.type === "Call" ? "var(--accent-2)" : evt.type === "Meeting" ? "var(--brand)" : "#15803d"
                       }}
                     >
                       {getTypeIcon(evt.type)} {evt.type}
@@ -145,18 +145,18 @@ export const TodaySummarySidebar = ({ events, todayDateStr, onEventClick, onSche
                 {/* Salesperson Name (Always Visible) */}
                 <div style={{ display: "flex", alignItems: "center", justifyBetween: "space-between", paddingTop: "4px", borderTop: "1px solid #f1f5f9" }}>
                   <span style={{ fontSize: "0.75rem", color: "#475569", fontWeight: 600, display: "flex", alignItems: "center", gap: "4px" }}>
-                    <UserCheck size={13} color="#ff3b19" /> Assigned: <strong style={{ color: "#0f172a" }}>{evt.assignedTo || "Amit Sharma"}</strong>
+                    <UserCheck size={13} color="var(--brand)" /> Assigned: <strong style={{ color: "#0f172a" }}>{evt.assignedTo || "Amit Sharma"}</strong>
                   </span>
                   <span
                     style={{
                       marginLeft: "auto",
                       fontSize: "0.68rem",
                       fontWeight: 800,
-                      background: "linear-gradient(135deg, #ff4522 0%, #e62e0b 100%)",
+                      background: "var(--brand-gradient)",
                       color: "#ffffff",
                       padding: "2px 6px",
                       borderRadius: "50%",
-                      boxShadow: "0 2px 5px rgba(255, 69, 34, 0.25)"
+                      boxShadow: "var(--shadow-sm)"
                     }}
                   >
                     {getInitials(evt.assignedTo)}
@@ -195,13 +195,13 @@ export const TodaySummarySidebar = ({ events, todayDateStr, onEventClick, onSche
                   gap: "10px",
                   padding: "8px 10px",
                   backgroundColor: "#ffffff",
-                  border: "1px solid #ece7dc",
+                  border: "1px solid var(--border-color)",
                   borderRadius: "8px",
                   cursor: "pointer"
                 }}
               >
-                <div className="upcoming-date-badge" style={{ display: "flex", flexDirection: "column", alignItems: "center", background: "#fbf9f4", padding: "4px 6px", borderRadius: "6px", minWidth: "75px" }}>
-                  <span className="date-str" style={{ fontSize: "0.7rem", fontWeight: 700, color: "#ff3b19" }}>{evt.date}</span>
+                <div className="upcoming-date-badge" style={{ display: "flex", flexDirection: "column", alignItems: "center", background: "var(--bg-app)", padding: "4px 6px", borderRadius: "6px", minWidth: "75px" }}>
+                  <span className="date-str" style={{ fontSize: "0.7rem", fontWeight: 700, color: "var(--brand)" }}>{evt.date}</span>
                   <span className="time-str" style={{ fontSize: "0.68rem", color: "#64748b" }}>{evt.time}</span>
                 </div>
                 <div className="upcoming-info" style={{ display: "flex", flexDirection: "column" }}>

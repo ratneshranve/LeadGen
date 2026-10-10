@@ -43,7 +43,7 @@ export const BulkUpdatePipelineModal = ({ isOpen, onClose, selectedCount = 0, on
         {/* Top Header Card */}
         <div
           style={{
-            background: "linear-gradient(135deg, #ff3b19 0%, #e63010 100%)",
+            background: "linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%)",
             color: "#ffffff",
             padding: "20px 24px",
             display: "flex",
@@ -107,18 +107,18 @@ export const BulkUpdatePipelineModal = ({ isOpen, onClose, selectedCount = 0, on
                 alignItems: "center",
                 gap: "12px",
                 padding: "14px 16px",
-                backgroundColor: "#fff1ee",
-                border: "1px solid #ffd2c7",
+                backgroundColor: "var(--brand-soft)",
+                border: "1px solid var(--brand-border)",
                 borderRadius: "12px",
-                color: "#ff3b19"
+                color: "var(--brand)"
               }}
             >
-              <Users size={20} color="#ff3b19" />
+              <Users size={20} color="var(--brand)" />
               <div>
-                <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#ff3b19", display: "block" }}>
+                <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--brand)", display: "block" }}>
                   Selected Assigned Leads
                 </span>
-                <strong style={{ fontSize: "0.95rem", color: "#141416" }}>
+                <strong style={{ fontSize: "0.95rem", color: "var(--ink)" }}>
                   {selectedCount} assigned lead{selectedCount > 1 ? "s" : ""} selected
                 </strong>
               </div>
@@ -126,14 +126,14 @@ export const BulkUpdatePipelineModal = ({ isOpen, onClose, selectedCount = 0, on
 
             {/* PIPELINE STAGE DROPDOWN SELECT */}
             <div className="form-group">
-              <label style={{ fontSize: "0.85rem", fontWeight: 800, color: "#141416", display: "block", marginBottom: "8px" }}>
+              <label style={{ fontSize: "0.85rem", fontWeight: 800, color: "var(--ink)", display: "block", marginBottom: "8px" }}>
                 Select New Pipeline Stage <span style={{ color: "#ef4444" }}>*</span>
               </label>
               <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                <Layers size={18} style={{ position: "absolute", left: "12px", color: "#ff3b19" }} />
+                <Layers size={18} style={{ position: "absolute", left: "12px", color: "var(--brand)" }} />
                 <select
                   className="crm-input select-input"
-                  style={{ paddingLeft: "38px", height: "44px", fontSize: "0.9rem", fontWeight: 700, borderColor: "#ff3b19" }}
+                  style={{ paddingLeft: "38px", height: "44px", fontSize: "0.9rem", fontWeight: 700, borderColor: "var(--brand)" }}
                   value={selectedStage}
                   onChange={(e) => setSelectedStage(e.target.value)}
                 >

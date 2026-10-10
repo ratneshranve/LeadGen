@@ -241,7 +241,7 @@ export const Assignments = ({ forceOpenAssignModal = false }) => {
               type="button"
               className="crm-btn crm-btn-primary"
               onClick={handleOpenBulkUnassignedModal}
-              style={{ padding: "8px 16px", borderRadius: "8px", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "8px", boxShadow: "0 2px 6px rgba(52, 97, 253, 0.2)" }}
+              style={{ padding: "8px 16px", borderRadius: "8px", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "8px", boxShadow: "var(--shadow-sm)" }}
               title="Assign leads to a sales employee"
             >
               <UserPlus size={16} /> Assign Leads

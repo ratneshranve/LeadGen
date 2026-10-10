@@ -17,7 +17,7 @@ const metricConfigs = {
   },
   leads: {
     label: "Total Leads",
-    color: "#ff5500", // Vibrant orange (Instagram style from 21st.dev)
+    color: "var(--brand)", // Vibrant orange (Instagram style from 21st.dev)
     bgSoft: "rgba(255, 85, 0, 0.12)",
   },
   converted: {
@@ -69,10 +69,10 @@ const CustomTooltip = ({ active, payload }) => {
           {/* Total Leads */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
             <span style={{ display: "flex", alignItems: "center", gap: "6px", color: "#94a3b8" }}>
-              <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#ff5500" }} />
+              <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--brand)" }} />
               Total Leads:
             </span>
-            <strong style={{ color: "#ff5500" }}>{data.leads}</strong>
+            <strong style={{ color: "var(--brand)" }}>{data.leads}</strong>
           </div>
 
           {/* Active Leads */}
@@ -176,7 +176,7 @@ export const SourceAnalyticsChart = ({ sources = [] }) => {
                 letterSpacing: "-0.01em",
               }}
             >
-              <BarChart3 size={20} color="#ff5500" /> Bar Chart - Interactive Analytics
+              <BarChart3 size={20} color="var(--brand)" /> Bar Chart - Interactive Analytics
             </h3>
             <button
               type="button"
@@ -207,7 +207,7 @@ export const SourceAnalyticsChart = ({ sources = [] }) => {
           }}
         >
           {[
-            { key: "leads", label: "TOTAL LEADS", color: "#ff5500" },
+            { key: "leads", label: "TOTAL LEADS", color: "var(--brand)" },
             { key: "converted", label: "CONVERTED DEALS", color: "#64748b" },
             { key: "activeLeads", label: "ACTIVE LEADS", color: "#2563eb" },
           ].map((item) => {
@@ -308,7 +308,7 @@ export const SourceAnalyticsChart = ({ sources = [] }) => {
                 type="natural"
                 dataKey="leads"
                 name="Total Leads"
-                stroke="#ff5500"
+                stroke="var(--brand)"
                 strokeWidth={activeMetric === "leads" ? 3.5 : 2.5}
                 strokeOpacity={
                   activeMetric === "all" || activeMetric === "leads" ? 1 : 0.25
@@ -316,7 +316,7 @@ export const SourceAnalyticsChart = ({ sources = [] }) => {
                 dot={false}
                 activeDot={{
                   r: 6,
-                  fill: "#ff5500",
+                  fill: "var(--brand)",
                   stroke: "#111215",
                   strokeWidth: 2,
                 }}
@@ -440,7 +440,7 @@ export const SourceAnalyticsChart = ({ sources = [] }) => {
                 width: "10px",
                 height: "10px",
                 borderRadius: "50%",
-                backgroundColor: "#ff5500",
+                backgroundColor: "var(--brand)",
                 boxShadow: "0 0 0 4px rgba(255, 85, 0, 0.25)",
                 display: "inline-block",
               }}

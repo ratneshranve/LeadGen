@@ -221,14 +221,14 @@ export const SalesCalendar = () => {
   return (
     <div className="sales-page-container">
       {/* 1. Header with Month Navigator & Full-Width Client/Lead Search */}
-      <div style={{ background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)", border: "1.5px solid #fed7aa", boxShadow: "0 4px 14px rgba(249, 115, 22, 0.12)" }} className="rounded-2xl p-4 sm:p-5 flex flex-col gap-3.5">
+      <div style={{ background: "var(--surface-gradient)", border: "1px solid var(--border-color)", boxShadow: "var(--shadow-sm)" }} className="rounded-2xl p-4 sm:p-5 flex flex-col gap-3.5">
         {/* Top: Month Switcher */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={prevMonth}
-              className="p-1.5 rounded-lg bg-white border border-[#fed7aa] text-slate-800 hover:bg-[#ff3b19] hover:border-[#ff3b19] hover:text-white transition-all cursor-pointer"
+              className="p-1.5 rounded-lg bg-white border border-[var(--line-tint)] text-slate-800 hover:bg-brand hover:border-brand hover:text-white transition-all cursor-pointer"
               title="Previous Month"
             >
               <ChevronLeft size={16} />
@@ -239,7 +239,7 @@ export const SalesCalendar = () => {
             <button
               type="button"
               onClick={nextMonth}
-              className="p-1.5 rounded-lg bg-white border border-[#fed7aa] text-slate-800 hover:bg-[#ff3b19] hover:border-[#ff3b19] hover:text-white transition-all cursor-pointer"
+              className="p-1.5 rounded-lg bg-white border border-[var(--line-tint)] text-slate-800 hover:bg-brand hover:border-brand hover:text-white transition-all cursor-pointer"
               title="Next Month"
             >
               <ChevronRight size={16} />
@@ -252,9 +252,9 @@ export const SalesCalendar = () => {
         </div>
 
         {/* Client/Lead Search Field (Proper Width, No Date Picker, No Show All) */}
-        <div className="pt-2 border-t border-[#fed7aa]">
+        <div className="pt-2 border-t border-[var(--line-tint)]">
           <div className="sales-calendar-search-box relative w-full flex items-center">
-            <Search size={16} className="sales-calendar-search-icon" color="#ff3b19" />
+            <Search size={16} className="sales-calendar-search-icon" color="var(--brand)" />
             <input
               type="text"
               placeholder="Search client or lead name..."
@@ -265,8 +265,8 @@ export const SalesCalendar = () => {
                 paddingLeft: "44px",
                 paddingRight: searchTerm ? "38px" : "16px",
                 backgroundColor: "#ffffff",
-                border: "1.5px solid #fed7aa",
-                color: "#0f172a",
+                border: "1px solid var(--border-color)",
+                color: "var(--text-main)",
                 fontWeight: 600
               }}
             />
@@ -286,9 +286,9 @@ export const SalesCalendar = () => {
         {/* 2. Interactive Calendar Grid (Short, compact, client-friendly) */}
         <div className="pt-2">
           {/* Days of week header (Short 3-letter labels, no overlapping!) */}
-          <div style={{ background: "linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%)", padding: "8px", borderRadius: "10px", border: "1.5px solid #fdba74" }} className="grid grid-cols-7 text-center mb-2">
+          <div style={{ background: "var(--surface-gradient)", padding: "8px", borderRadius: "10px", border: "1px solid var(--border-color)" }} className="grid grid-cols-7 text-center mb-2">
             {DAY_LABELS.map((d, i) => (
-              <div key={d} style={{ color: "#0f172a" }} className="text-[11px] sm:text-xs font-extrabold">
+              <div key={d} style={{ color: "var(--text-main)" }} className="text-[11px] sm:text-xs font-extrabold">
                 {d}
               </div>
             ))}
@@ -307,10 +307,10 @@ export const SalesCalendar = () => {
                   onClick={() => setSelectedDateStr(cd.dateStr)}
                   className={`relative flex flex-col items-center justify-center p-1 sm:p-2 rounded-xl transition-all cursor-pointer min-h-[42px] sm:min-h-[50px] ${
                     isSelected
-                      ? "bg-[#ff3b19] text-white font-black shadow-md shadow-[#ff3b19]/25"
+                      ? "bg-brand text-white font-black shadow-md shadow-brand/25"
                       : cd.isCurrentMonth
-                      ? "bg-[#fff7ed] text-slate-900 border border-[#fed7aa] font-extrabold hover:bg-[#ffedd5]"
-                      : "bg-[#fffaf5]/70 text-slate-400 border border-[#fed7aa]/50 hover:bg-[#fff7ed]"
+                      ? "bg-[var(--surface-tint)] text-slate-900 border border-[var(--line-tint)] font-extrabold hover:bg-[var(--surface-tint-2)]"
+                      : "bg-[var(--surface-tint)] text-slate-400 border border-[var(--line-tint)] hover:bg-[var(--surface-tint)]"
                   }`}
                 >
                   <span className="text-xs sm:text-sm">{cd.dayNumber}</span>
@@ -320,13 +320,13 @@ export const SalesCalendar = () => {
                     <div className="flex items-center gap-0.5 mt-0.5">
                       <span
                         className={`size-1.5 rounded-full ${
-                          isSelected ? "bg-white" : "bg-[#ff3b19]"
+                          isSelected ? "bg-white" : "bg-brand"
                         }`}
                       />
                       {count > 1 && (
                         <span
                           className={`text-[9px] font-extrabold leading-none ${
-                            isSelected ? "text-orange-100" : "text-[#ff3b19]"
+                            isSelected ? "text-orange-100" : "text-brand"
                           }`}
                         >
                           {count}
@@ -345,10 +345,10 @@ export const SalesCalendar = () => {
       <div className="flex flex-col gap-2.5">
         <div className="flex items-center justify-between px-1">
           <h3 className="font-extrabold text-sm sm:text-base text-slate-900 flex items-center gap-2">
-            <Clock size={16} className="text-[#ff3b19]" />
+            <Clock size={16} className="text-brand" />
             Follow-ups on {formattedSelectedDate}
           </h3>
-          <span className="text-xs font-bold text-[#ff3b19] bg-[#fff1ee] border border-[#ffd2c7] px-2.5 py-0.5 rounded-full">
+          <span className="text-xs font-bold text-brand bg-brand-soft border border-brand-border px-2.5 py-0.5 rounded-full">
             {displayEvents.length} scheduled
           </span>
         </div>
@@ -359,10 +359,10 @@ export const SalesCalendar = () => {
               <div
                 key={evt.id}
                 style={{
-                  background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)",
-                  border: "1.5px solid #fed7aa",
-                  borderLeft: "4px solid #ff3b19",
-                  boxShadow: "0 4px 14px rgba(249, 115, 22, 0.12)"
+                  background: "var(--surface-gradient)",
+                  border: "1px solid var(--border-color)",
+                  borderLeft: "4px solid var(--brand)",
+                  boxShadow: "var(--shadow-sm)"
                 }}
                 className="rounded-xl p-3.5 flex flex-col gap-2.5 transition-all"
               >
@@ -372,7 +372,7 @@ export const SalesCalendar = () => {
                     <div
                       className={`size-8 rounded-lg flex items-center justify-center shrink-0 ${
                         evt.type === "Call"
-                          ? "bg-[#fff7ed] text-[#ea580c] border border-[#fed7aa]"
+                          ? "bg-[var(--accent-2-soft)] text-ember border border-[var(--accent-2-border)]"
                           : evt.type === "WhatsApp"
                           ? "bg-emerald-50 text-emerald-600 border border-emerald-200"
                           : "bg-purple-50 text-purple-600 border border-purple-200"
@@ -397,24 +397,24 @@ export const SalesCalendar = () => {
                     </div>
                   </div>
 
-                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-white border border-[#fed7aa] text-slate-800 shrink-0">
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-white border border-[var(--line-tint)] text-slate-800 shrink-0">
                     {evt.time}
                   </span>
                 </div>
 
                 {/* Notes */}
                 {evt.notes && (
-                  <p style={{ background: "#ffffff", border: "1px solid #fed7aa", color: "#0f172a", fontWeight: 600 }} className="text-xs rounded-lg p-2 leading-relaxed italic">
+                  <p style={{ background: "#ffffff", border: "1px solid var(--line-tint)", color: "var(--text-main)", fontWeight: 600 }} className="text-xs rounded-lg p-2 leading-relaxed italic">
                     "{evt.notes}"
                   </p>
                 )}
 
                 {/* Bottom Actions: Quick Call, WhatsApp & Status Toggle */}
-                <div className="flex items-center justify-between pt-1 border-t border-[#ece7dc]">
+                <div className="flex items-center justify-between pt-1 border-t border-line">
                   <div className="flex items-center gap-1.5">
                     <a
                       href={`tel:${evt.phone}`}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold text-[#ea580c] bg-[#fff7ed] hover:bg-[#ffedd5] border border-[#fed7aa] transition-all text-decoration-none"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold text-ember bg-[var(--accent-2-soft)] hover:bg-[var(--accent-2-soft)] border border-[var(--accent-2-border)] transition-all text-decoration-none"
                     >
                       <Phone size={11} /> Call
                     </a>

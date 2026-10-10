@@ -138,7 +138,7 @@ export const LeadInformationForm = ({ formData, setFormData, errors }) => {
                 style={{
                   background: "none",
                   border: "none",
-                  color: "#ff3b19",
+                  color: "var(--brand)",
                   fontSize: "0.75rem",
                   fontWeight: 600,
                   cursor: "pointer",
@@ -195,7 +195,7 @@ export const LeadInformationForm = ({ formData, setFormData, errors }) => {
           <div className="crm-card" style={{ width: "90%", maxWidth: "400px", padding: "24px", background: "#ffffff", borderRadius: "12px", boxShadow: "0 10px 25px rgba(0,0,0,0.15)", border: "1px solid #cbd5e1" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
               <h3 style={{ fontSize: "1rem", fontWeight: 700, color: "#0f172a", display: "flex", alignItems: "center", gap: "8px" }}>
-                <Share2 size={18} color="#ff3b19" /> Create New Lead Source
+                <Share2 size={18} color="var(--brand)" /> Create New Lead Source
               </h3>
               <button
                 type="button"

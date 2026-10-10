@@ -17,7 +17,7 @@ import "./SalesPages.css";
 
 // Stage Definitions with Labels, Keys, and Theme Colors
 export const PIPELINE_STAGES = [
-  { key: "New", label: "New", color: "#ff3b19", bg: "#fff1ee" },
+  { key: "New", label: "New", color: "var(--brand)", bg: "var(--brand-soft)" },
   { key: "Contacted", label: "Contacted", color: "#8b5cf6", bg: "#f5f3ff" },
   { key: "Follow-up", label: "Follow-up", color: "#d97706", bg: "#fff9e6" },
   { key: "Interested", label: "Interested", color: "#059669", bg: "#ecfdf5" },
@@ -132,15 +132,15 @@ export const SalesPipeline = () => {
               alignItems: "center",
               gap: "12px",
               padding: "10px 14px",
-              background: "#f8fafc",
-              border: "1px solid #e2e8f0",
+              background: "var(--bg-subtle)",
+              border: "1px solid var(--border-color)",
               borderRadius: "12px"
             }}>
               <div style={{
                 width: "36px",
                 height: "36px",
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #27272a 0%, #141416 100%)",
+                background: "linear-gradient(135deg, #27272a 0%, var(--ink) 100%)",
                 border: "1px solid rgba(255, 255, 255, 0.1)",
                 color: "#ffffff",
                 display: "flex",
@@ -153,10 +153,10 @@ export const SalesPipeline = () => {
                 {updatingLead.name ? updatingLead.name.split(" ").map(n => n[0]).join("") : "P"}
               </div>
               <div style={{ minWidth: 0, flex: 1 }}>
-                <h4 style={{ margin: 0, fontSize: "0.9rem", fontWeight: 700, color: "#0f172a" }}>
+                <h4 style={{ margin: 0, fontSize: "0.9rem", fontWeight: 700, color: "var(--text-main)" }}>
                   {updatingLead.name}
                 </h4>
-                <span style={{ fontSize: "0.775rem", color: "#64748b" }}>
+                <span style={{ fontSize: "0.775rem", color: "var(--text-muted)" }}>
                   {updatingLead.company || "Direct Client"}
                 </span>
               </div>
@@ -165,8 +165,8 @@ export const SalesPipeline = () => {
                 fontWeight: 700,
                 padding: "3px 8px",
                 borderRadius: "6px",
-                background: "#e2e8f0",
-                color: "#475569"
+                background: "var(--border-color)",
+                color: "var(--text-subtle)"
               }}>
                 {updatingLead.type || "SMB"}
               </span>
@@ -174,7 +174,7 @@ export const SalesPipeline = () => {
 
             {/* Select Stage Grid */}
             <div>
-              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "#334155", display: "block", marginBottom: "8px" }}>
+              <label style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-subtle)", display: "block", marginBottom: "8px" }}>
                 Select New Stage:
               </label>
 
@@ -192,9 +192,9 @@ export const SalesPipeline = () => {
                         justifyContent: "space-between",
                         padding: "10px 12px",
                         borderRadius: "10px",
-                        border: isSelected ? "2px solid #ff3b19" : "1px solid #ece7dc",
-                        background: isSelected ? "#fff1ee" : "#ffffff",
-                        color: isSelected ? "#ff3b19" : "#141416",
+                        border: isSelected ? "2px solid var(--brand)" : "1px solid var(--border-color)",
+                        background: isSelected ? "var(--brand-soft)" : "#ffffff",
+                        color: isSelected ? "var(--brand)" : "var(--ink)",
                         fontWeight: isSelected ? 700 : 600,
                         fontSize: "0.825rem",
                         cursor: "pointer",
@@ -214,7 +214,7 @@ export const SalesPipeline = () => {
                         />
                         <span>{s.label}</span>
                       </div>
-                      {isSelected && <Check size={14} color="#ff3b19" />}
+                      {isSelected && <Check size={14} color="var(--brand)" />}
                     </button>
                   );
                 })}
@@ -247,8 +247,8 @@ export const SalesPipeline = () => {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "6px",
-                  background: "linear-gradient(135deg, #ff4522 0%, #e62e0b 100%)",
-                  boxShadow: "0 4px 14px rgba(255, 59, 25, 0.28)"
+                  background: "var(--brand-gradient)",
+                  boxShadow: "var(--shadow-sm)"
                 }}
               >
                 <Check size={15} /> Apply
@@ -281,10 +281,10 @@ export const SalesPipeline = () => {
 
       {/* Stage Header Banner */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2px" }}>
-        <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>
+        <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "var(--text-main)", margin: 0 }}>
           {activeStage} Stage ({currentStageLeads.length})
         </h3>
-        <span style={{ fontSize: "0.725rem", color: "#64748b" }}>
+        <span style={{ fontSize: "0.725rem", color: "var(--text-muted)" }}>
           Swipe pills to change stage
         </span>
       </div>
@@ -348,14 +348,14 @@ export const SalesPipeline = () => {
                     background: "#ffffff",
                     padding: "8px 12px",
                     borderRadius: "10px",
-                    border: "1.5px solid #fed7aa",
+                    border: "1px solid var(--border-color)",
                     boxShadow: "0 2px 6px rgba(0, 0, 0, 0.03)"
                   }}
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: 0 }}>
-                    <ArrowRightLeft size={13} color="#64748b" />
-                    <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#334155" }}>
+                    <ArrowRightLeft size={13} color="var(--text-muted)" />
+                    <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--text-subtle)" }}>
                       Stage:
                     </span>
                     <span
@@ -396,9 +396,9 @@ export const SalesPipeline = () => {
                       gap: "5px",
                       padding: "5px 11px",
                       background: "#ffffff",
-                      border: "1px solid #ece7dc",
+                      border: "1px solid var(--border-color)",
                       borderRadius: "8px",
-                      color: "#ff3b19",
+                      color: "var(--brand)",
                       fontSize: "0.75rem",
                       fontWeight: 700,
                       cursor: "pointer",
@@ -413,7 +413,7 @@ export const SalesPipeline = () => {
                 </div>
 
                 <div className="lead-card-actions">
-                  <span style={{ fontSize: "0.725rem", color: "#94a3b8" }}>
+                  <span style={{ fontSize: "0.725rem", color: "var(--text-faint)" }}>
                     Tap card for details
                   </span>
 
@@ -448,15 +448,15 @@ export const SalesPipeline = () => {
         ) : (
           <div
             style={{
-              background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)",
+              background: "var(--surface-gradient)",
               borderRadius: "16px",
               padding: "40px 20px",
               textAlign: "center",
-              border: "1.5px dashed #fdba74"
+              border: "1.5px dashed var(--line-tint-strong)"
             }}
           >
-            <p style={{ fontWeight: 800, color: "#0f172a", margin: "0 0 4px 0" }}>No prospects in {activeStage}</p>
-            <span style={{ fontSize: "0.775rem", color: "#334155", fontWeight: 600 }}>
+            <p style={{ fontWeight: 800, color: "var(--text-main)", margin: "0 0 4px 0" }}>No prospects in {activeStage}</p>
+            <span style={{ fontSize: "0.775rem", color: "var(--text-subtle)", fontWeight: 600 }}>
               Leads in this stage will appear here automatically.
             </span>
           </div>

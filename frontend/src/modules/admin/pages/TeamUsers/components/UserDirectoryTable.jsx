@@ -47,13 +47,13 @@ export const UserDirectoryTable = ({
                 onChange={onSelectAll}
               />
             </th>
-            <th style={{ minWidth: "180px" }}>FULL NAME</th>
-            <th style={{ minWidth: "140px" }}>PHONE NUMBER</th>
-            <th style={{ minWidth: "180px" }}>EMAIL ADDRESS</th>
-            <th style={{ minWidth: "130px" }}>DATE OF BIRTH</th>
-            <th style={{ minWidth: "120px" }}>ACCOUNT STATUS</th>
-            <th style={{ minWidth: "130px" }}>ROLE</th>
-            <th className="col-actions text-center" style={{ width: "100px" }}>ACTIONS</th>
+            <th style={{ minWidth: "180px" }}>Full Name</th>
+            <th style={{ minWidth: "140px" }}>Phone Number</th>
+            <th style={{ minWidth: "180px" }}>Email Address</th>
+            <th style={{ minWidth: "130px" }}>Date Of Birth</th>
+            <th style={{ minWidth: "120px" }}>Account Status</th>
+            <th style={{ minWidth: "130px" }}>Role</th>
+            <th className="col-actions text-center" style={{ width: "100px" }}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -82,7 +82,7 @@ export const UserDirectoryTable = ({
                   {/* Full Name */}
                   <td>
                     <div className="user-profile-cell">
-                      <span className="user-avatar-sm" style={{ background: "linear-gradient(135deg, #ff4522 0%, #e62e0b 100%)", color: "#fff", fontWeight: 800 }}>
+                      <span className="user-avatar-sm" style={{ background: "var(--brand-gradient)", color: "#fff", fontWeight: 800 }}>
                         {getInitials(u.name)}
                       </span>
                       <div className="user-info-text">
@@ -96,7 +96,7 @@ export const UserDirectoryTable = ({
                   {/* Phone Number */}
                   <td>
                     <span style={{ color: "var(--text-main)", fontWeight: 600, fontSize: "0.8rem", display: "flex", alignItems: "center", gap: "5px" }}>
-                      <Phone size={12} color="#ff3b19" /> {u.phone || "+91 98765 00000"}
+                      <Phone size={12} color="var(--brand)" /> {u.phone || "+91 98765 00000"}
                     </span>
                   </td>
 
@@ -110,7 +110,7 @@ export const UserDirectoryTable = ({
                   {/* Date of Birth (DOB) */}
                   <td>
                     <span style={{ color: "var(--text-main)", fontSize: "0.8rem", display: "flex", alignItems: "center", gap: "5px", fontWeight: 600 }}>
-                      <Calendar size={12} color="#ff3b19" /> {formatDob(u.dob)}
+                      <Calendar size={12} color="var(--brand)" /> {formatDob(u.dob)}
                     </span>
                   </td>
 
@@ -138,7 +138,7 @@ export const UserDirectoryTable = ({
                         title="Edit Sales Employee Details"
                         style={{ padding: "6px 8px", borderRadius: "8px" }}
                       >
-                        <Edit3 size={15} color="#ff3b19" />
+                        <Edit3 size={15} color="var(--brand)" />
                       </button>
                       <button
                         type="button"
